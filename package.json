@@ -1,0 +1,17 @@
+{
+  "name": "blog3.0",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yt",
+  "license": "GPL-3.0",
+  "description": "",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.3",
+    "socket.io": "^2.2.0"
+  }
+}
