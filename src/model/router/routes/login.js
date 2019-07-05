@@ -18,30 +18,30 @@ module.exports = class {
                     'username': req.body.username,
                 }).then((v) => {
 
+                    const password = v['password']
+                    const username = v['username']
+
+                    const req_password = req.body.password ? req.body.password : ''
+                    const req_username = req.body.username ? req.body.username : ''
+
+                    // 返回值存储
+                    let stat=0,  msg=''
+
                     // 如果检索出有此用户名则验证密码
-                    if (v['username'] === req.body.username) {
-                        // 验证密码
-                        if (bcrypt.compareSync(req.body.password, v['password'])) {
-                            res.json({
-                                'stat': 1,
-                                'msg': 'ok',
-                                'data': v['password']
-                            })
-                        } else {
-                            res.json({
-                                'stat': 0,
-                                'msg': 'err',
-                                'data': v['password']
-                            })
-                        }
-                    }
-                    
+                    if (username === req_username) {
+                        // 密码有效
+                        if (req_password && bcrypt.compareSync(req_password, password)){
+                            stat=1;  msg='ok'
+                        // 密码无效
+                        } else { stat=0;  msg='密码错误' }
+                    // 无此用户名
+                    } else { stat=0;  msg='无此用户' }
+
+                    // 返回
+                    res.json({ 'stat': stat, 'msg':  msg, })
 
                 }).catch((err) => {
-                    res.json({
-                        'stat': 0,
-                        'msg': err
-                    })
+                    res.json({ 'stat': 0, 'msg':  err })
                     console.log('/api/login err =>', err)
                 })
                 
