@@ -5,20 +5,30 @@ module.exports = class {
         this.router = router
     }
     login() {
-        console.log('login')
         this.router.post('/api/login', function (req, res) {
             console.log('req body =>', req.body, 'req query =>', req.query)
-            // Mongodb_model_user().find({
-            //     // username: req.body.username,
-            // }).then((v) => {
+            // 如果不存在 username 字段或为 false
+            if (!req.body.username) {  res.json({ 'stat': 0, 'msg': '无 username' }) }
+            // 否则进行正常程序
+            else {
+                Mongodb_model_user().findOne({
+                    'username': req.body.username,
+                }).then((v) => {
+                    res.json({
+                        'stat': 1,
+                        'msg': 'ok',
+                        'data': v['password']
+                    })
 
-            // }).catch((err) => {
-
-            // })
-            res.json({
-                'stat': 1,
-                'data': 'dfaf'
-            })
+                }).catch((err) => {
+                    res.json({
+                        'stat': 0,
+                        'msg': err
+                    })
+                    console.log('/api/login err =>', err)
+                })
+                
+            }
         })
     }
     checkLogin() {

@@ -6,7 +6,7 @@ class Model {
         this.collection_name = obj['collection_name']
         this.collection      = obj['collection']
         // 模型
-        this.model      = this.mongoose.model(this.collection_name, this.schema, this.collection )
+        this.model           = this.mongoose.model(this.collection_name, this.schema, this.collection )
     }
     insertOne (document) {
         const model = this.model
@@ -102,10 +102,24 @@ class Model {
             })
         })
     }
-    find (query) {
+    findOne (query) {
         const model = this.model
         return new Promise((resolve, reject) => {
-            return model.find(query, (err, result) => {
+            return model.findOne(query, (err, result) => {
+                if (err) {
+                    reject(err)
+                    return false
+                } else {
+                    resolve(result)
+                    console.log('查找 =>', result)
+                }
+            })
+        })
+    }
+    find (query, fields, options) {
+        const model = this.model
+        return new Promise((resolve, reject) => {
+            return model.find(query, fields, options, (err, result) => {
                 if (err) {
                     reject(err)
                     return false
