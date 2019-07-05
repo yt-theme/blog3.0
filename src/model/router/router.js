@@ -1,5 +1,3 @@
-const { Login } = require('./routes/login')
-
 module.exports = function (app, router) {
     app.all('*', (req, res, next) => {
         res.header('Access-Control-Allow-Origin', '*')
@@ -12,7 +10,7 @@ module.exports = function (app, router) {
 
     // 路由
     // 登录 检查 注册
-    new Login(router).login()
-    new Login(router).check()
-    new Login(router).register()
+    new (require('./routes/login'))(router).login()           // /api/login
+    new (require('./routes/login'))(router).checkLogin()      // /api/checklogin
+    new (require('./routes/login'))(router).register()        // /api/register
 }
