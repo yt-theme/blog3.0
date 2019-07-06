@@ -43,5 +43,6 @@ module.exports = (req, res, next, mongodb_model_user, TOKEN_SECRET) => {
         req.analyz_stat = 0
         req.analyz_msg = '无authorization'
         req.analyz_profile = null
+        next()
     }
 }
