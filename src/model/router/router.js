@@ -1,9 +1,11 @@
-// mongodb 用户表 model
-const mongodb_model_user = require('../../db/mongodb/mongodb').Mongodb_model_user()
 // 配置文件
 const { TOKEN_SECRET } = require('../../../config')
 
-module.exports = function (app, router) {
+module.exports = function (obj) {
+    const app = obj.app
+    const router = obj.router
+    const mongodb_model_user = obj.mongodb_model_user
+
     app.all('*', (req, res, next) => {
         res.header('Access-Control-Allow-Origin', '*')
         res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT')

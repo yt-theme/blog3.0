@@ -1,13 +1,16 @@
-const express = require('express')
-const router  = express.Router()
-const io      = require('socket.io')
-const jwt     = require('jsonwebtoken')
+const express    = require('express')
+const router     = express.Router()
+const io         = require('socket.io')
 const bodyParser = require('body-parser')
-const multer  = require('multer')
+const multer     = require('multer')
 
 // model 包含路由
 const server_model = require('./src/model/router/router')
 // const socket_model = require('./src/model/model').Socket_router
+
+// mongodb 模型
+// 用户
+const mongodb_model_user = require('./src/db/mongodb/mongodb').Mongodb_model_user()
 
 // 配置文件
 const { SERVER_PORT, UPLOAD_DIR } = require('./config')
@@ -36,9 +39,14 @@ class Server {
         this.multer = multer({dest: UPLOAD_DIR})   
     }
     _init () {
+        const app    = this.app
+        const router = this.router
         // model
         // http server
-        server_model(this.app, this.router)
+        server_model({ app, router,
+            // mongodb 模型
+            mongodb_model_user
+        })
         // sockt server
         // socket_model(socket_server)
 

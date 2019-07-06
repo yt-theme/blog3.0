@@ -10,7 +10,8 @@ module.exports = class {
         this.middleWare    = middleWare ? middleWare : null
     }
     login() {
-        this.router.post('/api/login', function (req, res) {
+        let self = this
+        self.router.post('/api/login', function (req, res) {
             console.log('登录操作 =======================================>')
             console.log('req body =>', req.body, 'req query =>', req.query)
             // 如果不存在 username 字段或为 false
@@ -18,7 +19,7 @@ module.exports = class {
             // 否则进行正常程序
             else {
                 // 查询数据库
-                mongodb_model.findOne({
+                self.mongodb_model.findOne({
                     'username': req.body.username,
                 }).then((v) => {
 
@@ -66,7 +67,8 @@ module.exports = class {
 
     }
     register() {
-        this.router.post('/api/register', function (req, res) {
+        let self = this
+        self.router.post('/api/register', function (req, res) {
             console.log('注册操作 =======================================>')
             // 需要传两个参数 username password
             const req_password = req.body.password ? req.body.password : ''
@@ -78,7 +80,7 @@ module.exports = class {
             if (req_password && req_username) {
 
                 // 注册 => mongodb user表
-                mongodb_model.insertOne({
+                self.mongodb_model.insertOne({
                     'password': req_password,
                     'username': req_username
                 }).then((v) => {
