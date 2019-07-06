@@ -1,10 +1,13 @@
 const bcrypt = require('bcrypt')
+const jwt    = require('jsonwebtoken')
 
-const mongodb_model_user = require('../../../db/mongodb/mongodb').Mongodb_model_user()
+const { TOKEN_SECRET } = require('../../../../config')
 
 module.exports = class {
-    constructor (router) {
-        this.router = router
+    constructor (router, mongodb_model, middleWare) {
+        this.router        = router
+        this.mongodb_model = mongodb_model
+        this.middleWare    = middleWare ? middleWare : null
     }
     login() {
         this.router.post('/api/login', function (req, res) {
@@ -15,10 +18,11 @@ module.exports = class {
             // 否则进行正常程序
             else {
                 // 查询数据库
-                mongodb_model_user.findOne({
+                mongodb_model.findOne({
                     'username': req.body.username,
                 }).then((v) => {
 
+                    const _id      = v['_id']
                     const password = v['password']
                     const username = v['username']
 
@@ -26,20 +30,29 @@ module.exports = class {
                     const req_username = req.body.username ? req.body.username : ''
 
                     // 返回值存储
-                    let stat=0,  msg=''
+                    let stat=0,  msg='', token = ''
 
                     // 如果检索出有此用户名则验证密码
                     if (username === req_username) {
                         // 密码有效
                         if (req_password && bcrypt.compareSync(req_password, password)){
                             stat=1;  msg='ok'
+                            // 设置 token
+                            token = jwt.sign(
+                                // 自定义 token 内容
+                                {
+                                    id: String(_id)
+                                },
+                                // 密钥
+                                TOKEN_SECRET
+                            )
                         // 密码无效
                         } else { stat=0;  msg='密码错误' }
                     // 无此用户名
                     } else { stat=0;  msg='无此用户' }
 
                     // 返回
-                    res.json({ 'stat': stat, 'msg':  msg, })
+                    res.json({ 'stat': stat, 'msg':  msg, 'token': token })
 
                 }).catch((err) => {
                     res.json({ 'stat': 0, 'msg':  '无此用户' })
@@ -65,7 +78,7 @@ module.exports = class {
             if (req_password && req_username) {
 
                 // 注册 => mongodb user表
-                mongodb_model_user.insertOne({
+                mongodb_model.insertOne({
                     'password': req_password,
                     'username': req_username
                 }).then((v) => {
@@ -81,6 +94,18 @@ module.exports = class {
             } else {
                 res.json({ 'stat': 0, 'msg':  '请输入用户名和密码完成注册' })
             }
+        })
+    }
+    // 获取用户信息
+    profile () {
+        let self = this
+        self.router.post('/api/profile', self.middleWare, function (req, res) {
+            
+            res.json({
+                'stat': req.analyz_stat,
+                'msg': req.analyz_msg,
+                'data': req.analyz_profile
+            })
         })
     }
 }
