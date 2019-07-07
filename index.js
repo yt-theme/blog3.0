@@ -45,7 +45,7 @@ class Server {
         // http server
         server_model({ app, router,
             // mongodb 模型
-            mongodb_model_user
+            mongodb_model_user // user 表
         })
         // sockt server
         // socket_model(socket_server)

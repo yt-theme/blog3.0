@@ -64,7 +64,13 @@ module.exports = class {
         })
     }
     checkLogin() {
-
+        let self = this
+        self.router.post('/api/checkLogin', self.middleWare, function (req, res) {
+            res.json({
+                'stat': req.analyz_stat,
+                'msg': req.analyz_msg,
+            })
+        })            
     }
     register() {
         let self = this

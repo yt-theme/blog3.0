@@ -18,7 +18,7 @@ module.exports = function (obj) {
     // 路由
     // 登录 检查 注册 => 第二个参数为mongodb模型 第三个参数为中间件
     new (require('./routes/login'))(router, mongodb_model_user).login()           // /api/login
-    new (require('./routes/login'))(router, mongodb_model_user).checkLogin()      // /api/checklogin
+    new (require('./routes/login'))(router, mongodb_model_user, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).checkLogin()      // /api/checklogin
     new (require('./routes/login'))(router, mongodb_model_user).register()        // /api/register
     new (require('./routes/login'))(router, mongodb_model_user, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).profile()         // /api/profile
 }

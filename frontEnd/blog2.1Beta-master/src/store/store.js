@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import Vuex from 'vuex'
-let IP = location.host + ':8000/' || '192.168.0.126:8000/'
+let IP = location.host + ':14499/'
 let reqUrl = 'http://' + IP
 let socketUrl = 'ws://' + IP
 // NotifyPop timer
@@ -335,7 +335,7 @@ export default new Vuex.Store({
         // login
         login (context, dat) {
             let qs = require('qs')
-            axios.post(reqUrl + 'login/',qs.stringify(dat)).then((res)=> {
+            axios.post(reqUrl + '/api/login/',qs.stringify(dat)).then((res)=> {
                 if (res.data.res.state == 'ok') {
                     window.localStorage.setItem('token', res.data.res.token)
                     window.localStorage.setItem('name', res.data.res.name)
