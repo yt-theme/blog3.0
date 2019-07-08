@@ -4,6 +4,10 @@ const fs   = require('fs')
 module.exports = {
     // 服务器端口
     SERVER_PORT: 14499,
+    // 静态文件目录 (只可存放vue项目网页以及依赖)
+    HTML_STATIC_DIR: path.join(__dirname, './frontEnd/blog3Beta-master/dist/'),
+    // index.html 路径
+    INDEX_HTML_STATIC: path.join(__dirname, './frontEnd/blog3Beta-master/dist/index.html'),
     // 上传文件到此文件夹
     UPLOAD_DIR: path.join(__dirname, './upload'),
 

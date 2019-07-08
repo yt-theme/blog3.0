@@ -67,6 +67,7 @@ export default {
     padding-top: 14px;
 }
 .inputDiv_header h1 {
+    font-size: 37px;
     text-shadow: 0 0 14px #B0B6B6;
 }
 .inputDiv_content {

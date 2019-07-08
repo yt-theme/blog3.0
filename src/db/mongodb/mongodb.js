@@ -32,4 +32,22 @@ module.exports = {
             "collection":       "user",
         })
     },
+    // 文章
+    Mongodb_model_article: () => {
+        return new Model({
+            "mongoose":         mongoose,
+            "schema":           require('./schema/article')(mongoose),
+            "collection_name":  "Article",
+            "collection":       "article",
+        })
+    },
+    // 文件表 包含所有文件
+    Mongodb_model_files: () => {
+        return new Model({
+            "mongoose":         mongoose,
+            "schema":           require('./schema/files')(mongoose),
+            "collection_name":  "Files",
+            "collection":       "files",
+        })
+    },
 }

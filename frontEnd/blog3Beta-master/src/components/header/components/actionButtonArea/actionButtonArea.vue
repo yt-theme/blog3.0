@@ -37,7 +37,8 @@ export default {
     border-radius: 4px;
     background-color: #666;
     box-shadow: 0 0 3px #B0B6B6 inset; 
-    padding: 0 6px;
+    /* padding: 0 6px; */
+    padding: 4px 0;
 }
 .actionButtonArea_container> img {
     width: 17px;

@@ -23,6 +23,7 @@ export const login = (state, obj) => {
             window.localStorage.setItem('token', res.data.token)
             // 再检查登录状态
             obj['commit']('checkLoginState', true)
+            // 请求桌面图标
         }
     }).catch((err) => {
         console.log('login err =>', err)
@@ -31,26 +32,34 @@ export const login = (state, obj) => {
 // 检查登录
 export const checkLoginState = (state, dat) => {
     // 如果直接设置登录状态为 true 则进行检查
-    if (dat === true) {
+    if (dat) {
 
         axios.post(reqUrl + '/api/checkLogin', qs.stringify(dat)).then((res) => {
             console.log('checkLogin =>', res.data)
             if (res.data.stat === 1) {
-                state.loginStat = true
+                state.loginState = true
             } else {
-                state.loginStat = false
+                state.loginState = false
             }
         }).catch((err) => {
             console.log('checkLoginState err =>', err)
-            state.loginStat = false
+            state.loginState = false
         })
 
     // 如果直接设置登录状态为 false 则直接为 false
     } else {
-        state.loginStat = false
+        state.loginState = false
         // 清空 token
         window.localStorage.setItem('token', '')
     }
+}
+// 请求桌面图标
+export const requestDesktopIconList = (state, dat) => {
+    axios.post(reqUrl + '/api/requireArticleList', qs.stringify(dat)).then((res) => {
+
+    }).catch((err) => {
+
+    })
 }
 
 // -------------------------------------------------

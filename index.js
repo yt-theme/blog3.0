@@ -2,7 +2,6 @@ const express    = require('express')
 const router     = express.Router()
 const io         = require('socket.io')
 const bodyParser = require('body-parser')
-const multer     = require('multer')
 
 // model 包含路由
 const server_model = require('./src/model/router/router')
@@ -11,15 +10,20 @@ const server_model = require('./src/model/router/router')
 // mongodb 模型
 // 用户
 const mongodb_model_user = require('./src/db/mongodb/mongodb').Mongodb_model_user()
+// 文章
+const mongodb_model_article = require('./src/db/mongodb/mongodb').Mongodb_model_article()
+// 文件
+const mongodb_model_files = require('./src/db/mongodb/mongodb').Mongodb_model_files()
 
 // 配置文件
-const { SERVER_PORT, UPLOAD_DIR } = require('./config')
+const { SERVER_PORT, HTML_STATIC_DIR, INDEX_HTML_STATIC, UPLOAD_DIR } = require('./config')
 
 class Server {
     constructor () {
         this.express = express
         this.router  = router
         this.app     = this.express()
+        this.upload  = ''
 
         // 配置服务器
         this._config()
@@ -35,8 +39,10 @@ class Server {
         // express 解析 params
         this.app.use(bodyParser.json())
         this.app.use(bodyParser.urlencoded({ extended: false }))
-        // form-data 所在
-        this.multer = multer({dest: UPLOAD_DIR})   
+        // 静态文件目录
+        this.app.use(this.express.static(HTML_STATIC_DIR))
+        // index.html 位置
+        this.app.use('/index', this.express.static(INDEX_HTML_STATIC))
     }
     _init () {
         const app    = this.app
@@ -45,7 +51,9 @@ class Server {
         // http server
         server_model({ app, router,
             // mongodb 模型
-            mongodb_model_user // user 表
+            mongodb_model_user,         // user 表
+            mongodb_model_article,      // article 表
+            mongodb_model_files,        // files 表
         })
         // sockt server
         // socket_model(socket_server)

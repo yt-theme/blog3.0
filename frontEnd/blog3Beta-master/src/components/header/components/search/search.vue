@@ -55,15 +55,15 @@ export default {
 
 <style scoped>
 @keyframes sidebarIconShadow {
-    0% {box-shadow: 0 0 27px #ebd15f inset,0 0 27px #29814b inset;}
-    25% {box-shadow: 0 0 27px #29814b inset,0 0 27px #ebd15f inset;}
-    50% {box-shadow: 0 0 27px #B0B6B6 inset,0 0 27px #29814b inset;}
-    75% {box-shadow: 0 0 27px #29814b inset,0 0 27px #ebd15f inset;}
-    100% {box-shadow: 0 0 27px #ebd15f inset,0 0 27px #29814b inset;}
+    0% {box-shadow: 0 0 27px #fff0ac inset,0 0 27px #5fa078 inset;}
+    25% {box-shadow: 0 0 27px #5fa078 inset,0 0 27px #fff0ac inset;}
+    50% {box-shadow: 0 0 27px #fff0ac inset,0 0 27px #5fa078 inset;}
+    75% {box-shadow: 0 0 27px #5fa078 inset,0 0 27px #fff0ac inset;}
+    100% {box-shadow: 0 0 27px #fff0ac inset,0 0 27px #5fa078 inset;}
 }
 .search_container {
     display: flex;
-    height: 23px;
+    height: 25px;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
@@ -88,6 +88,9 @@ export default {
     animation: sidebarIconShadow 4s infinite;
 }
 .search_container> select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100%;
     border: none;
     appearance: none;

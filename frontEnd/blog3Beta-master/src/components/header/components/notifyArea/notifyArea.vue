@@ -61,6 +61,11 @@ export default {
     display: flex;
     flex-wrap: wrap;
 }
+.notifyArea_container> div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .weather, .notifyArea_num, .notifyArea_timer {
     background-color: #f9f8f7;
     border-radius: 4px;

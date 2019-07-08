@@ -4,7 +4,9 @@ const { TOKEN_SECRET } = require('../../../config')
 module.exports = function (obj) {
     const app = obj.app
     const router = obj.router
-    const mongodb_model_user = obj.mongodb_model_user
+    const mongodb_model_user    = obj.mongodb_model_user
+    const mongodb_model_article = obj.mongodb_model_article
+    const mongodb_model_files   = obj.mongodb_model_files
 
     app.all('*', (req, res, next) => {
         res.header('Access-Control-Allow-Origin', '*')
@@ -21,4 +23,22 @@ module.exports = function (obj) {
     new (require('./routes/login'))(router, mongodb_model_user, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).checkLogin()      // /api/checklogin
     new (require('./routes/login'))(router, mongodb_model_user).register()        // /api/register
     new (require('./routes/login'))(router, mongodb_model_user, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).profile()         // /api/profile
+
+    // 文章 查询 编辑 建立 删除
+    // 1. 查询当前用户 id 所有文章   api/article/queryAllById
+    // 2. 按文章 id 查询文章内容     api/article/queryContentById
+    // 3. 按文章 label 搜索文章     api/article/searchByLabel
+    // 4. 按文章 id 编辑文章        api/article/editById
+    // 5. 按文章 id 删除文章        api/article/deleteById
+    // 6. 按用户 id 创建文章        api/article/createById
+    new (require('./routes/article'))(router, mongodb_model_article, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).queryAllById()     // api/article/queryAllById
+    new (require('./routes/article'))(router, mongodb_model_article, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).queryContentById() // api/article/queryContentById
+    new (require('./routes/article'))(router, mongodb_model_article, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).searchByLabel()    // api/article/searchByLabel
+    new (require('./routes/article'))(router, mongodb_model_article, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).editById()         // api/article/editById
+    new (require('./routes/article'))(router, mongodb_model_article, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).deleteById()       // api/article/deleteById
+    new (require('./routes/article'))(router, mongodb_model_article, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).createById()       // api/article/createById
+
+    // 文件操作
+    // 上传(批量) api/file/upload
+    new (require('./routes/file'))(router, mongodb_model_files, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).upload() // api/file/upload
 }
