@@ -19,7 +19,14 @@ module.exports = (req, res, next, mongodb_model_user, TOKEN_SECRET) => {
                 req.analyz_stat = 0
                 req.analyz_msg = 'token解密失败'
                 req.analyz_profile = null
-                next()
+
+                // 返回
+                res.json({
+                    'stat': req.analyz_stat,
+                    'msg': req.analyz_msg,
+                    'data': req.analyz_profile
+                })
+
                 return false
             }
         }
@@ -37,12 +44,27 @@ module.exports = (req, res, next, mongodb_model_user, TOKEN_SECRET) => {
             req.analyz_stat = 0
             req.analyz_msg = err
             req.analyz_profile = null
-            next()
+            
+            // 返回
+            res.json({
+                'stat': req.analyz_stat,
+                'msg': req.analyz_msg,
+                'data': req.analyz_profile
+            })
+
         })
     } else {
         req.analyz_stat = 0
         req.analyz_msg = '无authorization'
         req.analyz_profile = null
-        next()
+
+        // 返回
+        res.json({
+            'stat': req.analyz_stat,
+            'msg': req.analyz_msg,
+            'data': req.analyz_profile
+        })
+
+
     }
 }

@@ -8,12 +8,12 @@ module.exports = (mongoose) => {
         // 文件存储名
         file_storageName: { type: String },
         // 文件大小
-        file_size:        { type: String },
+        file_size:        { type: Number },
         // 文件类型
         file_type:        { type: String },
         // 文件相对路径
         file_url:         { type: String },
-        // 文件所属(上传)者
+        // 文件所属(上传)者 id
         user_id:          { type: String }
     })
 }

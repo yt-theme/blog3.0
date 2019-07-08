@@ -8,7 +8,8 @@ module.exports = {
     HTML_STATIC_DIR: path.join(__dirname, './frontEnd/blog3Beta-master/dist/'),
     // index.html 路径
     INDEX_HTML_STATIC: path.join(__dirname, './frontEnd/blog3Beta-master/dist/index.html'),
-    // 上传文件到此文件夹
+    // 上传文件到此文件夹 UPLOAD_DIR_NAME 与 UPLOAD_DIR 对应
+    UPLOAD_DIR_NAME: 'upload',
     UPLOAD_DIR: path.join(__dirname, './upload'),
 
     // 登录 token 密钥
