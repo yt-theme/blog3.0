@@ -20,10 +20,6 @@ module.exports = class {
         this.mongodb_model = mongodb_model
         this.middleWare    = middleWare ? middleWare : null
     }
-    // 检查是否为重复文件名
-    _checkIsRepeat () {
-
-    }
     upload () {
         let self = this
         self.router.post('/api/file/upload', self.middleWare, multerUploadMiddleware.any(), function (req, res) {
