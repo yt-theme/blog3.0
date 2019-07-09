@@ -87,6 +87,15 @@ export const checkSidebarPopEditPassword = (state, dat) => {
         }
     })
 }
+// 上传文件
+export const uploadFileMultiple = (state, dat) => {
+    alert(1)
+    axios.post(reqUrl + '/api/file/upload', qs.stringify(dat), { headers: { 'Content-Type': 'multipart/form-data' } }).then((res) => {
+        console.log('fileUpload =>', res)
+    }).catch((err) => {
+
+    })
+}
 
 // -------------------------------------------------
 

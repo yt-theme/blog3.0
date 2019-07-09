@@ -20,6 +20,8 @@ export const requestSidebarPopContent = ({commit}, dat) => {
 }
 // 检查sidebarPop密码
 export const checkSidebarPopEditPassword = ({commit}, dat) => { commit('checkSidebarPopEditPassword', dat) }
+// 上传文件
+export const uploadFileMultiple = ({commit}, dat) => { commit('uploadFileMultiple', dat) }
 
 // --------------------------------------------------------------------
 

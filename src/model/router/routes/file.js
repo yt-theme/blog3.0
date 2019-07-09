@@ -29,6 +29,7 @@ module.exports = class {
             if (analyz_stat === 1) {
                 // 保存文件对象
                 const req_files = req.files
+                console.log('req_files[i]', req_files)
                 if (req_files && req_files.length > 0) {
                     console.log('req_files', req_files)
 
@@ -57,7 +58,7 @@ module.exports = class {
 
                 }
             } else {
-                res.json({ 'stat': 0, 'msg':  analyz_msg })
+                res.json({ 'stat': 0, 'msg':  analyz_msg || 'err' })
             }
         })
     }

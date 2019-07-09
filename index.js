@@ -18,7 +18,7 @@ const mongodb_model_files = require('./src/db/mongodb/mongodb').Mongodb_model_fi
 const mongodb_model_proposeWebsite = require('./src/db/mongodb/mongodb').Mongodb_model_proposeWebsite()
 
 // 配置文件
-const { SERVER_PORT, HTML_STATIC_DIR, INDEX_HTML_STATIC, UPLOAD_DIR } = require('./config')
+const { SERVER_PORT, HTML_STATIC_DIR, INDEX_HTML_STATIC, UPLOAD_DIR_NAME, UPLOAD_DIR } = require('./config')
 
 class Server {
     constructor () {
@@ -43,6 +43,8 @@ class Server {
         this.app.use(bodyParser.urlencoded({ extended: false }))
         // 静态文件目录
         this.app.use(this.express.static(HTML_STATIC_DIR))
+        // 上传文件目录
+        this.app.use('/' + UPLOAD_DIR_NAME, this.express.static(UPLOAD_DIR))
         // index.html 位置
         this.app.use('/index', this.express.static(INDEX_HTML_STATIC))
     }
