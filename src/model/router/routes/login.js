@@ -72,12 +72,41 @@ module.exports = class {
             })
         })            
     }
+    // 检查用户编辑密码
+    checkEditPwd() {
+        let self = this
+        self.router.post('/api/check/editPwd', self.middleWare, function (req, res) {
+            if (req.analyz_stat === 1) {
+                const req_edit_password = req.body.edit_password
+                const analyz_profile    = req.analyz_profile
+                if (req_edit_password && bcrypt.compareSync(req_edit_password, analyz_profile['edit_password'])){
+                    res.json({
+                        'stat': 1,
+                        'msg': 'ok',
+                    })
+                } else {
+                    res.json({
+                        'stat': 0,
+                        'msg': '编辑密码检测失败',
+                    })
+                }
+
+                
+            } else {
+                res.json({
+                    'stat': 0,
+                    'msg': '登录状态检测失败',
+                })
+            }
+        })    
+    }
     register() {
         let self = this
         self.router.post('/api/register', function (req, res) {
             console.log('注册操作 =======================================>')
             // 需要传两个参数 username password
             const req_password = req.body.password ? req.body.password : ''
+            const req_edit_password = req.body.edit_password ? req.body.edit_password : ''
             const req_username = req.body.username ? req.body.username : ''
 
             // 返回值存储
@@ -88,7 +117,8 @@ module.exports = class {
                 // 注册 => mongodb user表
                 self.mongodb_model.insertOne({
                     'password': req_password,
-                    'username': req_username
+                    'username': req_username,
+                    'edit_password': req_edit_password
                 }).then((v) => {
                     stat=1;  msg='ok'
                     // 返回

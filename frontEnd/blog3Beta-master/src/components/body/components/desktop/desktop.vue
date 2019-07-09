@@ -1,8 +1,8 @@
 <template>
-    <div class="desktop_container_list" v-if="this.$store.state.setDesktopLayout == 0">
+    <div class="desktop_container_list" v-if="this.$store.state.desktopLayout == 0">
         <DesktopIcon v-for="i in this.$store.state.desktopIconList" :label="i.label" :img="i.img" :url="i.url" :id="i.id" :date="i.date"></DesktopIcon>
     </div>
-    <div class="desktop_container" v-else-if="this.$store.state.setDesktopLayout == 1">
+    <div class="desktop_container" v-else-if="this.$store.state.desktopLayout == 1">
         <DesktopIcon v-for="i in this.$store.state.desktopIconList" :label="i.label" :img="i.img" :url="i.url" :id="i.id" :date="i.date"></DesktopIcon>
     </div>
 </template>
@@ -13,7 +13,7 @@ export default {
     components: {
         DesktopIcon
     },
-    created () {
+    mounted () {
         this.$store.commit('requestDesktopIconList')
     }
 }

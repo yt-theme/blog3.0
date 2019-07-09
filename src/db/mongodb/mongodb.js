@@ -50,4 +50,13 @@ module.exports = {
             "collection":       "files",
         })
     },
+    // 建议网址
+    Mongodb_model_proposeWebsite: () => {
+        return new Model({
+            "mongoose":         mongoose,
+            "schema":           require('./schema/proposeWebsite')(mongoose),
+            "collection_name":  "ProposeWebsite",
+            "collection":       "proposeWebsite",
+        })
+    }
 }

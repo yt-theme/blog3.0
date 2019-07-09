@@ -1,14 +1,14 @@
 <template>
     <div class="sidebar_container text_no_select">
         <ul class="sidebar_nav_container">
-            <li @click="showPopAction('num0')"><a>Update History</a></li>
-            <li @click="showPopAction('num1')"><a>New Article</a></li>
+            <li @click="showPopAction('history')"><a>Update History</a></li>
+            <li @click="showPopAction('new')"><a>New Article</a></li>
             <!-- <li @click="showPopAction('num2')"><a>Article History</a></li>
             <li @click="showPopAction('num3')"><a>New Note</a></li>
             <li @click="showPopAction('num4')"><a>Note History</a></li> -->
         </ul>
         <div class="sidebarIcon_list">
-            <SidebarIcon v-for="i in this.$store.state.sidebarIconList" :label="i.label" :img="i.img" :url="i.url" ></SidebarIcon>
+            <SidebarIcon v-for="i in this.$store.state.sidebarWebsiteList" :label="i.label" :img="i.img" :url="i.url" ></SidebarIcon>
         </div>
         <SidebarFileUploadList></SidebarFileUploadList>
         <SidebarPop></SidebarPop>
@@ -30,22 +30,22 @@ export default {
             this.$store.dispatch('setSidebarPoptitle', '')
             // clear edit id
             this.$store.dispatch('set_windowEdit_id', '')
-            // request data
+            // request pop data
             this.$store.dispatch('requestSidebarPopContent', id)
             // set id
             this.$store.dispatch('setSidebarPopSelectId', id)
             // show
             this.$store.dispatch('toggleSidebarPop', true)
             this.$store.dispatch('sidebarPopEditPasswordTrue')
-            this.$store.commit('clearSidebarPopPwdInputData')
-            if (id='num1') {
-                this.$store.commit('clearSidebarPopData')
+            this.$store.dispatch('clearSidebarPopPwdInputData')
+            if (id='new') {
+                this.$store.dispatch('clearSidebarPopData')
                 return false
             }
         }
     },
-    created () {
-        this.$store.commit('requestSidebarIconList')
+    mounted () {
+        this.$store.dispatch('requestSidebarWebsiteList', '')
     }
 }
 </script>

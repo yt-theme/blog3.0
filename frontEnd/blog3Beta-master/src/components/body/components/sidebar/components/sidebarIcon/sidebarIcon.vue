@@ -1,6 +1,6 @@
 <template>
     <a class="sidebarIcon_container" :href="url" target="_blank">
-        <img :src="img"/>
+        <!-- <img :src="img"/> -->
         <span>{{label}}</span>
     </a>
 </template>

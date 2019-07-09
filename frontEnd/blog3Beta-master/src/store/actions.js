@@ -6,5 +6,36 @@ export const login = ({commit}, dat) => { commit('login', { 'dat': dat, 'commit'
 export const checkLoginState = ({commit}, dat) => { commit('checkLoginState', dat) }
 // 请求桌面图标
 export const requestDesktopIconList = ({commit}, dat) => { commit('requestDesktopIconList', dat) }
+// 请求侧边栏收藏网址
+export const requestSidebarWebsiteList = ({commit}, dat) => { commit('requestSidebarWebsiteList', dat) }
+// 获取 sidebar pop 内容 (历史 / 新增)
+export const requestSidebarPopContent = ({commit}, dat) => {
+    // 请求历史
+    if (dat === 'history') {
+        commit('requestSidebarPopContent', dat)
+    // 新增
+    } else if (dat === 'new') {
+        
+    }
+}
+// 检查sidebarPop密码
+export const checkSidebarPopEditPassword = ({commit}, dat) => { commit('checkSidebarPopEditPassword', dat) }
 
 // --------------------------------------------------------------------
+
+// 设置新增 / 编辑 / 历史弹窗标题
+export const setSidebarPoptitle = ({commit}, dat) => { commit('setSidebarPoptitle', dat) }
+// 设置 窗口 edit id
+export const set_windowEdit_id = ({commit}, dat) => { commit('set_windowEdit_id', dat) }
+// 显示 / 隐藏 sidebarPop
+export const toggleSidebarPop = ({commit}, dat) => { commit('toggleSidebarPop', dat) }
+// sidebarPop类型id框
+export const setSidebarPopSelectId = ({commit}, dat) => { commit('setSidebarPopSelectId', dat) }
+// sidebarPop显示密码输入框
+export const sidebarPopEditPasswordTrue = ({commit} ) => { commit('sidebarPopEditPasswordTrue') }
+// 清空sidebarPop密码输入框
+export const clearSidebarPopPwdInputData = ({commit} ) => { commit('clearSidebarPopPwdInputData') }
+// 设置sidebarPop密码输入框
+export const setSidebarPopPwdInputData = ({commit}, dat) => { commit('setSidebarPopPwdInputData', dat) }
+// 清除 sidebarPop 数据
+export const clearSidebarPopData = ({commit} ) => { commit('clearSidebarPopData') }

@@ -66,10 +66,13 @@ module.exports = class {
                     'edit_date':   edit_date,
                     'file_list':   file_list,
                     // file_list: [{
-                    //     file_name: { type: String },
-                    //     file_url:  { type: String },
-                    //     file_size: { type: String },
-                    //     file_auth: { type: String }
+                    //     file_name:        { type: String },
+                    //     file_storageName: { type: String },
+                    //     file_url:         { type: String },
+                    //     file_size:        { type: String },
+                    //     file_type:        { type: String },
+                    //     file_auth:        { type: String },
+                    //     user_id:          { type: String },
                     // }]
                 }).then((v) => {
                     // 返回

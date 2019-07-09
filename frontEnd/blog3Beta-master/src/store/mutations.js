@@ -61,5 +61,49 @@ export const requestDesktopIconList = (state, dat) => {
 
     })
 }
+// 请求侧边栏收藏网址
+export const requestSidebarWebsiteList = (state, dat) => {
+    axios.post(reqUrl + '/api/public/proposeWebsite').then((res) => {
+        if (res.data.stat === 1 && res.data.data.length > 0) {
+            state.sidebarWebsiteList = res.data.data
+        } else {
+            state.sidebarWebsiteList = []
+        }
+    }).catch((err) => {
+
+    })
+}
+// 检查sidebarPop密码
+export const checkSidebarPopEditPassword = (state, dat) => {
+    axios.post(reqUrl + '/api/check/editPwd', qs.stringify({'edit_password': dat })).then((res) => {
+        if (res.data.stat === 1) {
+            state.sidebarPopEditPasswordCheck = false
+        } else {
+            state.sidebarPopEditPasswordCheck = true
+        }
+    })
+}
 
 // -------------------------------------------------
+
+// 设置新增 / 编辑 / 历史弹窗标题
+export const setSidebarPoptitle = (state, dat) => { state.sidebarPoptitle = dat }
+// 设置 窗口 edit id
+export const set_windowEdit_id = (state, dat) => { state.windowEdit_id = dat }
+// 显示 / 隐藏 sidebarPop
+export const toggleSidebarPop = (state, dat) => { state.sidebarPopShow = dat }
+// sidebarPop类型id
+export const setSidebarPopSelectId = (state, dat) => { state.sidebarPopSelectId = dat }
+// sidebarPop显示密码输入框
+export const sidebarPopEditPasswordTrue = (state) => { state.sidebarPopEditPasswordCheck = true }
+// 清空sidebarPop密码输入框 sidebarPopPwdInputData
+export const clearSidebarPopPwdInputData = (state) => { state.sidebarPopPwdInputData = '' }
+// 设置sidebarPop密码输入框
+export const setSidebarPopPwdInputData = (state, dat) => { state.sidebarPopPwdInputData = dat }
+// 清除 sidebarPop 数据
+export const clearSidebarPopData = (state) => {
+    state.VModelSidebarPopArticleInputData = ''
+    state.VModelSidebarPopArticleTextareaData = ''
+    state.VModelSidebarPopArticleIconLabelData = 'normal'
+    state.VModelSidebarPopArticleTypeData = 'web'
+}

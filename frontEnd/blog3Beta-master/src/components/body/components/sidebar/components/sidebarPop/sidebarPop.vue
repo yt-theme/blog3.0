@@ -2,6 +2,8 @@
     <div v-if="this.$store.state.sidebarPopShow" class="sidebarPop_container">
         <i class="close" @click="closePop"></i>
         <div class="body">
+            
+            <!-- 输入密码区域 -->
             <div class="password_cover" v-if="this.$store.state.sidebarPopEditPasswordCheck">
                 <div class="password_cover_container">
                     <div style="display:flex;justify-content: space-between;align-items: center">
@@ -15,6 +17,7 @@
                     <input v-model="setSidebarPopPwdInputData" type="password" :placeholder="passwdPlaceholder"/>
                 </div>
             </div>
+            
             <template v-if="titleTop">
                 <h1>{{ this.$store.state.sidebarPoptitle ? this.$store.state.sidebarPoptitle : titleTop }}</h1>
             </template>
@@ -28,7 +31,7 @@
             </div>
 
             <div class="content_container">
-              <table v-if="this.$store.state.sidebarPopData['id'] !== 'num1'">
+              <table v-if="this.$store.state.sidebarPopData['id'] !== 'new'">
                 <tr>
                   <td>NameList</td>
                   <td>Date</td>
@@ -48,7 +51,7 @@
                 </ul> -->
 
                 <!-- new article -->
-                <div class="article" v-if="this.$store.state.sidebarPopData['id'] == 'num1'">
+                <div class="article" v-if="this.$store.state.sidebarPopData['id'] == 'new'">
 
                     <div class="article_header">
                         <input class="article_title" placeholder="Title" maxlength="14" v-model="VModelSidebarPopArticleInputData"/>
@@ -99,7 +102,7 @@ export default {
             this.passwdPlaceholder = 'input key'
             let pwd = this.$store.state.sidebarPopPwdInputData
             this.$store.dispatch('checkSidebarPopEditPassword', pwd)
-            this.$store.commit('clearSidebarPopPwdInputData')
+            this.$store.dispatch('clearSidebarPopPwdInputData')
         },
         submit () {
             if (this.$store.state.VModelSidebarPopArticleInputData) {
@@ -143,10 +146,10 @@ export default {
         titleTop () {
             let id = this.$store.state.sidebarPopData['id']
             switch (id) {
-                case 'num0':
+                case 'history':
                     return 'Update History'
                     break;
-                case 'num1':
+                case 'new':
                     return 'New Article'
                     break;
                 case 'num2':
@@ -167,7 +170,7 @@ export default {
                 return this.$store.state.sidebarPopPwdInputData
             },
             set (dat) {
-                this.$store.commit('setSidebarPopPwdInputData', dat)
+                this.$store.dispatch('setSidebarPopPwdInputData', dat)
             }
         },
         VModelSidebarPopArticleInputData: {
