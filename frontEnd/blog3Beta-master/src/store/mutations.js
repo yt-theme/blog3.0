@@ -73,6 +73,10 @@ export const requestSidebarWebsiteList = (state, dat) => {
 
     })
 }
+// 请求 sidebarPop 历史
+export const requestSidebarPopHistory = (state, dat) => {
+    state.sidebarPopData.id = 'history'
+}
 // 检查sidebarPop密码
 export const checkSidebarPopEditPassword = (state, dat) => {
     axios.post(reqUrl + '/api/check/editPwd', qs.stringify({'edit_password': dat })).then((res) => {
@@ -106,4 +110,8 @@ export const clearSidebarPopData = (state) => {
     state.VModelSidebarPopArticleTextareaData = ''
     state.VModelSidebarPopArticleIconLabelData = 'normal'
     state.VModelSidebarPopArticleTypeData = 'web'
+}
+// 设置 sidebarPop 为新增
+export const setSidebarPopContentIsNew = (state) => {
+    state.sidebarPopData.id = 'new'
 }

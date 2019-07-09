@@ -31,24 +31,21 @@
             </div>
 
             <div class="content_container">
-              <table v-if="this.$store.state.sidebarPopData['id'] !== 'new'">
-                <tr>
-                  <td>NameList</td>
-                  <td>Date</td>
-                  <td>Id</td>
-                </tr>
-                <tr v-for="i in this.$store.state.sidebarPopData['content']">
-                  <td>{{i.label}}</td>
-                  <td>{{i.date}}</td>
-                  <td>{{i.id}}</td>
-                  <td><button @click='sidebarPopHistoryDelete(i.id, i.type)'>Del</button></td>
-                </tr>
-              </table>
-                <!-- <ul v-if="this.$store.state.sidebarPopData['id'] !== 'num1'">
-                    <li v-for="i in this.$store.state.sidebarPopData['content']">
-                        <span>{{i.label}}</span><span>{{i.date}}</span><span>{{i.id}}</span><button @click='sidebarPopHistoryDelete(i.id, i.type)'>Del</button>
-                    </li>
-                </ul> -->
+                <table v-if="this.$store.state.sidebarPopData['id'] == 'history'">
+                    <tr>
+                    <td>NameList</td>
+                    <td>Date</td>
+                    <td>Id</td>
+                    </tr>
+                    <tr v-for="i in this.$store.state.sidebarPopData['content']">
+                    <td>{{i.label}}</td>
+                    <td>{{i.date}}</td>
+                    <td>{{i.id}}</td>
+                    <td><button @click='sidebarPopHistoryDelete(i.id, i.type)'>Del</button></td>
+                    </tr>
+                </table>
+
+                <!-- --------------------------------------------------------------- -->
 
                 <!-- new article -->
                 <div class="article" v-if="this.$store.state.sidebarPopData['id'] == 'new'">
@@ -56,6 +53,45 @@
                     <div class="article_header">
                         <input class="article_title" placeholder="Title" maxlength="14" v-model="VModelSidebarPopArticleInputData"/>
                         <div style="display:flex;align-items:center">
+
+                            <!-- 显示上传文件列表 -->
+                            <button class="article_upload_toggle">fileList</button>
+                            <!-- 上传文件及列表 -->
+                            <div v-show="article_upload_box_show" class="article_upload_box">
+                                <!-- file search -->
+                                <div class="article_upload_box_fileSearch_wrapp">
+                                    <input placeholder="Search file" class="article_upload_box_fileSearch"/>
+                                </div>
+                                <div>
+                                    <ul class="article_upload_box_fileArea">
+                                        <li>
+                                            <!-- 此处显示文件地址链接 -->
+                                            <p>
+                                                <input value="www.wenjian.com/sfsa/faf/af/"/>
+                                            </p>
+                                            <div>
+                                                <!-- left预览图片如果有 -->
+                                                <div>
+                                                    <img/>
+                                                </div>
+                                                <!-- right 文件信息 -->
+                                                <div>
+                                                    <!-- top文件名 -->
+                                                    <p>在在林.jpg</p>
+                                                    <!-- bottom left文件上传时间 center文件类型 right文件大小 -->
+                                                    <p>
+                                                        <span>2019-7-9</span>
+                                                        <span>mimetype/jpeg</span>
+                                                        <span>99.32KB</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <span style="display:flex;height:8px;"></span>
+                            </div>
+                            
                             IconLabel
                             <select v-model="VModelSidebarPopArticleIconLabelData">
                                 <option value="normal" selected>normal</option>
@@ -68,7 +104,7 @@
                                 <option value="web" selected>web</option>
                                 <option value="txt">txt</option>
                             </select>
-                            -> &nbsp;
+                            → &nbsp;
                             <button class="article_submit" @click="submit">Submit</button>
                         </div>
                     </div>
@@ -85,6 +121,8 @@ export default {
     data () {
         return {
             passwdPlaceholder: 'input key',
+            // 上传文件列表是否显示
+            article_upload_box_show: true
         }
     },
     methods: {
@@ -215,9 +253,9 @@ export default {
     top: 10%;
     left: 5%;
     width: 90vw;
-    min-width: 400px;
+    min-width: 930px;
     height: 80vh;
-    min-height: 300px;
+    min-height: 500px;
     background-color: #113337;
     border-radius: 4px;
     box-shadow: 0 0 14px #113337;
@@ -375,6 +413,9 @@ export default {
 .article_header select> option {
     line-height: 2em;
 }
+.article_title, .article_main {
+    /* box-shadow: 0 0 3px #113337 inset;  */
+}
 .article_title {
     width: 15em;
     height: 2em;
@@ -411,5 +452,106 @@ export default {
     margin-top: 11px;
     padding: 11px;
     overflow: auto;
+}
+.article_upload_box {
+    position: absolute;
+    top: 49px;
+    min-width: 299px;
+    max-width: 999px;
+    max-height: calc(80vh - 200px);
+    background-color: #113337;
+    box-shadow: 0 0 8px #B0B6B6;
+    border-radius: 4px;
+}
+.article_upload_box> div:nth-child(2) {
+    width: 100%;
+    min-width: 261px;
+    max-width: 961px;
+    max-height: calc(80vh - 254px);
+    padding: 0 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.article_upload_box .article_upload_box_fileSearch_wrapp {
+    padding: 8px;
+}
+.article_upload_box .article_upload_box_fileSearch {
+    width: 100%;
+    height: 2em;
+    background-color: #B0B6B6;
+    border-radius: 4px;
+    border: 0;
+    padding: 0 11px;
+}
+.article_upload_box .article_upload_box_fileArea {
+    display: block;
+    width: 100%;
+    height: calc(100% - 38px);
+    list-style: none;
+}
+.article_upload_box .article_upload_box_fileArea> li {
+    color: #113337;
+    background-color: #489799;
+    border-radius: 4px;
+    margin: 0.5em 0;
+    padding: 8px;
+    
+}
+.article_upload_box .article_upload_box_fileArea> li:first-child {
+    margin-top: 0;
+}
+.article_upload_box .article_upload_box_fileArea> li:last-child {
+    margin-bottom: 0;
+}
+.article_upload_box .article_upload_box_fileArea> li> p> input {
+    width: 100%;
+    height: 2em;
+    border-radius: 4px;
+    border: 0;
+    background-color: #2c7e81;
+    padding: 0 4px;
+    outline: none;
+}
+.article_upload_box .article_upload_box_fileArea> li> div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 8px;
+}
+.article_upload_box .article_upload_box_fileArea> li> div> div:first-child {
+    width: 50px;
+    height: 50px;
+    border-radius: 2px;
+}
+.article_upload_box .article_upload_box_fileArea> li> div> div:first-child> img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    outline: none;
+    border-radius: 2px;
+    background-color: #113337;
+}
+.article_upload_box .article_upload_box_fileArea> li> div> div:nth-child(2) {
+    width: calc(100% - 50px);
+    height: 100%;
+    padding-left: 8px;
+}
+.article_upload_box .article_upload_box_fileArea> li> div> div:nth-child(2)> p {
+    display: flex;
+    width: 100%;
+    text-align: left;
+    font-size: 17px;
+}
+.article_upload_box .article_upload_box_fileArea> li> div> div:nth-child(2)> p:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    margin-top: 0.414125em;
+}
+.article_upload_box .article_upload_box_fileArea> li> div> div:nth-child(2)> p:nth-child(2)> span:nth-child(2) {
+    padding: 0 1em;
 }
 </style>

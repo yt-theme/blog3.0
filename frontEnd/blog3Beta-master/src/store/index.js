@@ -17,7 +17,7 @@ const state = {
     // 显示 sidebarPop
     sidebarPopShow: false,
     // sidebarPop类型id
-    sidebarPopSelectId: '',
+    sidebarPopSelectId: 'new',
     // sidebarPop是否显示输入框
     sidebarPopEditPasswordCheck: true,
     // sidebarPop密码输入框内容
@@ -27,8 +27,6 @@ const state = {
     VModelSidebarPopArticleTextareaData: '',
     VModelSidebarPopArticleIconLabelData: 'normal',
     VModelSidebarPopArticleTypeData: 'web',
-    // sidebarPop 数据
-    sidebarPopData: {'id': '', 'content': ['loading']},
 
     // 数据 ----------------------------------
     // 桌面图标 list
@@ -38,7 +36,9 @@ const state = {
     // 天气
     weather: '',
     // 侧栏建议网址
-    sidebarWebsiteList: []
+    sidebarWebsiteList: [],
+    // sidebarPop 数据 id 为判断sidebarPop类型为编辑还是新增
+    sidebarPopData: {'id': '', 'content': []},
 }
 
 const store = new Vuex.Store({

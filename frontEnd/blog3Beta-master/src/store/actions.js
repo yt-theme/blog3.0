@@ -12,10 +12,10 @@ export const requestSidebarWebsiteList = ({commit}, dat) => { commit('requestSid
 export const requestSidebarPopContent = ({commit}, dat) => {
     // 请求历史
     if (dat === 'history') {
-        commit('requestSidebarPopContent', dat)
+        commit('requestSidebarPopHistory', dat)
     // 新增
     } else if (dat === 'new') {
-        
+        commit('setSidebarPopContentIsNew')
     }
 }
 // 检查sidebarPop密码
