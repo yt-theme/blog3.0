@@ -94,15 +94,14 @@ export const uploadFileMultiple = (state, dat) => {
         console.log('fileUpload =>', res)
         if (res.data.stat === 1) {
             state.curUploadFileMultiple_list = res.data.data
-
+            for (let i=0; i<state.curUploadFileMultiple_list.length; i++) {
+                state.curUploadFileMultiple_list[i]['file_url'] = reqUrl + '/' + state.curUploadFileMultiple_list[i]['file_url']
+            }
             // 通知
             dat['commit']('showNotifyPop', `upload ${state.curUploadFileMultiple_list.length} files success`)
             // 关闭通知
-            clearTimeout(state.notifyPop_timer)
-            state.notifyPop_timer = setTimeout(() => {
-                dat['commit']('closeNotifyPop')
-            }, 3000)
-            
+            clearTimeout(state.notifyPop_timer); state.notifyPop_timer = setTimeout(() => { dat['commit']('closeNotifyPop') }, 3000)
+
         } else {
 
         }
@@ -142,3 +141,5 @@ export const setSidebarPopContentIsNew = (state) => {
 export const showNotifyPop = (state, dat ) => { state.notifyPopData = dat; state.notifyPopShow = true }
 // 关闭通知
 export const closeNotifyPop = (state) => { state.notifyPopData = ''; state.notifyPopShow = false  }
+// 设置 上传框所以文件数据
+export const setUploadFileAll_list = (state, dat ) => { state.uploadFileAll_list = dat }

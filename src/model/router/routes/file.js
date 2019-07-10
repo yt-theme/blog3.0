@@ -1,7 +1,7 @@
 const multer = require('multer')
 const uuid   = require('uuid')
 
-const { UPLOAD_DIR_NAME, UPLOAD_DIR } = require('../../../../config')
+const { SERVER_PORT, UPLOAD_DIR_NAME, UPLOAD_DIR } = require('../../../../config')
 
 // form-data 上传文件
 const multerStorage = multer.diskStorage({
@@ -39,11 +39,12 @@ module.exports = class {
                     for (let i=0; i<req_files.length; i++) {
                         tmp_file_arr.push({
                             'file_name':        req_files[i]['originalname'],
+                            'file_uploadDate':  new Date().getTime(),
                             'file_storageName': req_files[i]['filename'],
                             'file_size':        req_files[i]['size'],
                             'file_type':        req_files[i]['mimetype'],
                             'file_url':         `${UPLOAD_DIR_NAME}${req_files[i]['path'].split(UPLOAD_DIR_NAME).pop()}`,
-                            'user_id':          analyz_profile['_id']
+                            'user_id':          analyz_profile['_id'],
                         })
                     }
 

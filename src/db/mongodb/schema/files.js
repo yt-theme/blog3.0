@@ -5,6 +5,8 @@ module.exports = (mongoose) => {
     return mongoose.Schema({
         // 文件名
         file_name:        { type: String },
+        // 文件上传时间
+        file_uploadDate:  { type: String }         ,
         // 文件存储名
         file_storageName: { type: String },
         // 文件大小

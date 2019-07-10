@@ -44,8 +44,10 @@ const state = {
     sidebarWebsiteList: [],
     // sidebarPop 数据 id 为判断sidebarPop类型为编辑还是新增
     sidebarPopData: {'id': '', 'content': []},
-    // 当前编辑上传文件存储
-    curUploadFileMultiple_list: []
+    // 上传框当前编辑上传文件存储
+    curUploadFileMultiple_list: [],
+    // 当前所有上传框文件
+    uploadFileAll_list: []
 }
 
 const store = new Vuex.Store({

@@ -41,7 +41,15 @@ export const clearSidebarPopPwdInputData = ({commit} ) => { commit('clearSidebar
 export const setSidebarPopPwdInputData = ({commit}, dat) => { commit('setSidebarPopPwdInputData', dat) }
 // 清除 sidebarPop 数据
 export const clearSidebarPopData = ({commit} ) => { commit('clearSidebarPopData') }
+
+// ----------------
+
 // 显示通知
 export const showNotifyPop = ({commit}, dat ) => { commit('showNotifyPop', dat) }
 // 关闭通知
 export const closeNotifyPop = ({commit} ) => { commit('closeNotifyPop') }
+
+// ----------------
+
+// 设置 上传框所以文件数据
+export const setUploadFileAll_list = ({commit}, dat ) => { commit('setUploadFileAll_list', dat) }
