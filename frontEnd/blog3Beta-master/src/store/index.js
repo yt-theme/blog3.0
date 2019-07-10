@@ -6,6 +6,8 @@ import * as mutations from './mutations'
 
 Vue.use(Vuex)
 const state = {
+    // 通知定时器
+    notifyPop_timer: null,
     // 登录状态
     loginState: false,
     // 桌面布局
@@ -27,6 +29,9 @@ const state = {
     VModelSidebarPopArticleTextareaData: '',
     VModelSidebarPopArticleIconLabelData: 'normal',
     VModelSidebarPopArticleTypeData: 'web',
+    // 弹框通知
+    notifyPopShow: false,
+    notifyPopData: '',
 
     // 数据 ----------------------------------
     // 桌面图标 list
@@ -39,6 +44,8 @@ const state = {
     sidebarWebsiteList: [],
     // sidebarPop 数据 id 为判断sidebarPop类型为编辑还是新增
     sidebarPopData: {'id': '', 'content': []},
+    // 当前编辑上传文件存储
+    curUploadFileMultiple_list: []
 }
 
 const store = new Vuex.Store({

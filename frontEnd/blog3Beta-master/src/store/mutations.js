@@ -89,9 +89,23 @@ export const checkSidebarPopEditPassword = (state, dat) => {
 }
 // 上传文件
 export const uploadFileMultiple = (state, dat) => {
-    alert(1)
-    axios.post(reqUrl + '/api/file/upload', qs.stringify(dat), { headers: { 'Content-Type': 'multipart/form-data' } }).then((res) => {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } } 
+    axios.post(reqUrl + '/api/file/upload', dat['dat'], config).then((res) => {
         console.log('fileUpload =>', res)
+        if (res.data.stat === 1) {
+            state.curUploadFileMultiple_list = res.data.data
+
+            // 通知
+            dat['commit']('showNotifyPop', `upload ${state.curUploadFileMultiple_list.length} files success`)
+            // 关闭通知
+            clearTimeout(state.notifyPop_timer)
+            state.notifyPop_timer = setTimeout(() => {
+                dat['commit']('closeNotifyPop')
+            }, 3000)
+            
+        } else {
+
+        }
     }).catch((err) => {
 
     })
@@ -124,3 +138,7 @@ export const clearSidebarPopData = (state) => {
 export const setSidebarPopContentIsNew = (state) => {
     state.sidebarPopData.id = 'new'
 }
+// 显示通知
+export const showNotifyPop = (state, dat ) => { state.notifyPopData = dat; state.notifyPopShow = true }
+// 关闭通知
+export const closeNotifyPop = (state) => { state.notifyPopData = ''; state.notifyPopShow = false  }

@@ -212,6 +212,10 @@ export default {
                 formdata.append("file",files[i])
             }
 
+            // 文件上传通知
+            this.$store.dispatch('showNotifyPop', 'uploading..')
+
+            // 进行上传文件
             this.$store.dispatch('uploadFileMultiple', formdata)
         }
     },

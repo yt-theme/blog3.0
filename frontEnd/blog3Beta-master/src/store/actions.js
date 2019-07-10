@@ -21,7 +21,7 @@ export const requestSidebarPopContent = ({commit}, dat) => {
 // 检查sidebarPop密码
 export const checkSidebarPopEditPassword = ({commit}, dat) => { commit('checkSidebarPopEditPassword', dat) }
 // 上传文件
-export const uploadFileMultiple = ({commit}, dat) => { commit('uploadFileMultiple', dat) }
+export const uploadFileMultiple = ({commit}, dat) => { commit('uploadFileMultiple', { 'dat': dat, 'commit': commit }) }
 
 // --------------------------------------------------------------------
 
@@ -41,3 +41,7 @@ export const clearSidebarPopPwdInputData = ({commit} ) => { commit('clearSidebar
 export const setSidebarPopPwdInputData = ({commit}, dat) => { commit('setSidebarPopPwdInputData', dat) }
 // 清除 sidebarPop 数据
 export const clearSidebarPopData = ({commit} ) => { commit('clearSidebarPopData') }
+// 显示通知
+export const showNotifyPop = ({commit}, dat ) => { commit('showNotifyPop', dat) }
+// 关闭通知
+export const closeNotifyPop = ({commit} ) => { commit('closeNotifyPop') }

@@ -38,7 +38,7 @@ export default {
     background-color: #bb7570;
     padding: 11px;
     transition: all 0.4s;
-    z-index: 9999999999999999;
+    z-index: 999999999999999;
 }
 .notifyPop_containerActive {
     position: absolute;
@@ -54,6 +54,7 @@ export default {
     padding: 11px;
     cursor: normal;
     transition: all 0.4s;
+    z-index: 999999999999999;
 }
 .notifyPop_containerActive span, .notifyPop_container span {
     color: #f1f1f1;
