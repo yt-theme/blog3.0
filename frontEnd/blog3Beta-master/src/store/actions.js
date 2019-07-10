@@ -24,6 +24,8 @@ export const checkSidebarPopEditPassword = ({commit}, dat) => { commit('checkSid
 export const uploadFileMultiple = ({commit}, dat) => { commit('uploadFileMultiple', { 'dat': dat, 'commit': commit }) }
 // 删除文件
 export const requestDeleteFile = ({commit}, dat) => { commit('requestDeleteFile', dat) }
+// 提交文章
+export const submitArticle = ({commit}, dat) => { commit('submitArticle', { 'dat': dat, 'commit': commit }) }
 
 // --------------------------------------------------------------------
 
@@ -55,3 +57,11 @@ export const closeNotifyPop = ({commit} ) => { commit('closeNotifyPop') }
 
 // 设置 上传框所以文件数据
 export const setUploadFileAll_list = ({commit}, dat ) => { commit('setUploadFileAll_list', dat) }
+// model sidebarPop 标题
+export const VModelSidebarPopArticleInputData = ({commit}, dat ) => { commit('VModelSidebarPopArticleInputData', dat) }
+// model sidebarPop 内容
+export const VModelSidebarPopArticleTextareaData = ({commit}, dat ) => { commit('VModelSidebarPopArticleTextareaData', dat) }
+// model sidebarPop 图标
+export const VModelSidebarPopArticleIconLabelData = ({commit}, dat ) => { commit('VModelSidebarPopArticleIconLabelData', dat) }
+// model sidebarPop 类型
+export const VModelSidebarPopArticleTypeData = ({commit}, dat ) => { commit('VModelSidebarPopArticleTypeData', dat) }

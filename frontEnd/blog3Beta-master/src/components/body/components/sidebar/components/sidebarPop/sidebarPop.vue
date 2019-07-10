@@ -142,13 +142,13 @@ export default {
                     'h1': this.$store.state.VModelSidebarPopArticleInputData,
                     'img': this.$store.state.VModelSidebarPopArticleIconLabelData,
                     'content': this.$store.state.VModelSidebarPopArticleTextareaData,
-                    'date': Y + '-' + M + '-' + D + ' week ' + week + ' ' + h + ':' + m + ':' + s
+                    'date': Y + '-' + M + '-' + D + ' week ' + week + ' ' + h + ':' + m + ':' + s,
+                    'files': this.$store.state.uploadFileAll_list
                 }
-                this.$store.dispatch('submitNewArticle', dat)
+                this.$store.dispatch('submitArticle', dat)
                 return false
             } else {
-                this.$store.dispatch('showNotifyPop')
-                this.$store.dispatch('setNotifyPopData', 'Least Input Title')
+                this.$store.dispatch('showNotifyPop', 'Least Input Title')
             }
         },
         sidebarPopHistoryDelete (id, type) {
@@ -205,7 +205,7 @@ export default {
                 return this.$store.state.VModelSidebarPopArticleInputData
             },
             set (dat) {
-                this.$store.commit('VModelSidebarPopArticleInputData', dat)
+                this.$store.dispatch('VModelSidebarPopArticleInputData', dat)
             }
         },
         VModelSidebarPopArticleTextareaData: {

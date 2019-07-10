@@ -117,6 +117,23 @@ export const requestDeleteFile = (state, dat) => {
 
     })
 }
+// 提交文章
+export const submitArticle = (state, obj) => {
+    const commit = obj['commit']
+    const dat    = obj['dat']
+    // 判断是新增还是编辑
+    // 编辑
+    if (dat['id']) {
+        axios.post(reqUrl + '/api/article/editById', qs.stringify(dat)).then((res) => {
+    
+        })
+    // 新增
+    } else {
+        axios.post(reqUrl + '/api/article/createById', qs.stringify(dat)).then((res) => {
+    
+        })
+    }
+}
 
 // -------------------------------------------------
 
@@ -151,3 +168,11 @@ export const showNotifyPop = (state, dat ) => { state.notifyPopData = dat; state
 export const closeNotifyPop = (state) => { state.notifyPopData = ''; state.notifyPopShow = false  }
 // 设置 上传框所以文件数据
 export const setUploadFileAll_list = (state, dat ) => { state.uploadFileAll_list = dat }
+// model sidebarPop 标题
+export const VModelSidebarPopArticleInputData = (state, dat ) => { state.VModelSidebarPopArticleInputData = dat }
+// model sidebarPop 内容
+export const VModelSidebarPopArticleTextareaData = (state, dat ) => { state.VModelSidebarPopArticleTextareaData = dat }
+// model sidebarPop 图标
+export const VModelSidebarPopArticleIconLabelData = (state, dat ) => { state.VModelSidebarPopArticleIconLabelData = dat }
+// model sidebarPop 类型
+export const VModelSidebarPopArticleTypeData = (state, dat ) => { state.VModelSidebarPopArticleTypeData = dat }
