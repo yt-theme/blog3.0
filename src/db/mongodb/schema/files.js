@@ -15,7 +15,11 @@ module.exports = (mongoose) => {
         file_type:        { type: String },
         // 文件相对路径
         file_url:         { type: String },
+        // 文件绝对路径
+        file_path:        { type: String },
         // 文件所属(上传)者 id
-        user_id:          { type: String }
+        user_id:          { type: String },
+        // 是否是临时文件
+        is_tmp:           { type: Boolean }
     })
 }

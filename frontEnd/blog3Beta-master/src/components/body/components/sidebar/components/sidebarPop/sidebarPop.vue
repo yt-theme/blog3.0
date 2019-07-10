@@ -55,7 +55,7 @@
                         <div style="display:flex;align-items:center">
 
                             <!-- 显示上传文件列表 -->
-                            <button @click="toggleArticleUpload" class="article_upload_toggle">fileList</button>
+                            <button @click="toggleArticleUpload" class="article_upload_toggle">fileList ({{uploadFileBox_list.length}}) </button>
                             <!-- 上传文件及列表 -->
                             <div v-show="article_upload_box_show" class="article_upload_box_wrapp">
                                 <UploadBox :height="uploadBoxHeight" :file_list="uploadFileBox_list"></UploadBox>
@@ -165,6 +165,7 @@ export default {
             let boxFileList = this.$store.state.curUploadFileMultiple_list
             let allFileList = this.$store.state.uploadFileAll_list
             let resultList  = boxFileList.concat(allFileList)
+            console.log('resultList =>', resultList)
             // 将box文件列表合并时all
             this.$store.dispatch('setUploadFileAll_list', resultList)
             return resultList

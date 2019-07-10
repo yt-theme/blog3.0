@@ -1,5 +1,6 @@
 const multer = require('multer')
 const uuid   = require('uuid')
+const fs     = require('fs')
 
 const { SERVER_PORT, UPLOAD_DIR_NAME, UPLOAD_DIR } = require('../../../../config')
 
@@ -29,9 +30,8 @@ module.exports = class {
             if (analyz_stat === 1) {
                 // 保存文件对象
                 const req_files = req.files
-                console.log('req_files[i]', req_files)
+                console.log('analyz_profile =>', analyz_profile)
                 if (req_files && req_files.length > 0) {
-                    console.log('req_files', req_files)
 
                     // 转换数据 -------------------------
 
@@ -44,7 +44,9 @@ module.exports = class {
                             'file_size':        req_files[i]['size'],
                             'file_type':        req_files[i]['mimetype'],
                             'file_url':         `${UPLOAD_DIR_NAME}${req_files[i]['path'].split(UPLOAD_DIR_NAME).pop()}`,
+                            'file_path':        req_files[i]['path'],
                             'user_id':          analyz_profile['_id'],
+                            'is_tmp':           true
                         })
                     }
 
@@ -60,6 +62,26 @@ module.exports = class {
                 }
             } else {
                 res.json({ 'stat': 0, 'msg':  analyz_msg || 'err' })
+            }
+        })
+    }
+    delete () {
+        let self = this
+        self.router.post('/api/file/delete', self.middleWare, function (req, res) {
+            const analyz_stat    = req.analyz_stat
+            if (analyz_stat === 1) {
+                const id = req.body.id
+                self.mongodb_model.findOne({
+                    '_id': id
+                }).then((v) => {
+                    fs.unlink(v['file_path'], function (err) {
+                        if (err) {
+                            res.json({ 'stat': 0, 'msg': err })
+                        } else {
+                            res.json({ 'stat': 1, 'msg': 'ok' })
+                        }
+                    })
+                })
             }
         })
     }

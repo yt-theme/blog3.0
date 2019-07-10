@@ -109,6 +109,14 @@ export const uploadFileMultiple = (state, dat) => {
 
     })
 }
+// 删除文件
+export const requestDeleteFile = (state, dat) => {
+    axios.post(reqUrl + '/api/file/delete', qs.stringify({
+        'id': dat
+    })).then((res) => {
+
+    })
+}
 
 // -------------------------------------------------
 

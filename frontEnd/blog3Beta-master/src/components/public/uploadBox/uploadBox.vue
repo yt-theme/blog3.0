@@ -15,47 +15,47 @@
         
         <div v-bind:style="{height: `calc(${height} - 4em - 32px)`, minHeight: 'calc(190px - 4em)'}">
             <ul class="article_upload_box_fileArea">
-                <template v-for="i in file_list_data_arr">
-                    <li>
-                        <!-- 此处显示文件地址链接 -->
-                        <p>
-                            <input :value="i.file_url"/>
-                        </p>
+
+                <li v-for="i in file_list_data_arr">
+                    <!-- 此处显示文件地址链接 -->
+                    <p>
+                        <input :value="i.file_url"/>
+                    </p>
+                    <div>
+                        <!-- left预览图片如果有 -->
                         <div>
-                            <!-- left预览图片如果有 -->
-                            <div>
-                                <img @click="openFileNewTab(i.file_url)" :src="i.file_url || ''"/>
-                            </div>
-                            <!-- right 文件信息 -->
-                            <div>
-                                <!-- top文件名 -->
-                                <p>{{i.file_name || ''}}</p>
-                                <!-- bottom left文件上传时间 center文件类型 right文件大小 -->
-                                <p>
-                                    <span v-if="i.file_uploadDate">{{new Date(parseInt(i.file_uploadDate/1)).getFullYear() + '-' + (new Date(i.file_uploadDate/1).getMonth() + 1) + '-' + new Date(i.file_uploadDate/1).getDate()}}</span>
-                                    <span><nobr>{{i.file_type || ''}}</nobr></span>
-                                    <span>{{`${
-                                            Number(i.file_size)>1000000000
-                                            ?
-                                                i.file_size/1000000000 + 'GB'
-                                            :
-                                                Number(i.file_size)>1000000
-                                                ?
-                                                    i.file_size/1000000 + 'MB'
-                                                :
-                                                    Number(i.file_size)>1000
-                                                    ?
-                                                        i.file_size/1000 + 'KB'
-                                                    :
-                                                        i.file_size/1 + 'B'
-                                        }`}}</span>
-                                </p>
-                            </div>
+                            <img @click="openFileNewTab(i.file_url)" :src="i.file_url || ''"/>
                         </div>
-                        <!-- 删除按钮 -->
-                        <img @click="deleteItem(i._id)" class="article_upload_box_delete" title="删除" :src="allDelete"/>
-                    </li>
-                </template>
+                        <!-- right 文件信息 -->
+                        <div>
+                            <!-- top文件名 -->
+                            <p>{{i.file_name || ''}}</p>
+                            <!-- bottom left文件上传时间 center文件类型 right文件大小 -->
+                            <p>
+                                <span v-if="i.file_uploadDate">{{new Date(parseInt(i.file_uploadDate/1)).getFullYear() + '-' + (new Date(i.file_uploadDate/1).getMonth() + 1) + '-' + new Date(i.file_uploadDate/1).getDate()}}</span>
+                                <span><nobr>{{i.file_type || ''}}</nobr></span>
+                                <span>{{`${
+                                        Number(i.file_size)>1000000000
+                                        ?
+                                            i.file_size/1000000000 + 'GB'
+                                        :
+                                            Number(i.file_size)>1000000
+                                            ?
+                                                i.file_size/1000000 + 'MB'
+                                            :
+                                                Number(i.file_size)>1000
+                                                ?
+                                                    i.file_size/1000 + 'KB'
+                                                :
+                                                    i.file_size/1 + 'B'
+                                    }`}}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- 删除按钮 -->
+                    <img @click="deleteFile(i._id)" class="article_upload_box_delete" title="delete" :src="allDelete"/>
+                </li>
+                
             </ul>
         </div>
         <span style="display:flex;height:8px;"></span>
@@ -122,6 +122,8 @@ export default {
                 formdata.append("file",files[i])
             }
 
+            this.searchVal = ''
+
             // 文件上传通知
             this.$store.dispatch('showNotifyPop', 'uploading..')
 
@@ -131,8 +133,21 @@ export default {
         // 新标签打开文件链接
         openFileNewTab (url) { window.open(url, '_blank').location },
         // 删除
-        delete (id) {
+        deleteFile (id) {
+            // 先从列表中删除文件对象 uploadFileAll_list
+            let uploadFileAll_list = this.$store.state.uploadFileAll_list
+            console.log('uploadFileAll_list', uploadFileAll_list)
+            for (let i=0; i<uploadFileAll_list.length; i++) {
+                if (uploadFileAll_list[i]['_id'] === id) {
 
+                    // 请求删除文件接口
+                    this.$store.dispatch('requestDeleteFile', uploadFileAll_list[i]['_id']) 
+                    
+                    // 删除此对象
+                    uploadFileAll_list.splice(i, 1)
+                    this.$store.dispatch('setUploadFileAll_list', uploadFileAll_list)
+                }
+            }
         }
     },
 }

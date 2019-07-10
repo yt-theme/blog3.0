@@ -43,6 +43,8 @@ module.exports = function (obj) {
     // 文件操作
     // 上传(批量) api/file/upload
     new (require('./routes/file'))(router, mongodb_model_files, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).upload() // api/file/upload
+    // 删除 api/file/delete     
+    new (require('./routes/file'))(router, mongodb_model_files, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).delete() // api/file/delete
 
     // 建议网址 api/public/proposeWebsite
     new (require('./routes/proposeWebsite'))(router, mongodb_model_proposeWebsite).query() // api/public/proposeWebsite
