@@ -55,7 +55,7 @@ export const checkLoginState = (state, dat) => {
 }
 // 请求桌面图标
 export const requestDesktopIconList = (state, dat) => {
-    axios.post(reqUrl + '/api/requireArticleList', qs.stringify(dat)).then((res) => {
+    axios.post(reqUrl + '/api/article/queryAllById', qs.stringify(dat)).then((res) => {
 
     }).catch((err) => {
 
@@ -208,3 +208,5 @@ export const VModelSidebarPopArticleTextareaData = (state, dat ) => { state.VMod
 export const VModelSidebarPopArticleIconLabelData = (state, dat ) => { state.VModelSidebarPopArticleIconLabelData = dat }
 // model sidebarPop 类型
 export const VModelSidebarPopArticleTypeData = (state, dat ) => { state.VModelSidebarPopArticleTypeData = dat }
+// 改变桌面类型
+export const changeDesktopLayout = (state, dat ) => { state.desktopLayout = dat }

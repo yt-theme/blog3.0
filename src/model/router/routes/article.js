@@ -14,22 +14,36 @@ module.exports = class {
         let self = this
         self.router.post('/api/article/queryAllById', self.middleWare, function (req, res) {
             console.log('查询文章 =======================================>')
-            // 用户数据
-            const user_info = req.analyz_profile
-            if (user_info['analyz_stat'] === 1) {
+
+            // 用户验证结果
+            const analyz_stat = req.analyz_stat
+            const user_info   = req.analyz_profile
+
+            if (analyz_stat === 1) {
                 // 查询数据库
                 self.mongodb_model.find({
-                    'user_id': user_info['analyz_profile']['_id'],
+                    'author_id': user_info['_id'],
                 }).then((v) => {
                     console.log('查找出用户文章all =>', v)
+                    res.json({ 'stat': 1, 'msg':  'ok', 'data': v })
                 }).catch((err) => {
-                    res.json({ 'stat': 0, 'msg':  '无此用户' })
+                    res.json({ 'stat': 0, 'msg':  err })
                 })
             } else {
                 res.json({ 'stat': 0, 'msg':  '用户验证失败' })
             }
             
                 
+        })
+    }
+    // 按页码查询当前用户所有文章
+    queryPageById () {
+        let self = this
+        self.router.post('/api/article/queryPageById', self.middleWare, function (req, res) {
+            const analyz_stat = req.analyz_stat
+            if (analyz_stat === 1) {
+                
+            }
         })
     }
     // 按文章id查询文章内容

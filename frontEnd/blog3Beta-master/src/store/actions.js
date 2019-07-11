@@ -65,3 +65,5 @@ export const VModelSidebarPopArticleTextareaData = ({commit}, dat ) => { commit(
 export const VModelSidebarPopArticleIconLabelData = ({commit}, dat ) => { commit('VModelSidebarPopArticleIconLabelData', dat) }
 // model sidebarPop 类型
 export const VModelSidebarPopArticleTypeData = ({commit}, dat ) => { commit('VModelSidebarPopArticleTypeData', dat) }
+// 改变桌面类型
+export const changeDesktopLayout = ({commit}, dat ) => { commit('changeDesktopLayout', dat) }
