@@ -38,6 +38,7 @@ module.exports = (req, res, next, mongodb_model_user, TOKEN_SECRET) => {
             req.analyz_stat = 1
             req.analyz_msg = 'ok'
             req.analyz_profile = v
+            console.log('解密成功 ==============>', v)
             next()
         }).catch((err) => {
             // 解密失败则

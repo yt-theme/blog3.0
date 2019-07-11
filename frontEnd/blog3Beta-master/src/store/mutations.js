@@ -121,16 +121,48 @@ export const requestDeleteFile = (state, dat) => {
 export const submitArticle = (state, obj) => {
     const commit = obj['commit']
     const dat    = obj['dat']
+
+    const tmp_dat = {
+        'contentType': dat['contentType'] || '',
+        'h1':          dat['h1']          || '',
+        'label':       dat['label']       || '',
+        'content':     dat['content']     || '',
+        'date':        dat['date']        || '',
+        'files':       JSON.stringify(dat['files'])       || '',
+    }
+
     // 判断是新增还是编辑
     // 编辑
     if (dat['id']) {
-        axios.post(reqUrl + '/api/article/editById', qs.stringify(dat)).then((res) => {
-    
+        axios.post(reqUrl + '/api/article/editById', qs.stringify(tmp_dat)).then((res) => {
+            if (res.data.stat === 1) {
+                // 清空上传文件列表
+
+                // 清空标题 内容
+
+                // 重置标签与类型
+
+                // 关闭 sidebarPop
+            } else {
+
+            }
         })
     // 新增
     } else {
-        axios.post(reqUrl + '/api/article/createById', qs.stringify(dat)).then((res) => {
-    
+        axios.post(reqUrl + '/api/article/createById', qs.stringify(tmp_dat)).then((res) => {
+            if (res.data.stat === 1) {
+                // 清空上传文件列表
+                commit('setUploadFileAll_list', [])
+                state.curUploadFileMultiple_list = []
+                // 清空标题 内容 重置标签与类型
+                commit('clearSidebarPopData')
+                // 关闭 sidebarPop
+                commit('toggleSidebarPop', false)
+                // 通知
+                clearTimeout(state.notifyPop_timer); commit('showNotifyPop', 'Create success !!!'); setTimeout(() => { commit('closeNotifyPop') }, 3000)
+            } else {
+                clearTimeout(state.notifyPop_timer); commit('showNotifyPop', 'Create faild'); setTimeout(() => { commit('closeNotifyPop') }, 3000)
+            }
         })
     }
 }

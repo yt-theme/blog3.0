@@ -1,5 +1,5 @@
 <template>
-    <div v-if="this.$store.state.sidebarPopShow" class="sidebarPop_container">
+    <div v-if="sidebarPopShow" class="sidebarPop_container">
         <i class="close" @click="closePop"></i>
         <div class="body">
             
@@ -55,7 +55,7 @@
                         <div style="display:flex;align-items:center">
 
                             <!-- 显示上传文件列表 -->
-                            <button @click="toggleArticleUpload" class="article_upload_toggle">fileList ({{uploadFileBox_list.length}}) </button>
+                            <button @click="toggleArticleUpload" class="article_upload_toggle">fileList ({{this.$store.state.uploadFileAll_list.length}}) </button>
                             <!-- 上传文件及列表 -->
                             <div v-show="article_upload_box_show" class="article_upload_box_wrapp">
                                 <UploadBox :height="uploadBoxHeight" :file_list="uploadFileBox_list"></UploadBox>
@@ -102,6 +102,7 @@ export default {
     },
     methods: {
         closePop () {
+            this.article_upload_box_show = false
             // sidebarPop show
             this.$store.dispatch('toggleSidebarPop', false)
             // clear edit id
@@ -140,7 +141,7 @@ export default {
                     'id': this.$store.state.windowEdit_id,
                     'contentType': this.$store.state.VModelSidebarPopArticleTypeData,
                     'h1': this.$store.state.VModelSidebarPopArticleInputData,
-                    'img': this.$store.state.VModelSidebarPopArticleIconLabelData,
+                    'label': this.$store.state.VModelSidebarPopArticleIconLabelData,
                     'content': this.$store.state.VModelSidebarPopArticleTextareaData,
                     'date': Y + '-' + M + '-' + D + ' week ' + week + ' ' + h + ':' + m + ':' + s,
                     'files': this.$store.state.uploadFileAll_list
@@ -161,6 +162,10 @@ export default {
 
     },
     computed: {
+        sidebarPopShow () {
+            this.article_upload_box_show = false
+            return this.$store.state.sidebarPopShow
+        },
         uploadFileBox_list() {
             let boxFileList = this.$store.state.curUploadFileMultiple_list
             let allFileList = this.$store.state.uploadFileAll_list
@@ -233,7 +238,8 @@ export default {
             }
         }
     },
-    mounted () {
+    created () {
+        this.article_upload_box_show = false
         // 上传框高度
         this.uploadBoxHeight = (document.body.clientHeight - 354) + 'px'
         window.onresize = () => { this.uploadBoxHeight = (document.body.clientHeight - 354) + 'px' }

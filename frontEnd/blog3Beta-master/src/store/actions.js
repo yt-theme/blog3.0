@@ -55,7 +55,7 @@ export const closeNotifyPop = ({commit} ) => { commit('closeNotifyPop') }
 
 // ----------------
 
-// 设置 上传框所以文件数据
+// 设置 上传框所有文件数据
 export const setUploadFileAll_list = ({commit}, dat ) => { commit('setUploadFileAll_list', dat) }
 // model sidebarPop 标题
 export const VModelSidebarPopArticleInputData = ({commit}, dat ) => { commit('VModelSidebarPopArticleInputData', dat) }

@@ -52,28 +52,53 @@ module.exports = class {
     createById () {
         let self = this
         self.router.post('/api/article/createById', self.middleWare, function (req, res) {
-            const user_info = req.analyz_profile
-            if (user_info['analyz_stat'] === 1) {
+            
+            // 用户验证结果
+            const analyz_stat = req.analyz_stat
+            const user_info   = req.analyz_profile
+
+            if (analyz_stat === 1) {
+                const author_id   = user_info._id
+                const contentType = req.body.contentType
+                const h1          = req.body.h1
+                const content     = req.body.content
                 const label       = req.body.label
-                const author      = req.body.author
-                const create_date = req.body.create_date
-                const edit_date   = req.body.edit_date
-                const file_list   = req.body.file_list
+                const create_date = req.body.date
+                const edit_date   = req.body.date
+                const file_list   = JSON.parse(req.body.files)
+
+                // 'contentType': this.$store.state.VModelSidebarPopArticleTypeData,
+                // 'h1': this.$store.state.VModelSidebarPopArticleInputData,
+                // 'label': this.$store.state.VModelSidebarPopArticleIconLabelData,
+                // 'content': this.$store.state.VModelSidebarPopArticleTextareaData,
+                // 'date': Y + '-' + M + '-' + D + ' week ' + week + ' ' + h + ':' + m + ':' + s,
+                // 'files': this.$store.state.uploadFileAll_list
+
+                // 处理文件列表只保留需要内容
+                let tmp_file_list = []
+                for (let i=0; i<file_list.length; i++) {
+                    tmp_file_list.push({
+                        'file_name':        String(file_list[i]['file_name']       ) || '',
+                        'file_url':         String(file_list[i]['file_url']        ) || '',
+                        'file_size':        String(file_list[i]['file_size']       ) || '',
+                        'file_auth':        String(file_list[i]['file_size']       ) || '',
+                        'file_id':          String(file_list[i]['user_id']         ) || '',
+                        'file_uploadDate':  String(file_list[i]['file_uploadDate'] ) || '',
+                        'file_storageName': String(file_list[i]['file_storageName']) || '',
+                        'file_type':        String(file_list[i]['file_type']       ) || '',
+                        'file_path':        String(file_list[i]['file_path']       ) || '',
+                    })
+                }
+                    
                 self.mongodb_model.insertOne({
-                    'label':       label,
-                    'author':      author,
-                    'create_date': create_date,
-                    'edit_date':   edit_date,
-                    'file_list':   file_list,
-                    // file_list: [{
-                    //     file_name:        { type: String },
-                    //     file_storageName: { type: String },
-                    //     file_url:         { type: String },
-                    //     file_size:        { type: String },
-                    //     file_type:        { type: String },
-                    //     file_auth:        { type: String },
-                    //     user_id:          { type: String },
-                    // }]
+                    'content_type': String(contentType),
+                    'h1':           String(h1),
+                    'content':      String(content),
+                    'label':        String(label),
+                    'author_id':    String(author_id),
+                    'create_date':  String(create_date),
+                    'edit_date':    String(edit_date),
+                    'file_list':    tmp_file_list || '',
                 }).then((v) => {
                     // 返回
                     res.json({ 'stat': 1, 'msg':  'ok', 'data': v })
