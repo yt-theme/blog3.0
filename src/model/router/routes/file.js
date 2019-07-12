@@ -78,9 +78,19 @@ module.exports = class {
                         if (err) {
                             res.json({ 'stat': 0, 'msg': err })
                         } else {
-                            res.json({ 'stat': 1, 'msg': 'ok' })
+                            // 从数据库中删除
+                            self.mongodb_model.deleteOne({
+                                'id': id
+                            }).then((v) => {
+                                console.log('文件已从数据库删除 =>', v)
+                                res.json({ 'stat': 1, 'msg': 'ok' })
+                            }).catch((err) => {
+                                res.json({ 'stat': 0, 'msg': err })
+                            })
                         }
                     })
+                }).catch((err) => {
+                    res.json({ 'stat': 0, 'msg': err })
                 })
             }
         })
