@@ -73,7 +73,7 @@ class Model {
     deleteOne (query) {
         const model = this.model
         return new Promise((resolve, reject) => {
-            return model.deleteOne(query, (err, result) => {
+            return model.remove(query, (err, result) => {
                 if (err) {
                     reject(err)
                     return false

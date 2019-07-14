@@ -1,6 +1,7 @@
 const multer = require('multer')
 const uuid   = require('uuid')
 const fs     = require('fs')
+let mongoose=require('mongoose');
 
 const { SERVER_PORT, UPLOAD_DIR_NAME, UPLOAD_DIR } = require('../../../../config')
 
@@ -71,6 +72,8 @@ module.exports = class {
             const analyz_stat    = req.analyz_stat
             if (analyz_stat === 1) {
                 const id = req.body.id
+
+                // ----------------------------------------------
                 self.mongodb_model.findOne({
                     '_id': id
                 }).then((v) => {
@@ -78,20 +81,27 @@ module.exports = class {
                         if (err) {
                             res.json({ 'stat': 0, 'msg': err })
                         } else {
+                            // ----------------------------------------------
+
                             // 从数据库中删除
+                            console.log('file id =>', id)
                             self.mongodb_model.deleteOne({
-                                'id': id
+                                '_id': id
                             }).then((v) => {
                                 console.log('文件已从数据库删除 =>', v)
                                 res.json({ 'stat': 1, 'msg': 'ok' })
                             }).catch((err) => {
                                 res.json({ 'stat': 0, 'msg': err })
                             })
+                            // ----------------------------------------------
+
                         }
                     })
                 }).catch((err) => {
                     res.json({ 'stat': 0, 'msg': err })
                 })
+                // ----------------------------------------------
+
             }
         })
     }
