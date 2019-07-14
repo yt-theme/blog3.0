@@ -129,6 +129,7 @@ export default {
 
             // 进行上传文件
             this.$store.dispatch('uploadFileMultiple', formdata)
+            this.$refs.article_upload_box_fileUpload.value = ''
         },
         // 新标签打开文件链接
         openFileNewTab (url) { window.open(url, '_blank').location },

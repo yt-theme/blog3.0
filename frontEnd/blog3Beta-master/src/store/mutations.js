@@ -106,7 +106,7 @@ export const uploadFileMultiple = (state, dat) => {
 
         }
     }).catch((err) => {
-
+        console.log('file upload err =>', err)
     })
 }
 // 删除文件

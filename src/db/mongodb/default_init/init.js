@@ -1,5 +1,7 @@
 // 单独运行后 默认数据加入数据库
-const { Mongodb_model_proposeWebsite } = require('../mongodb')
+const { Mongodb_model_proposeWebsite, Mongodb_model_user } = require('../mongodb')
+// -----------------------------------------------
+
 // 建议网址
 Mongodb_model_proposeWebsite().insertMany([
     {
@@ -14,4 +16,16 @@ Mongodb_model_proposeWebsite().insertMany([
     console.log('mongodb init ========================>', v)
 }).catch((err) => {
     console.log('mongodb init err ====================>', v)
+})
+// -----------------------------------------------
+
+// 默认用户
+Mongodb_model_user().insertOne({
+    'username': 'a',
+    'password': 'a',
+    'edit_password': 'a'
+}).then((v) => {
+    console.log('user added =>', v)
+}).catch((err) => {
+    console.log('err =>', err)
 })
