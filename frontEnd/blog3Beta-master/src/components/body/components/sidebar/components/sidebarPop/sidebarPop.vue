@@ -58,7 +58,7 @@
                             <button @click="toggleArticleUpload" class="article_upload_toggle">fileList ({{this.$store.state.uploadFileAll_list.length}}) </button>
                             <!-- 上传文件及列表 -->
                             <div v-show="article_upload_box_show" class="article_upload_box_wrapp">
-                                <UploadBox :height="uploadBoxHeight" :file_list="uploadFileBox_list"></UploadBox>
+                                <UploadBox :height="uploadBoxHeight" :max_height="uploadBoxMaxHeight" :file_list="uploadFileBox_list"></UploadBox>
                             </div>
                             
                             IconLabel
@@ -97,7 +97,8 @@ export default {
             // 上传文件列表是否显示
             article_upload_box_show: false,
             // 文件上传框高度
-            uploadBoxHeight: '320px',
+            uploadBoxHeight: '50%',
+            uploadBoxMaxHeight: '450px'
         }
     },
     methods: {
@@ -125,18 +126,9 @@ export default {
                 let M = (Number(timer.getMonth()) + 1)
                 let D = timer.getDate()
                 let week = timer.getDay()
-                let h = Number(timer.getHours())
-                if (h<10) {
-                    h = '0' + h
-                }
-                let m = Number(timer.getMinutes())
-                if (m<10) {
-                    m = '0' + m
-                }
-                let s = Number(timer.getSeconds())
-                if (s<10) {
-                    s = '0' + s
-                }
+                let h = Number(timer.getHours()); if (h<10) { h = '0' + h }
+                let m = Number(timer.getMinutes()); if (m<10) { m = '0' + m }
+                let s = Number(timer.getSeconds()); if (s<10) { s = '0' + s }
                 let dat = {
                     'id': this.$store.state.windowEdit_id,
                     'contentType': this.$store.state.VModelSidebarPopArticleTypeData,

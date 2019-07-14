@@ -13,7 +13,7 @@
             </p>
         </div>
         
-        <div v-bind:style="{height: `calc(${height} - 4em - 32px)`, minHeight: 'calc(190px - 4em)'}">
+        <div v-bind:style="{height: `calc(${height} - 64px - 32px)`, minHeight: 'calc(190px - 64px)', maxHeight: max_height}">
             <ul class="article_upload_box_fileArea">
 
                 <li v-for="i in file_list_data_arr">
@@ -66,7 +66,7 @@
 <script>
 import allDelete from '@/assets/deleteWindow.svg'
 export default {
-    props: ['height', 'file_list'],
+    props: ['height', 'max_height', 'file_list'],
     data () {
         return {
             // 删除图标
