@@ -56,7 +56,9 @@ export const checkLoginState = (state, dat) => {
 // 请求桌面图标
 export const requestDesktopIconList = (state, dat) => {
     axios.post(reqUrl + '/api/article/queryAllById', qs.stringify(dat)).then((res) => {
-
+        if (res.data.stat === 1) {
+            state.desktopIconList = res.data.data
+        }
     }).catch((err) => {
 
     })
@@ -143,6 +145,10 @@ export const submitArticle = (state, obj) => {
                 // 重置标签与类型
 
                 // 关闭 sidebarPop
+
+                // 请求桌面图标
+                commit('requestDesktopIconList')
+
             } else {
 
             }

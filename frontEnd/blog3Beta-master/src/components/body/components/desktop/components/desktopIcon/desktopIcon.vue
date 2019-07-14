@@ -1,22 +1,22 @@
 <template>
-    <div v-if="this.$store.state.setDesktopLayout == 0" class="desktopIcon_container_list text_no_select" @click="addWindow(label,id)" :href="url">
+    <div v-if="this.$store.state.setDesktopLayout == 0" class="desktopIcon_container_list text_no_select" @click="addWindow(h1,id)">
         <img :src="
             img == 'normal' ? defaultImg :
                 img == 'note'  ? note :
                     img == 'important' ? important :
                         img == 'website' ? website : defaultImg
         "/>
-        <span>{{label}}</span>
+        <span>{{h1}}</span>
         <span>{{date}}</span>
     </div>
-    <div v-else-if="this.$store.state.setDesktopLayout == 1" class="desktopIcon_container text_no_select" @click="addWindow(label,id)" :href="url" :title="label + ' @ ' + date">
+    <div v-else-if="this.$store.state.setDesktopLayout == 1" class="desktopIcon_container text_no_select" @click="addWindow(h1,id)" :title="h1 + ' @ ' + date">
         <img :src="
             img == 'normal' ? defaultImg :
                 img == 'note'  ? note :
                     img == 'important' ? important :
                         img == 'website' ? website : defaultImg
         "/>
-        <span>{{label}}</span>
+        <span>{{h1}}</span>
     </div>
 </template>
 
@@ -26,7 +26,7 @@ import note from "@/assets/note.svg"
 import important from "@/assets/important.svg"
 import website from "@/assets/website.svg"
 export default {
-    props: ['label', 'img', 'url', 'id',  'date'],
+    props: ['h1', 'img', 'id',  'date'],
     data () {
         return {
             defaultImg: defaultImg,
@@ -36,7 +36,7 @@ export default {
         }
     },
     methods: {
-        addWindow (label, id) {
+        addWindow (h1, id) {
             // reset window data
             // this.$store.dispatch('addchangeWindowDataKey', id)
             // update data
@@ -45,7 +45,7 @@ export default {
 
             let obj = {
                 'component': 'window',
-                'label': label,
+                'h1': h1,
                 'id': id
             }
 
