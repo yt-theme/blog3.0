@@ -1,5 +1,5 @@
 <template>
-    <div v-if="this.$store.state.setDesktopLayout == 0" class="desktopIcon_container_list text_no_select" @click="addWindow(h1,id)">
+    <div v-if="this.$store.state.desktopLayout === 0" class="desktopIcon_container_list text_no_select" @click="addWindow(h1,id)">
         <img :src="
             img == 'normal' ? defaultImg :
                 img == 'note'  ? note :
@@ -9,7 +9,7 @@
         <span>{{h1}}</span>
         <span>{{date}}</span>
     </div>
-    <div v-else-if="this.$store.state.setDesktopLayout == 1" class="desktopIcon_container text_no_select" @click="addWindow(h1,id)" :title="h1 + ' @ ' + date">
+    <div v-else-if="this.$store.state.desktopLayout === 1" class="desktopIcon_container text_no_select" @click="addWindow(h1,id)" :title="h1 + ' @ ' + date">
         <img :src="
             img == 'normal' ? defaultImg :
                 img == 'note'  ? note :

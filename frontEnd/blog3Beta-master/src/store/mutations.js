@@ -216,3 +216,19 @@ export const VModelSidebarPopArticleIconLabelData = (state, dat ) => { state.VMo
 export const VModelSidebarPopArticleTypeData = (state, dat ) => { state.VModelSidebarPopArticleTypeData = dat }
 // 改变桌面类型
 export const changeDesktopLayout = (state, dat ) => { state.desktopLayout = dat }
+// 显示窗口
+export const addWindow = (state, obj ) => { 
+    let tag = true
+    for (let i=0;i<state.windowItem.length;i++) {
+        if (state.windowItem[i]['id'] == obj.id) {
+            tag = false
+        }
+    }
+    if (tag) {
+        state.windowItem.push({
+            'component': obj.component,
+            'label': obj.label,
+            'id': obj.id
+        })
+    }
+}

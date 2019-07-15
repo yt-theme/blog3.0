@@ -11,7 +11,7 @@ const state = {
     // 登录状态
     loginState: false,
     // 桌面布局
-    desktopLayout: 0,
+    desktopLayout: 1,
     // 设置新增 / 编辑 / 历史弹窗标题
     sidebarPoptitle: '',
     // 窗口 edit id
@@ -47,7 +47,9 @@ const state = {
     // 上传框当前编辑上传文件存储
     curUploadFileMultiple_list: [],
     // 当前所有上传框文件
-    uploadFileAll_list: []
+    uploadFileAll_list: [],
+    // 窗口数组
+    windowItem: []
 }
 
 const store = new Vuex.Store({

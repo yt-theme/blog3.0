@@ -1,9 +1,9 @@
 <template>
-    <div class="desktop_container_list" v-if="$store.state.desktopLayout == 0">{{$store.state.desktopIconList}}
+    <div class="desktop_container_list" v-if="$store.state.desktopLayout === 0">
         <DesktopIcon v-for="i in $store.state.desktopIconList" :h1="i.h1" :img="i.label" :id="i.author_id" :date="i.create_date"></DesktopIcon>
     </div>
-    <div class="desktop_container" v-else-if="$store.state.desktopLayout == 1">
-        <DesktopIcon v-for="i in $store.state.desktopIconList" :label="i.label" :img="i.label" :id="i.author_id" :date="i.create_date"></DesktopIcon>
+    <div class="desktop_container" v-else-if="$store.state.desktopLayout === 1">
+        <DesktopIcon v-for="i in $store.state.desktopIconList" :h1="i.h1" :img="i.label" :id="i.author_id" :date="i.create_date"></DesktopIcon>
     </div>
 </template>
 

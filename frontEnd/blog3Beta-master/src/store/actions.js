@@ -26,6 +26,8 @@ export const uploadFileMultiple = ({commit}, dat) => { commit('uploadFileMultipl
 export const requestDeleteFile = ({commit}, dat) => { commit('requestDeleteFile', dat) }
 // 提交文章
 export const submitArticle = ({commit}, dat) => { commit('submitArticle', { 'dat': dat, 'commit': commit }) }
+// 请求窗口内容
+export const requestWindowContent = ({commit}, dat) => { commit('requestWindowContent', dat) }
 
 // --------------------------------------------------------------------
 
@@ -67,3 +69,5 @@ export const VModelSidebarPopArticleIconLabelData = ({commit}, dat ) => { commit
 export const VModelSidebarPopArticleTypeData = ({commit}, dat ) => { commit('VModelSidebarPopArticleTypeData', dat) }
 // 改变桌面类型
 export const changeDesktopLayout = ({commit}, dat ) => { commit('changeDesktopLayout', dat) }
+// 显示窗口
+export const addWindow = ({commit}, obj ) => { commit('addWindow', obj) }
