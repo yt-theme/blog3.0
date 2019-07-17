@@ -172,6 +172,15 @@ export const submitArticle = (state, obj) => {
         })
     }
 }
+// 请求窗口内容
+export const requestWindowContent = (state, dat) => {
+    axios.post(reqUrl + '/api/article/queryContentById', qs.stringify(dat)).then((res) => {
+        if (res.data.stat === 1) {
+            state.windowData[dat['article_id']] = res.data.data
+            state.windowData = Object.assign({}, state.windowData)
+        }
+    })
+}
 
 // -------------------------------------------------
 

@@ -5,27 +5,34 @@
           <i title="close the window" @click="deleteWindow($event)"></i>
       </div>
       <div class="divBody">
-          <template v-m v-for="i in this.$store.state.windowData">
-              <div v-if="i.id == id">
+          <!-- <template v-m v-for="i in [$store.state.windowData]"> -->
+              <div v-if="$store.state.windowData[id]">
                 <div style="display: flex;justify-content:space-between;align-items:center">
-                  <span>documentID -- {{ i.id ? i.id : 'loading...' }}</span>
-                  <button class="button_edit" @click="articleToEdit('Edit -- ' + label + ' -- ' + i.id, i.id, i.data[0].h1, i.data[0].content, i.img, i.contentType)">Edit</button>
+                  <span>documentID -- {{ id ? id : 'loading...' }}</span>
+                  <button class="button_edit"
+                    @click="articleToEdit('Edit -- ' +
+                      $store.state.windowData[id].h1 + ' -- ' + id, 
+                      $store.state.windowData[id]._id, 
+                      $store.state.windowData[id].h1,
+                      $store.state.windowData[id].content,
+                      $store.state.windowData[id].label,
+                      $store.state.windowData[id].content_type)">Edit</button>
                 </div>
                 <hr/>
 <!-- type no1 -->
-                <template v-if="i.contentType == 'web'">
-                  <h3>{{i.data[0].h1}}</h3>
-                  <div class="v_html" v-html="i.data[0].content"></div>
+                <template v-if="$store.state.windowData[id].content_type == 'web'">
+                  <h3>{{$store.state.windowData[id].h1}}</h3>
+                  <div class="v_html" v-html="$store.state.windowData[id].content"></div>
                 </template>
 <!-- type no2 -->
-                <template v-if="i.contentType == 'txt'">
-                  <h1>{{i.data[0].h1}}</h1>
+                <template v-if="$store.state.windowData[id].content_type == 'txt'">
+                  <h1>{{$store.state.windowData[id].h1}}</h1>
                   <!-- <p>{{i.data[0].content}}</p> -->
-                  <textarea v-text="i.data[0].content"></textarea>
+                  <textarea v-text="$store.state.windowData[id].content"></textarea>
                 </template>
 
               </div>
-          </template>
+          <!-- </template> -->
       </div>
   </div>
 </template>

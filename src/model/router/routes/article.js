@@ -21,9 +21,14 @@ module.exports = class {
 
             if (analyz_stat === 1) {
                 // 查询数据库
-                self.mongodb_model.find({
+                self.mongodb_model.find(
+                // 查询条件
+                {
                     'author_id': user_info['_id'],
-                }).then((v) => {
+                },
+                // 查询字段
+                '_id h1 label author_id create_date'
+                ).then((v) => {
                     console.log('查找出用户文章all =>', v)
                     res.json({ 'stat': 1, 'msg':  'ok', 'data': v })
                 }).catch((err) => {
@@ -49,6 +54,22 @@ module.exports = class {
     // 按文章id查询文章内容
     queryContentById () {
         let self = this
+        self.router.post('/api/article/queryContentById', self.middleWare, function (req, res) {
+            
+            const analyz_stat = req.analyz_stat
+            const article_id  = req.body.article_id || ''
+            
+            if (analyz_stat === 1) {
+                self.mongodb_model.findOne({
+                    '_id': article_id ,
+                }).then((v) => {
+                    console.log('查找出用户文章all =>', v)
+                    res.json({ 'stat': 1, 'msg':  'ok', 'data': v })
+                }).catch((err) => {
+                    res.json({ 'stat': 0, 'msg':  err })
+                })
+            }
+        })
     }
     // 按label搜索文章
     searchByLabel () {

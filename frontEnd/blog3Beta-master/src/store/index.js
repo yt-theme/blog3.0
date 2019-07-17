@@ -49,7 +49,9 @@ const state = {
     // 当前所有上传框文件
     uploadFileAll_list: [],
     // 窗口数组
-    windowItem: []
+    windowItem: [],
+    // 窗口内容
+    windowData: []
 }
 
 const store = new Vuex.Store({

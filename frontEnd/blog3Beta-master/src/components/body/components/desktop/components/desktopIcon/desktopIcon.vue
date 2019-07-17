@@ -41,7 +41,7 @@ export default {
             // this.$store.dispatch('addchangeWindowDataKey', id)
             // update data
             // this.$store.commit('requestWindowContent', this.id)
-            this.$store.dispatch('requestWindowContent', id)
+            this.$store.dispatch('requestWindowContent', { 'article_id': id })
 
             let obj = {
                 'component': 'window',
@@ -49,7 +49,7 @@ export default {
                 'id': id
             }
 
-            // this.$store.commit('addWindow', obj)
+            // 打开窗口
             this.$store.dispatch('addWindow', obj)
         }
     }

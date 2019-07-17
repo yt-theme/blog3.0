@@ -4,7 +4,10 @@
         <Desktop></Desktop>
         <notifyPop></notifyPop>
         <Sidebar></Sidebar>
-        <component v-for="i in this.$store.state.windowItem" :is="i.component" :label="i.label" :id="i.id"></component>
+        <component v-for="i in $store.state.windowItem"
+            :is="i.component"
+            :label="i.label"
+            :id="i.id"></component>
         <ViewPop v-if="this.$store.state.viewPopShow_state" :text="this.$store.state.monitor_content" title="server monitor"></ViewPop>
     </div>
 </template>
