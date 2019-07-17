@@ -46,6 +46,7 @@
       <div v-show="uploadBoxShow" class="uploadBoxWrapp">
         <Uploadbox 
           :height="'320px'"
+          :readonly="true"
           :file_list="file_lists"></Uploadbox>
       </div>
   </div>
@@ -172,7 +173,7 @@ export default {
   border-radius: 6px;
   background-color: #113337;
   overflow: auto; /* 加上overflow鼠标离开事件源神奇不影响事件生存 */
-  box-shadow: 0 0 8px #B0B6B6;
+  box-shadow: 0 0 8px #489799;
   overflow: hidden;
 }
 .ProjectTab-container-header {
@@ -193,9 +194,11 @@ export default {
 .ProjectTab-container-header> span {
   position: relative;
   top: -3px;
-  background-color: #B0B6B7;
+  background-color: #489799;
   color: #113337;
   border-radius: 0 0 4px 4px;
+  box-shadow: 0 0 14px #489799;
+  text-shadow: 0 0 11px #B0B6B7;
   padding: 1px 23px;
 }
 .ProjectTab-container-header> i {
@@ -205,7 +208,7 @@ export default {
   width: 19px;
   height: 19px;
   border-radius: 50%;
-  background-color: #B0B6B6;
+  background-color: #489799;
   cursor: pointer;
   box-shadow: 0 0 14px #489799;
 }
@@ -219,8 +222,8 @@ export default {
   border: none;
   background-color: #113337;
   color: #B0B6B6;
-  /* text-shadow: 0 0 14px #B0B6B6; */
-  box-shadow: 0 0 3px #B0B6B6 inset;
+  text-shadow: 0 0 6px #489799;
+  /* box-shadow: 0 0 3px #B0B6B6 inset; */
   outline: none;
   border-radius: 4px;
   font-size: 16px;

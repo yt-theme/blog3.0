@@ -9,7 +9,7 @@
                 <form enctype="multipart/form-data">
                     <input @change="selectMultipleFile" v-show="false" ref="article_upload_box_fileUpload" class="article_upload_box_fileUpload" type="file" multiple="multiple"/>
                 </form>
-                <button @click="clickArticleUpload" class="article_upload_box_fileUpload_button">Upload files</button>
+                <button v-if="!readonly" @click="clickArticleUpload" class="article_upload_box_fileUpload_button">Upload files</button>
             </p>
         </div>
         
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <!-- 删除按钮 -->
-                    <img @click="deleteFile(i._id)" class="article_upload_box_delete" title="delete" :src="allDelete"/>
+                    <img v-if="!readonly" @click="deleteFile(i._id)" class="article_upload_box_delete" title="delete" :src="allDelete"/>
                 </li>
                 
             </ul>
@@ -66,7 +66,7 @@
 <script>
 import allDelete from '@/assets/deleteWindow.svg'
 export default {
-    props: ['height', 'max_height', 'file_list'],
+    props: ['height', 'max_height', 'file_list', 'readonly'],
     data () {
         return {
             // 删除图标
