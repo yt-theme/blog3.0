@@ -15,7 +15,8 @@ module.exports = class {
             console.log('登录操作 =======================================>')
             console.log('req body =>', req.body, 'req query =>', req.query)
             // 如果不存在 username 字段或为 false
-            if (!req.body.username) {  res.json({ 'stat': 0, 'msg': '无 username' }) }
+            if (!req.body.username) {  res.js
+                on({ 'stat': 0, 'msg': '无 username' }) }
             // 否则进行正常程序
             else {
                 // 查询数据库
