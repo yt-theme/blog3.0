@@ -53,7 +53,7 @@ export default {
 }
 .inputDiv {
     width: 600px;
-    height: 370px;
+    height: 383px;
     background-color: #113034;
     border-radius: 4px;
     padding: 25hpx 0;
@@ -85,7 +85,7 @@ export default {
 }
 .inputDiv_content> div> input {
     width: 100%;
-    height: 41px;
+    height: 37px;
     border: none;
     outline: none;
     border-radius: 4px;

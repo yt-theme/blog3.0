@@ -24,6 +24,7 @@ export const login = (state, obj) => {
             // 再检查登录状态
             obj['commit']('checkLoginState', true)
             // 请求桌面图标
+            obj['commit']('requestDesktopIconList')
         }
     }).catch((err) => {
         console.log('login err =>', err)
