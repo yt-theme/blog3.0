@@ -14,7 +14,7 @@
         </div>
         
         <div v-bind:style="{height: `calc(${height} - 64px - 32px)`, minHeight: 'calc(190px - 64px)', maxHeight: max_height}">
-            <ul class="article_upload_box_fileArea">
+            <ul class="article_upload_box_fileArea">{{file_list_data_arr}}
 
                 <li v-for="i in file_list_data_arr">
                     <!-- 此处显示文件地址链接 -->
@@ -83,6 +83,7 @@ export default {
                 return this.file_list
             },
             set (v) {
+                console.log('v =>', v)
                 this.file_list_data_arr = v
             }
         }

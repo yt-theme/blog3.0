@@ -1,7 +1,8 @@
 <!-- can move -->
 <template>
   <div @click="handleClick()" :style="{'z-index': zIndex}" class="ProjectTab-container window" ref="ProjectT">
-      <div @mousedown="tabHandleMouseDown($event)" class="ProjectTab-container-header text_no_select">{{label ? label : '&nbsp;'}}
+      <div @mousedown="tabHandleMouseDown($event)" class="ProjectTab-container-header text_no_select">
+          <span>{{h1 ? h1 : '&nbsp;'}}</span>
           <i title="close the window" @click="deleteWindow($event)"></i>
       </div>
       <div class="divBody">
@@ -9,14 +10,20 @@
               <div v-if="$store.state.windowData[id]">
                 <div style="display: flex;justify-content:space-between;align-items:center">
                   <span>documentID -- {{ id ? id : 'loading...' }}</span>
-                  <button class="button_edit"
-                    @click="articleToEdit('Edit -- ' +
-                      $store.state.windowData[id].h1 + ' -- ' + id, 
-                      $store.state.windowData[id]._id, 
-                      $store.state.windowData[id].h1,
-                      $store.state.windowData[id].content,
-                      $store.state.windowData[id].label,
-                      $store.state.windowData[id].content_type)">Edit</button>
+                  <span>
+                    <!-- 文件 -->
+                    <button class="button_edit"
+                      @click="showUploadBox">FileList({{$store.state.windowData[id].file_list.length}})</button>
+                    <!-- 编辑 -->
+                    <button class="button_edit"
+                      @click="articleToEdit('Edit -- ' +
+                        $store.state.windowData[id].h1 + ' -- ' + id, 
+                        $store.state.windowData[id]._id, 
+                        $store.state.windowData[id].h1,
+                        $store.state.windowData[id].content,
+                        $store.state.windowData[id].label,
+                        $store.state.windowData[id].content_type)">Edit</button>
+                  </span>
                 </div>
                 <hr/>
 <!-- type no1 -->
@@ -34,16 +41,37 @@
               </div>
           <!-- </template> -->
       </div>
+
+      <!-- 文件框 -->
+      <div v-show="uploadBoxShow" class="uploadBoxWrapp">
+        <Uploadbox 
+          :height="'320px'"
+          :file_list="file_lists"></Uploadbox>
+      </div>
   </div>
 </template>
 <script>
+import Uploadbox from '../../../public/uploadBox/uploadBox'
 export default {
-  props: ['label','id','img'],
+  props: ['h1','id','img'],
+  components: {
+    Uploadbox
+  },
+  computed: {
+    // 文件列表
+    file_lists () {
+      let self = this
+      let id = self.id
+      return self.$store.state.windowData[id].file_list
+    }
+  },
   data () {
     return {
         zIndex: 99,
         // 拖拽状态
-        dragStat: false
+        dragStat: false,
+        // 文件上传框显示
+        uploadBoxShow: false,
     }
   },
   methods: {
@@ -88,6 +116,10 @@ export default {
         // this.$store.commit('deleteWindow', this.id)
         this.$store.dispatch('deleteWindow', this.id)
     },
+    // 显示文件框
+    showUploadBox () {
+      this.uploadBoxShow = !this.uploadBoxShow
+    },
     articleToEdit: function (title, id, h1, content, img, type) {
         this.$store.dispatch('setSidebarPoptitle', title)
         // set edit id
@@ -128,6 +160,7 @@ export default {
 </script>
 <style scoped>
 .ProjectTab-container {
+  position: relative;
   display: flex;
   justify-content: center;
   padding-top: 33px;
@@ -137,10 +170,11 @@ export default {
   min-width: 600px;
   height: 50vh;
   min-height: 500px;
-  border: 3px solid #113337;
-  background-color: #489799;
+  border: 3px solid #B0B6B6;
+  border-radius: 4px;
+  background-color: #113337;
   overflow: auto; /* 加上overflow鼠标离开事件源神奇不影响事件生存 */
-  box-shadow: 0 0 14px #113337;
+  box-shadow: 0 0 11px #489799;
   overflow: hidden;
 }
 .ProjectTab-container-header {
@@ -158,12 +192,22 @@ export default {
   color: #B0B6B7;
   padding: 3px 6px;
 }
+.ProjectTab-container-header> span {
+  position: relative;
+  top: -3px;
+  background-color: #B0B6B7;
+  color: #113337;
+  border-radius: 0 0 4px 4px;
+  padding: 0.19em 1.125em;
+}
 .ProjectTab-container-header> i {
+  position: relative;
+  top: -3px;
   display: block;
-  width: 15px;
-  height: 15px;
+  width: 19px;
+  height: 19px;
   border-radius: 50%;
-  background-color: #489799;
+  background-color: #B0B6B6;
   cursor: pointer;
   box-shadow: 0 0 14px #489799;
 }
@@ -177,7 +221,8 @@ export default {
   border: none;
   background-color: #113337;
   color: #b0b4b4;
-  text-shadow: 0 0 14px #B0B6B6;
+  /* text-shadow: 0 0 14px #B0B6B6; */
+  box-shadow: 0 0 3px #B0B6B6 inset;
   outline: none;
   border-radius: 4px;
   padding: 0 11px;
@@ -202,9 +247,9 @@ export default {
   overflow: auto;
 }
 .divBody hr {
-  border: 1px groove #1C3539;
+  border: 1px groove #B0B6B6;
   margin: 6px 0;
-  box-shadow: 0 0 1px #1C3539;
+  box-shadow: 0 0 1px #B0B6B6;
 }
 /* .searchRes {
   float: left;
@@ -241,5 +286,8 @@ export default {
 }
 .player {
   margin: auto;
+}
+.uploadBoxWrapp {
+  position: absolute;
 }
 </style>

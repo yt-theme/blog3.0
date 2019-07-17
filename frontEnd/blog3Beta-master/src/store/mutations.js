@@ -236,8 +236,27 @@ export const addWindow = (state, obj ) => {
     if (tag) {
         state.windowItem.push({
             'component': obj.component,
-            'label': obj.label,
+            'h1': obj.h1,
             'id': obj.id
         })
+    }
+}
+// 关闭窗口
+export const deleteWindow = (state, dat ) => {
+    for (let i=0;i<state.windowItem.length;i++) {
+        if (state.windowItem[i]['id'] == dat) {
+            state.windowItem.splice(i, 1, '')
+        }
+    }
+    let tag = true
+    for (let i=0;i<state.windowItem.length;i++) {
+        if (state.windowItem[i] != '') {
+            tag = false
+        }
+    }
+    if (tag) {
+        state.windowData = {
+
+        }
     }
 }

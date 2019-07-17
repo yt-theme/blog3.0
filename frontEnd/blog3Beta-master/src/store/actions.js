@@ -71,3 +71,5 @@ export const VModelSidebarPopArticleTypeData = ({commit}, dat ) => { commit('VMo
 export const changeDesktopLayout = ({commit}, dat ) => { commit('changeDesktopLayout', dat) }
 // 显示窗口
 export const addWindow = ({commit}, obj ) => { commit('addWindow', obj) }
+// 关闭窗口
+export const deleteWindow = ({commit}, obj ) => { commit('deleteWindow', obj) }
