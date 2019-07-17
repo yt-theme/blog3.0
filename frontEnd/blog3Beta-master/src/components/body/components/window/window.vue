@@ -43,7 +43,7 @@
       </div>
 
       <!-- 文件框 -->
-      <div v-show="uploadBoxShow" class="uploadBoxWrapp">
+      <div v-show="uploadBoxShow" class="uploadBoxWrapp">{{file_lists}}
         <Uploadbox 
           :height="'320px'"
           :file_list="file_lists"></Uploadbox>
@@ -60,9 +60,7 @@ export default {
   computed: {
     // 文件列表
     file_lists () {
-      let self = this
-      let id = self.id
-      return self.$store.state.windowData[id].file_list
+      return this.$store.state.windowData[this.id].file_list
     }
   },
   data () {
