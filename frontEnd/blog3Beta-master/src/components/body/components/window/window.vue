@@ -25,7 +25,7 @@
                         $store.state.windowData[id].content_type)">Edit</button>
                   </span>
                 </div>
-                <hr/>
+                <!-- <hr/> -->
 <!-- type no1 -->
                 <template v-if="$store.state.windowData[id].content_type == 'web'">
                   <h3>{{$store.state.windowData[id].h1}}</h3>
@@ -43,7 +43,7 @@
       </div>
 
       <!-- 文件框 -->
-      <div v-show="uploadBoxShow" class="uploadBoxWrapp">{{file_lists}}
+      <div v-show="uploadBoxShow" class="uploadBoxWrapp">
         <Uploadbox 
           :height="'320px'"
           :file_list="file_lists"></Uploadbox>
@@ -168,11 +168,11 @@ export default {
   min-width: 600px;
   height: 50vh;
   min-height: 500px;
-  border: 3px solid #B0B6B6;
-  border-radius: 4px;
+  /* border: 3px solid #B0B6B6; */
+  border-radius: 6px;
   background-color: #113337;
   overflow: auto; /* 加上overflow鼠标离开事件源神奇不影响事件生存 */
-  box-shadow: 0 0 11px #489799;
+  box-shadow: 0 0 8px #B0B6B6;
   overflow: hidden;
 }
 .ProjectTab-container-header {
@@ -196,7 +196,7 @@ export default {
   background-color: #B0B6B7;
   color: #113337;
   border-radius: 0 0 4px 4px;
-  padding: 0.19em 1.125em;
+  padding: 1px 23px;
 }
 .ProjectTab-container-header> i {
   position: relative;
@@ -215,27 +215,17 @@ export default {
   transition: all 1s;
 }
 .button_edit {
-  height: 1.9em;
+  height: 30px;
   border: none;
   background-color: #113337;
-  color: #b0b4b4;
+  color: #B0B6B6;
   /* text-shadow: 0 0 14px #B0B6B6; */
   box-shadow: 0 0 3px #B0B6B6 inset;
   outline: none;
   border-radius: 4px;
+  font-size: 16px;
   padding: 0 11px;
   cursor: pointer;
-}
-.search> input {
-  min-width: 279px;
-  outline: none;
-  border: 0;
-  height: 2.1em;
-  padding: 0.5em;
-  background-color: #00292F;
-  color: #b0b4b4;
-  border-radius: 4px;
-  margin-bottom: 2px;
 }
 .divBody {
   width: 100%;
@@ -249,26 +239,6 @@ export default {
   margin: 6px 0;
   box-shadow: 0 0 1px #B0B6B6;
 }
-/* .searchRes {
-  float: left;
-  width: 279px;
-  height: auto;
-  max-height: 200px;
-  background: url("../../assets/bgi.jpg") center center;
-  overflow: auto;
-  border-radius: 4px;
-}
-.searchRes> ul> li {
-  margin: 0;
-  padding: 0;
-  line-height: 2em;
-  overflow: auto;
-  color: #b0b4b4;
-  padding: 0.5em;
-  cursor: pointer;
-  border-bottom: 2px solid #489799;
-  border-radius: 4px;
-} */
 .v_html {
   min-width: 100%;
   height: 100%;
@@ -287,5 +257,6 @@ export default {
 }
 .uploadBoxWrapp {
   position: absolute;
+  top: 80px;
 }
 </style>

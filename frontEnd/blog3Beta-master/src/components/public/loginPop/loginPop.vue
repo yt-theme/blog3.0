@@ -52,12 +52,8 @@ export default {
     box-shadow: 0 0 calc(200vw) #113034 inset;
 }
 .inputDiv {
-    width: 50%;
-    min-width: 300px;
-    max-width: 600px;
-    height: 50%;
-    min-height: 366px;
-    max-height: 366px;
+    width: 600px;
+    height: 370px;
     background-color: #113034;
     border-radius: 4px;
     padding: 25hpx 0;
@@ -78,7 +74,6 @@ export default {
 }
 .inputDiv_content> div {
     width: 65%;
-    margin-top: 3%;
 }
 .inputDiv_content> div:nth-child(2) {
     margin-top: 32px;
@@ -90,7 +85,7 @@ export default {
 }
 .inputDiv_content> div> input {
     width: 100%;
-    height: 2.5em;
+    height: 41px;
     border: none;
     outline: none;
     border-radius: 4px;
