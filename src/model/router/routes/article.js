@@ -1,13 +1,10 @@
-const bcrypt = require('bcrypt')
-const jwt    = require('jsonwebtoken')
-
-const { TOKEN_SECRET } = require('../../../../config')
-
+// article
 module.exports = class {
-    constructor (router, mongodb_model, middleWare) {
-        this.router        = router
-        this.mongodb_model = mongodb_model
-        this.middleWare    = middleWare ? middleWare : null
+    constructor (router, mongodb_model_article, mongodb_model_files, middleWare) {
+        this.router                = router
+        this.mongodb_model_article = mongodb_model_article
+        this.mongodb_model_files   = mongodb_model_files
+        this.middleWare            = middleWare ? middleWare : null
     }
     // 查询当前用户所有文章
     queryAllById() {
@@ -20,13 +17,13 @@ module.exports = class {
 
             if (analyz_stat === 1) {
                 // 查询数据库
-                self.mongodb_model.find(
+                self.mongodb_model_article.find(
                     // 查询条件
                     { 'author_id': user_info['_id'], },
                     // 查询字段
                     '_id h1 label author_id create_date'
                 )
-                .then((v)    => { res.json({ 'stat': 1, 'msg':  'ok', 'data': v }) })
+                .then((v) => { res.json({ 'stat': 1, 'msg':  'ok', 'data': v }) })
                 .catch((err) => { res.json({ 'stat': 0, 'msg':  err }) })
             } else { 
                 res.json({ 'stat': 0, 'msg':  '用户验证失败' })
@@ -52,10 +49,22 @@ module.exports = class {
             const article_id  = req.body.article_id || ''
             
             if (analyz_stat === 1) {
-                self.mongodb_model.findOne({
+                self.mongodb_model_article.findOne({
                     '_id': article_id ,
                 }).then((v) => {
-                    res.json({ 'stat': 1, 'msg':  'ok', 'data': v })
+                    // ---------------------------------
+                    let tmp_v = v
+                    // 查询 files id 对应的file
+                    self.mongodb_model_files.find({
+                        'article_id': article_id
+                    }).then((v1) => {
+                        console.log('v ------------ =>', v1)
+                    }).catch((err1) => {
+
+                    })
+                    // ---------------------------------
+
+                    res.json({ 'stat': 1, 'msg':  'ok', 'data': tmp_v })
                 }).catch((err) => {
                     res.json({ 'stat': 0, 'msg':  err })
                 })
@@ -86,23 +95,7 @@ module.exports = class {
                 const edit_date   = req.body.date
                 const file_list   = JSON.parse(req.body.files)
 
-                // 处理文件列表只保留需要内容
-                let tmp_file_list = []
-                for (let i=0; i<file_list.length; i++) {
-                    tmp_file_list.push({
-                        'file_name':        String(file_list[i]['file_name']       ) || '',
-                        'file_url':         String(file_list[i]['file_url']        ) || '',
-                        'file_size':        String(file_list[i]['file_size']       ) || '',
-                        'file_auth':        String(file_list[i]['file_size']       ) || '',
-                        'file_id':          String(file_list[i]['user_id']         ) || '',
-                        'file_uploadDate':  String(file_list[i]['file_uploadDate'] ) || '',
-                        'file_storageName': String(file_list[i]['file_storageName']) || '',
-                        'file_type':        String(file_list[i]['file_type']       ) || '',
-                        'file_path':        String(file_list[i]['file_path']       ) || '',
-                    })
-                }
-                    
-                self.mongodb_model.updateOne({
+                self.mongodb_model_article.updateOne({
                     "_id": article_id
                 }, { $set: {
                         'content_type': String(contentType),
@@ -112,7 +105,7 @@ module.exports = class {
                         'author_id':    String(author_id),
                         // 'create_date':  String(create_date),
                         'edit_date':    String(edit_date),
-                        'file_list':    tmp_file_list || '',
+                        'file_list':    file_list,
                     }
                 }).then((v) => {
                     console.log('edit ------------------ =>', req.body, v)
@@ -152,30 +145,7 @@ module.exports = class {
                 const edit_date   = req.body.date
                 const file_list   = JSON.parse(req.body.files)
 
-                // 'contentType': this.$store.state.VModelSidebarPopArticleTypeData,
-                // 'h1': this.$store.state.VModelSidebarPopArticleInputData,
-                // 'label': this.$store.state.VModelSidebarPopArticleIconLabelData,
-                // 'content': this.$store.state.VModelSidebarPopArticleTextareaData,
-                // 'date': Y + '-' + M + '-' + D + ' week ' + week + ' ' + h + ':' + m + ':' + s,
-                // 'files': this.$store.state.uploadFileAll_list
-
-                // 处理文件列表只保留需要内容
-                let tmp_file_list = []
-                for (let i=0; i<file_list.length; i++) {
-                    tmp_file_list.push({
-                        'file_name':        String(file_list[i]['file_name']       ) || '',
-                        'file_url':         String(file_list[i]['file_url']        ) || '',
-                        'file_size':        String(file_list[i]['file_size']       ) || '',
-                        'file_auth':        String(file_list[i]['file_size']       ) || '',
-                        'file_id':          String(file_list[i]['user_id']         ) || '',
-                        'file_uploadDate':  String(file_list[i]['file_uploadDate'] ) || '',
-                        'file_storageName': String(file_list[i]['file_storageName']) || '',
-                        'file_type':        String(file_list[i]['file_type']       ) || '',
-                        'file_path':        String(file_list[i]['file_path']       ) || '',
-                    })
-                }
-                    
-                self.mongodb_model.insertOne({
+                self.mongodb_model_article.insertOne({
                     'content_type': String(contentType),
                     'h1':           String(h1),
                     'content':      String(content),
@@ -183,14 +153,47 @@ module.exports = class {
                     'author_id':    String(author_id),
                     'create_date':  String(create_date),
                     'edit_date':    String(edit_date),
-                    'file_list':    tmp_file_list || '',
+                    'file_list':    file_list,
                 }).then((v) => {
-                    // 返回
-                    res.json({ 'stat': 1, 'msg':  'ok', 'data': v })
+                    console.log('query v ------------------------------------------- =>', v)
+                    // 将已上传文件的属性更改 article_id is_tmp
+
+                    let promise_list = []
+
+                    for (let i=0; i<file_list.length; i++) {
+                        promise_list.push(
+                            () => {
+                                return new Promise((resolve, reject) => {
+                                    mongodb_model_files.updateOne({
+                                            "_id": file_list[i]['file_id']
+                                        }, { 
+                                        $set: {
+                                            article_id: v._id,
+                                            is_tmp: false
+                                        }
+                                    }).then((v) => {
+                                        resolve(v)
+                                    }).catch((err) => {
+                                        reject(err)
+                                    })
+                                })
+                            }
+
+                        )
+                    }
+
+                    Promise.all(promise_list).then((v) => {
+                        // 返回
+                        res.json({ 'stat': 1, 'msg':  'ok', 'data': v })
+
+                    }).catch((err) => {
+                        // 返回
+                        res.json({ 'stat': 1, 'msg':  'err', 'data': err })
+                    })
                 }).catch((err) => {
-                    stat=0;  data=err;  msg = (err.code === 11000 ? '用户已被注册' : '')
+                    const msg = (err.code === 11000 ? '用户已被注册' : '')
                     // 返回
-                    res.json({ 'stat': stat, 'msg': msg, 'data':  data, })
+                    res.json({ 'stat': 0, 'msg': msg, 'data':  err, })
                 })
 
             } else {

@@ -124,7 +124,6 @@ export const requestDeleteFile = (state, dat) => {
 export const submitArticle = (state, obj) => {
     const commit = obj['commit']
     const dat    = obj['dat']
-
     const tmp_dat = {
         'id':          dat['id']          || '',
         'contentType': dat['contentType'] || '',
@@ -132,46 +131,33 @@ export const submitArticle = (state, obj) => {
         'label':       dat['label']       || '',
         'content':     dat['content']     || '',
         'date':        dat['date']        || '',
-        'files':       JSON.stringify(dat['files'])       || '',
+        'files':       JSON.stringify(dat['files'].map((v) => { return { 'file_id': v._id } } )) || [],
     }
-
+    
     // 判断是新增还是编辑
     // 编辑
     if (dat['id']) {
-        axios.post(reqUrl + '/api/article/editById', qs.stringify(tmp_dat)).then((res) => {
-            if (res.data.stat === 1) {
-                // 清空上传文件列表
-                commit('setUploadFileAll_list', [])
-                state.curUploadFileMultiple_list = []
-                // 清空标题 内容 重置标签与类型
-                commit('clearSidebarPopData')
-                // 关闭 sidebarPop
-                commit('toggleSidebarPop', false)
-                // 请求桌面图标
-                commit('requestDesktopIconList')
-                // 通知
-                clearTimeout(state.notifyPop_timer); commit('showNotifyPop', 'Edit success !!!'); setTimeout(() => { commit('closeNotifyPop') }, 3000)
-            } else {
-                clearTimeout(state.notifyPop_timer); commit('showNotifyPop', 'Edit faild'); setTimeout(() => { commit('closeNotifyPop') }, 3000)
-            }
-        })
+        axios.post(reqUrl + '/api/article/editById', qs.stringify(tmp_dat)).then((res) => { commonSubmitFunc(res, 'Edit') })
     // 新增
     } else {
-        axios.post(reqUrl + '/api/article/createById', qs.stringify(tmp_dat)).then((res) => {
-            if (res.data.stat === 1) {
-                // 清空上传文件列表
-                commit('setUploadFileAll_list', [])
-                state.curUploadFileMultiple_list = []
-                // 清空标题 内容 重置标签与类型
-                commit('clearSidebarPopData')
-                // 关闭 sidebarPop
-                commit('toggleSidebarPop', false)
-                // 通知
-                clearTimeout(state.notifyPop_timer); commit('showNotifyPop', 'Create success !!!'); setTimeout(() => { commit('closeNotifyPop') }, 3000)
-            } else {
-                clearTimeout(state.notifyPop_timer); commit('showNotifyPop', 'Create faild'); setTimeout(() => { commit('closeNotifyPop') }, 3000)
-            }
-        })
+        axios.post(reqUrl + '/api/article/createById', qs.stringify(tmp_dat)).then((res) => { commonSubmitFunc(res, 'Create') })
+    }
+
+    // 提交用公共方法
+    function commonSubmitFunc (res, createOrEditTxt) {
+        if (res.data.stat === 1) {
+            // 清空上传文件列表
+            commit('setUploadFileAll_list', [])
+            state.curUploadFileMultiple_list = []
+            // 清空标题 内容 重置标签与类型
+            commit('clearSidebarPopData')
+            // 关闭 sidebarPop
+            commit('toggleSidebarPop', false)
+            // 请求桌面图标
+            commit('requestDesktopIconList')
+            // 通知
+            clearTimeout(state.notifyPop_timer); commit('showNotifyPop', `${createOrEditTxt} success !!!`); setTimeout(() => { commit('closeNotifyPop') }, 3000)
+        } else { clearTimeout(state.notifyPop_timer); commit('showNotifyPop', `${createOrEditTxt} faild`); setTimeout(() => { commit('closeNotifyPop') }, 3000) }
     }
 }
 // 请求窗口内容

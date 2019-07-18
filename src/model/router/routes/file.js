@@ -17,10 +17,11 @@ const multerStorage = multer.diskStorage({
 const multerUploadMiddleware = multer({ 'storage': multerStorage })
 
 module.exports = class {
-    constructor (router, mongodb_model, middleWare) {
-        this.router        = router
-        this.mongodb_model = mongodb_model
-        this.middleWare    = middleWare ? middleWare : null
+    constructor (router, mongodb_model_files, mongodb_model_article, middleWare) {
+        this.router                = router
+        this.mongodb_model_files   = mongodb_model_files
+        this.mongodb_model_article = mongodb_model_article
+        this.middleWare            = middleWare ? middleWare : null
     }
     upload () {
         let self = this
@@ -54,7 +55,7 @@ module.exports = class {
                     // ---------------------------------
 
                     // 将文件对象存入 mongodb
-                    self.mongodb_model.insertMany(tmp_file_arr).then((v) => {
+                    self.mongodb_model_files.insertMany(tmp_file_arr).then((v) => {
                         res.json({ 'stat': 1, 'msg': 'ok', 'data':  v })
                     }).catch((err) => {
                         res.json({ 'stat': 0, 'msg':  '数据库存储文件失败', 'data': err })
@@ -74,7 +75,7 @@ module.exports = class {
                 const id = req.body.id
 
                 // ----------------------------------------------
-                self.mongodb_model.findOne({
+                self.mongodb_model_files.findOne({
                     '_id': id
                 }).then((v) => {
                     fs.unlink(v['file_path'], function (err) {
@@ -84,14 +85,37 @@ module.exports = class {
                             // ----------------------------------------------
 
                             // 从数据库中删除
-                            console.log('file id =>', id)
-                            self.mongodb_model.deleteOne({
-                                '_id': id
-                            }).then((v) => {
-                                console.log('文件已从数据库删除 =>', v)
-                                res.json({ 'stat': 1, 'msg': 'ok' })
+                            // 分别从 article file 中删除相应项目
+                            const promise_files = () => {
+                                return new Promise((resolve, reject) => {
+                                    self.mongodb_model_files.deleteOne({
+                                        '_id': id
+                                    }).then((v) => {
+                                        console.log('文件已从数据库删除 =>', v)
+                                        resolve({ 'stat': 1, 'msg': 'ok' })
+                                    }).catch((err) => {
+                                        reject({ 'stat': 0, 'msg': err })
+                                    })
+                                })
+                            }
+                            // const promise_article = () => {
+                            //     return new Promise((resolve, reject) => {
+                            //         self.mongodb_model_article.deleteOne({
+                            //             '_id': id
+                            //         }).then((v) => {
+                            //             console.log('文件已从数据库删除 =>', v)
+                            //             resolve({ 'stat': 1, 'msg': 'ok' })
+                            //         }).catch((err) => {
+                            //             reject({ 'stat': 0, 'msg': err })
+                            //         })
+                            //     })
+                            // }
+                            
+                            Promise.all([promise_files]).then((v) => {
+                                res.json(v)
                             }).catch((err) => {
-                                res.json({ 'stat': 0, 'msg': err })
+                                res.json(err)
+                                console.log('delete file from article files err =>', err)
                             })
                             // ----------------------------------------------
 

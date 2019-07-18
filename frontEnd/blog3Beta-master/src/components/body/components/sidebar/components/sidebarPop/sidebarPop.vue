@@ -1,5 +1,5 @@
 <template>
-    <div v-if="sidebarPopShow" class="sidebarPop_container">
+    <div v-if="sidebarPopShow" class="sidebarPop_container">{{this.$store.state.uploadFileAll_list}}
         <i class="close" @click="closePop"></i>
         <div class="body">
             
@@ -432,7 +432,7 @@ export default {
 }
 .article_main {
     width: 100%;
-    height: calc(100% - 40px);
+    height: calc(100% - 43px);
     border-radius: 4px;
     outline: none;
     color: #113337;

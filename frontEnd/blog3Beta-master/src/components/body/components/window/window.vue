@@ -47,7 +47,8 @@
       <!-- 文件框 -->
       <div v-show="uploadBoxShow" class="uploadBoxWrapp">
         <Uploadbox 
-          :height="'320px'"
+          :height="'500px'"
+          :max_height="'80vh'"
           :readonly="true"
           :file_list="file_lists"></Uploadbox>
       </div>
@@ -169,9 +170,10 @@ export default {
   position: absolute;
   left: 10px;
   /* width: 12vw; */
+  width: 30%;
   min-width: 600px;
   height: 50vh;
-  min-height: 500px;
+  min-height: 600px;
   /* border: 3px solid #B0B6B6; */
   border-radius: 6px;
   background-color: #113337;
@@ -267,5 +269,6 @@ export default {
 .uploadBoxWrapp {
   position: absolute;
   top: 80px;
+  height: 500px;
 }
 </style>
