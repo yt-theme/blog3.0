@@ -139,7 +139,6 @@ export default {
                     'files': this.$store.state.uploadFileAll_list
                 }
                 this.$store.dispatch('submitArticle', dat)
-                return false
             } else {
                 this.$store.dispatch('showNotifyPop', 'Least Input Title')
             }

@@ -126,6 +126,7 @@ export const submitArticle = (state, obj) => {
     const dat    = obj['dat']
 
     const tmp_dat = {
+        'id':          dat['id']          || '',
         'contentType': dat['contentType'] || '',
         'h1':          dat['h1']          || '',
         'label':       dat['label']       || '',
@@ -140,18 +141,18 @@ export const submitArticle = (state, obj) => {
         axios.post(reqUrl + '/api/article/editById', qs.stringify(tmp_dat)).then((res) => {
             if (res.data.stat === 1) {
                 // 清空上传文件列表
-
-                // 清空标题 内容
-
-                // 重置标签与类型
-
+                commit('setUploadFileAll_list', [])
+                state.curUploadFileMultiple_list = []
+                // 清空标题 内容 重置标签与类型
+                commit('clearSidebarPopData')
                 // 关闭 sidebarPop
-
+                commit('toggleSidebarPop', false)
                 // 请求桌面图标
                 commit('requestDesktopIconList')
-
+                // 通知
+                clearTimeout(state.notifyPop_timer); commit('showNotifyPop', 'Edit success !!!'); setTimeout(() => { commit('closeNotifyPop') }, 3000)
             } else {
-
+                clearTimeout(state.notifyPop_timer); commit('showNotifyPop', 'Edit faild'); setTimeout(() => { commit('closeNotifyPop') }, 3000)
             }
         })
     // 新增

@@ -19,7 +19,7 @@ class Model {
                     return false
                 } else {
                     resolve(result)
-                    console.log('增加成功 =>', result)
+                    // console.log('增加成功 =>', result)
                 }
             })
         })
@@ -33,21 +33,21 @@ class Model {
                     return false
                 } else {
                     resolve(result)
-                    console.log('增加成功 =>', result)
+                    // console.log('增加成功 =>', result)
                 }
             })
         })
     }
-    updateOne (query, update) {
+    updateOne (query, update, options) {
         const model = this.model
         return new Promise((resolve, reject) => {
-            return model.updateOne(query, update, (err, result) => {
+            return model.updateOne(query, update, options, (err, result) => {
                 if (err) {
                     reject(err)
                     return false
                 } else if (result["ok"] === 1) {
                     resolve(result)
-                    console.log('更新 =>', result)
+                    // console.log('更新 =>', result)
                 } else {
                     reject(err)
                 }
@@ -63,7 +63,7 @@ class Model {
                     return false
                 } else if (result["ok"] === 1) {
                     resolve(result)
-                    console.log('更新 =>', result)
+                    // console.log('更新 =>', result)
                 } else {
                     reject(err)
                 }
@@ -79,7 +79,7 @@ class Model {
                     return false
                 } else if (result["ok"] === 1) {
                     resolve(result)
-                    console.log('删除 =>', result)
+                    // console.log('删除 =>', result)
                 } else {
                     reject(err)
                 }
@@ -95,7 +95,7 @@ class Model {
                     return false
                 } else if (result["ok"] === 1) {
                     resolve(result)
-                    console.log('删除 =>', result)
+                    // console.log('删除 =>', result)
                 } else {
                     reject(err)
                 }
@@ -111,7 +111,7 @@ class Model {
                     return false
                 } else {
                     resolve(result)
-                    console.log('查找 =>', result)
+                    // console.log('查找 =>', result)
                 }
             })
         })
@@ -125,7 +125,7 @@ class Model {
                     return false
                 } else {
                     resolve(result)
-                    console.log('查找 =>', result)
+                    // console.log('查找 =>', result)
                 }
             })
         })
