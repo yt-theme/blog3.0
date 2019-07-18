@@ -73,3 +73,8 @@ export const changeDesktopLayout = ({commit}, dat ) => { commit('changeDesktopLa
 export const addWindow = ({commit}, obj ) => { commit('addWindow', obj) }
 // 关闭窗口
 export const deleteWindow = ({commit}, obj ) => { commit('deleteWindow', obj) }
+// sidebarPop 加数据
+export const addDataSidebarPopEditArticle = ({commit}, dat ) => { 
+    commit('addDataSidebarPopEditArticle', dat)
+    commit('set_windowEdit_id', dat.id)
+}

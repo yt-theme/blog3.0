@@ -47,7 +47,7 @@
 
                 <!-- --------------------------------------------------------------- -->
 
-                <!-- new article -->
+                <!-- new / edit article -->
                 <div class="article" v-if="this.$store.state.sidebarPopData['id'] == 'new'">
 
                     <div class="article_header">

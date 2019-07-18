@@ -16,13 +16,15 @@
                       @click="showUploadBox">FileList({{$store.state.windowData[id].file_list.length}})</button>
                     <!-- 编辑 -->
                     <button class="button_edit"
-                      @click="articleToEdit('Edit -- ' +
-                        $store.state.windowData[id].h1 + ' -- ' + id, 
+                      @click="articleToEdit(
+                        'Edit -- ' + $store.state.windowData[id].h1 + ' -- ' + id, 
                         $store.state.windowData[id]._id, 
                         $store.state.windowData[id].h1,
                         $store.state.windowData[id].content,
                         $store.state.windowData[id].label,
-                        $store.state.windowData[id].content_type)">Edit</button>
+                        $store.state.windowData[id].content_type,
+                        file_lists
+                      )">Edit</button>
                   </span>
                 </div>
                 <!-- <hr/> -->
@@ -119,7 +121,7 @@ export default {
     showUploadBox () {
       this.uploadBoxShow = !this.uploadBoxShow
     },
-    articleToEdit: function (title, id, h1, content, img, type) {
+    articleToEdit: function (title, id, h1, content, img, type, file_lists) {
         this.$store.dispatch('setSidebarPoptitle', title)
         // set edit id
         if (id) {
@@ -133,12 +135,13 @@ export default {
           'h1': h1,
           'img': img,
           'type': type,
-          'content': content
+          'content': content,
+          'file_list': file_lists
         }
         // add Data to sidebarPop
         this.$store.dispatch('addDataSidebarPopEditArticle', dat)
 
-        let popType = 'num1'
+        let popType = 'new'
         // request data
         this.$store.dispatch('requestSidebarPopContent', popType)
         // set id
@@ -220,8 +223,8 @@ export default {
 .button_edit {
   height: 30px;
   border: none;
-  background-color: #113337;
-  color: #B0B6B6;
+  background-color: #489799;
+  color: #113337;
   text-shadow: 0 0 6px #489799;
   /* box-shadow: 0 0 3px #B0B6B6 inset; */
   outline: none;
@@ -229,6 +232,9 @@ export default {
   font-size: 16px;
   padding: 0 11px;
   cursor: pointer;
+}
+.button_edit:hover {
+  text-shadow: 0 0 14px #B0B6B7;
 }
 .divBody {
   width: 100%;

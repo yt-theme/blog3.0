@@ -261,3 +261,11 @@ export const deleteWindow = (state, dat ) => {
         }
     }
 }
+// sidebarPop 加数据
+export const addDataSidebarPopEditArticle = (state, dat ) => {
+    state.VModelSidebarPopArticleInputData = dat.h1
+    state.VModelSidebarPopArticleTextareaData = dat.content
+    state.VModelSidebarPopArticleIconLabelData = dat.img
+    state.VModelSidebarPopArticleTypeData = dat.type
+    state.uploadFileAll_list = dat.file_list
+}
