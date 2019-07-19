@@ -58,7 +58,7 @@ module.exports = class {
                     self.mongodb_model_files.find({
                         'article_id': article_id
                     }).then((v1) => {
-                        console.log('v ------------ =>', v1)
++                        console.log('v ------------ =>', v1)
                     }).catch((err1) => {
 
                     })
