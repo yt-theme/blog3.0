@@ -161,6 +161,7 @@ module.exports = class {
                     let promise_list = []
 
                     for (let i=0; i<file_list.length; i++) {
+                        console.log(`file_list[i]['file_id'] ------------------- =>`, file_list[i]['file_id'])
                         promise_list.push(
                             () => {
                                 return new Promise((resolve, reject) => {
