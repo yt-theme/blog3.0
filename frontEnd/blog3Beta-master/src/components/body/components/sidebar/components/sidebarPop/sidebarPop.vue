@@ -1,5 +1,5 @@
 <template>
-    <div v-if="sidebarPopShow" class="sidebarPop_container">{{this.$store.state.uploadFileAll_list}}
+    <div v-if="sidebarPopShow" class="sidebarPop_container">
         <i class="close" @click="closePop"></i>
         <div class="body">
             

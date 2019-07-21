@@ -47,6 +47,7 @@ module.exports = class {
                             'file_type':        req_files[i]['mimetype'],
                             'file_url':         `${UPLOAD_DIR_NAME}${req_files[i]['path'].split(UPLOAD_DIR_NAME).pop()}`,
                             'file_path':        req_files[i]['path'],
+                            'article_id':       '',
                             'user_id':          analyz_profile['_id'],
                             'is_tmp':           true
                         })
@@ -86,18 +87,18 @@ module.exports = class {
 
                             // 从数据库中删除
                             // 分别从 article file 中删除相应项目
-                            const promise_files = () => {
-                                return new Promise((resolve, reject) => {
+                            // const promise_files = () => {
+                            //     return new Promise((resolve, reject) => {
                                     self.mongodb_model_files.deleteOne({
                                         '_id': id
                                     }).then((v) => {
                                         console.log('文件已从数据库删除 =>', v)
-                                        resolve({ 'stat': 1, 'msg': 'ok' })
+                                        res.json({ 'stat': 1, 'msg': 'ok' })
                                     }).catch((err) => {
-                                        reject({ 'stat': 0, 'msg': err })
+                                        res.json({ 'stat': 0, 'msg': err })
                                     })
-                                })
-                            }
+                            //     })
+                            // }
                             // const promise_article = () => {
                             //     return new Promise((resolve, reject) => {
                             //         self.mongodb_model_article.deleteOne({
@@ -111,12 +112,13 @@ module.exports = class {
                             //     })
                             // }
                             
-                            Promise.all([promise_files]).then((v) => {
-                                res.json(v)
-                            }).catch((err) => {
-                                res.json(err)
-                                console.log('delete file from article files err =>', err)
-                            })
+                            // Promise.all([promise_files, promise_article]).then((v) => {
+                            //     console.log('v ------------------------- =>', v)
+                            //     res.json(v)
+                            // }).catch((err) => {
+                            //     res.json(err)
+                            //     console.log('delete file from article files err =>', err)
+                            // })
                             // ----------------------------------------------
 
                         }

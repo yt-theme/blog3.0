@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <!-- 删除按钮 -->
-                    <img v-if="!readonly" @click="deleteFile(i._id)" class="article_upload_box_delete" title="delete" :src="allDelete"/>
+                    <img v-if="!readonly" @click="deleteFile(i.file_id)" class="article_upload_box_delete" title="delete" :src="allDelete"/>
                 </li>
                 
             </ul>
@@ -140,10 +140,10 @@ export default {
             let uploadFileAll_list = this.$store.state.uploadFileAll_list
             console.log('uploadFileAll_list', uploadFileAll_list)
             for (let i=0; i<uploadFileAll_list.length; i++) {
-                if (uploadFileAll_list[i]['_id'] === id) {
+                if (uploadFileAll_list[i]['file_id'] === id) {
 
                     // 请求删除文件接口
-                    this.$store.dispatch('requestDeleteFile', uploadFileAll_list[i]['_id']) 
+                    this.$store.dispatch('requestDeleteFile', uploadFileAll_list[i]['file_id']) 
                     
                     // 删除此对象
                     uploadFileAll_list.splice(i, 1)

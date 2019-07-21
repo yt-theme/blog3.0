@@ -52,19 +52,36 @@ module.exports = class {
                 self.mongodb_model_article.findOne({
                     '_id': article_id ,
                 }).then((v) => {
+
+                    // 查询结果对象
+                    let tmp_obj = {
+                        '_id':          v['id'],
+                        'content_type': v['content_type'],
+                        'h1':           v['h1'],
+                        'content':      v['content'],
+                        'label':        v['label'],
+                        'author_id':    v['author_id'],
+                        'create_date':  v['create_date'],
+                        'edit_date':    v['edit_date'],
+                        'file_list':    []
+                    }
+
                     // ---------------------------------
-                    let tmp_v = v
                     // 查询 files id 对应的file
                     self.mongodb_model_files.find({
                         'article_id': article_id
                     }).then((v1) => {
-+                        console.log('v ------------ =>', v1)
-                    }).catch((err1) => {
+                        
+                        tmp_obj['file_list'] = v1
 
+                        console.log('v1 ------------ =>', v1)
+                        res.json({ 'stat': 1, 'msg':  'ok', 'data': tmp_obj })
+                    }).catch((err1) => {
+                        res.json({ 'stat': 0, 'msg':  'err', 'data': err1 })
                     })
                     // ---------------------------------
 
-                    res.json({ 'stat': 1, 'msg':  'ok', 'data': tmp_v })
+                    
                 }).catch((err) => {
                     res.json({ 'stat': 0, 'msg':  err })
                 })
@@ -108,9 +125,32 @@ module.exports = class {
                         'file_list':    file_list,
                     }
                 }).then((v) => {
-                    console.log('edit ------------------ =>', req.body, v)
-                    // 返回
-                    res.json({ 'stat': 1, 'msg':  'ok', 'data': v })
+                    console.log('edit ------------------ =>', v, file_list)
+
+                    // ---------------------------------------------
+
+                    // / 将已上传文件的属性更改 article_id is_tmp
+                    Promise.all(file_list.map((ite) => {
+                        self.mongodb_model_files.updateOne(
+                            {
+                                "_id": ite['file_id']
+                            },
+                            { $set: {
+                                article_id: article_id,
+                                is_tmp: false
+                            }}
+                        )
+                    })).then((v) => {
+                        console.log('promise.all -------------- =>', v)
+                        // 返回
+                        res.json({ 'stat': 1, 'msg':  'ok', 'data': v })
+
+                    }).catch((err) => {
+                        // 返回
+                        res.json({ 'stat': 1, 'msg':  '文件表处理失败', 'data': err })
+                    })
+
+                    // ---------------------------------------------
                 }).catch((err) => {
                     stat=0;  data=err;  msg = (err.code === 11000 ? '用户已被注册' : '')
                     // 返回
@@ -155,41 +195,25 @@ module.exports = class {
                     'edit_date':    String(edit_date),
                     'file_list':    file_list,
                 }).then((v) => {
-                    console.log('query v ------------------------------------------- =>', v)
+
                     // 将已上传文件的属性更改 article_id is_tmp
-
-                    let promise_list = []
-
-                    for (let i=0; i<file_list.length; i++) {
-                        console.log(`file_list[i]['file_id'] ------------------- =>`, file_list[i]['file_id'])
-                        promise_list.push(
-                            () => {
-                                return new Promise((resolve, reject) => {
-                                    mongodb_model_files.updateOne({
-                                            "_id": file_list[i]['file_id']
-                                        }, { 
-                                        $set: {
-                                            article_id: v._id,
-                                            is_tmp: false
-                                        }
-                                    }).then((v) => {
-                                        resolve(v)
-                                    }).catch((err) => {
-                                        reject(err)
-                                    })
-                                })
-                            }
-
+                    Promise.all(file_list.map((ite) => {
+                        self.mongodb_model_files.updateOne(
+                            {
+                                "_id": ite['file_id']
+                            },
+                            { $set: {
+                                article_id: v._id,
+                                is_tmp: false
+                            }}
                         )
-                    }
-
-                    Promise.all(promise_list).then((v) => {
+                    })).then((v) => {
                         // 返回
                         res.json({ 'stat': 1, 'msg':  'ok', 'data': v })
 
                     }).catch((err) => {
                         // 返回
-                        res.json({ 'stat': 1, 'msg':  'err', 'data': err })
+                        res.json({ 'stat': 1, 'msg':  '文件表处理失败', 'data': err })
                     })
                 }).catch((err) => {
                     const msg = (err.code === 11000 ? '用户已被注册' : '')
