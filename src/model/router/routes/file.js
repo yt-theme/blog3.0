@@ -79,6 +79,7 @@ module.exports = class {
                 self.mongodb_model_files.findOne({
                     '_id': id
                 }).then((v) => {
+                    console.log('delete --------------- =>', v)
                     fs.unlink(v['file_path'], function (err) {
                         if (err) {
                             res.json({ 'stat': 0, 'msg': err })

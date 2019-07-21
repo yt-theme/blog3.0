@@ -37,11 +37,11 @@
                     <td>Date</td>
                     <td>Id</td>
                     </tr>
-                    <tr v-for="i in this.$store.state.sidebarPopData['content']">
-                    <td>{{i.label}}</td>
-                    <td>{{i.date}}</td>
-                    <td>{{i.id}}</td>
-                    <td><button @click='sidebarPopHistoryDelete(i.id, i.type)'>Del</button></td>
+                    <tr v-for="i in $store.state.desktopIconList">
+                    <td>{{i.h1}}</td>
+                    <td>{{i.create_date}}</td>
+                    <td>{{i._id}}</td>
+                    <td><button @click='sidebarPopHistoryDelete(i._id, i.label)'>Del</button></td>
                     </tr>
                 </table>
 
@@ -144,7 +144,7 @@ export default {
             }
         },
         sidebarPopHistoryDelete (id, type) {
-            this.$store.dispatch('sidebarPopHistoryDelete', {id: id, type: type})
+            this.$store.dispatch('deleteArticle', {id: id, type: type})
         },
         // 显示隐藏文件上传列表
         toggleArticleUpload () {

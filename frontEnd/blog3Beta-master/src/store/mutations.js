@@ -77,8 +77,10 @@ export const requestSidebarWebsiteList = (state, dat) => {
     })
 }
 // 请求 sidebarPop 历史
-export const requestSidebarPopHistory = (state, dat) => {
+export const requestSidebarPopHistory = (state, commit) => {
     state.sidebarPopData.id = 'history'
+    // 请求所有桌面图标
+    commit('requestDesktopIconList')
 }
 // 检查sidebarPop密码
 export const checkSidebarPopEditPassword = (state, dat) => {
@@ -166,6 +168,17 @@ export const requestWindowContent = (state, dat) => {
         if (res.data.stat === 1) {
             state.windowData[dat['article_id']] = res.data.data
             state.windowData = Object.assign({}, state.windowData)
+        }
+    })
+}
+// 删除文章
+export const deleteArticle = (state, obj) => {
+    const dat    = obj['dat']
+    const commit = obj['commit']
+    axios.post(reqUrl + '/api/article/deleteById', qs.stringify(dat)).then((res) => {
+        if (res.data.stat === 1) {
+            // 刷新历史数据
+            commit('requestDesktopIconList')
         }
     })
 }

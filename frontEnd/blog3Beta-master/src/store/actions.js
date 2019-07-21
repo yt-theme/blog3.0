@@ -12,7 +12,7 @@ export const requestSidebarWebsiteList = ({commit}, dat) => { commit('requestSid
 export const requestSidebarPopContent = ({commit}, dat) => {
     // 请求历史
     if (dat === 'history') {
-        commit('requestSidebarPopHistory', dat)
+        commit('requestSidebarPopHistory', commit)
     // 新增
     } else if (dat === 'new') {
         commit('setSidebarPopContentIsNew')
@@ -28,6 +28,8 @@ export const requestDeleteFile = ({commit}, dat) => { commit('requestDeleteFile'
 export const submitArticle = ({commit}, dat) => { commit('submitArticle', { 'dat': dat, 'commit': commit }) }
 // 请求窗口内容
 export const requestWindowContent = ({commit}, dat) => { commit('requestWindowContent', dat) }
+// 删除文章
+export const deleteArticle = ({commit}, dat) => { commit('deleteArticle', {'dat': dat, 'commit': commit}) }
 
 // --------------------------------------------------------------------
 

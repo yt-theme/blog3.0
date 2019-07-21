@@ -164,7 +164,31 @@ module.exports = class {
     }
     // 按文章id删除文章
     deleteById () {
+        let self = this
+        self.router.post('/api/article/deleteById', self.middleWare, function (req, res) {
+            // 用户验证结果
+            const analyz_stat = req.analyz_stat
+            const user_info   = req.analyz_profile
 
+            if (analyz_stat === 1) {
+                const author_id  = user_info._id
+                const article_id = req.body.id
+
+                self.mongodb_model_article.deleteOne({
+                    "_id": article_id
+                }).then((v) => {
+
+                    // 将文章下文件变成临时文件
+
+                    res.json({ 'stat': 1, 'msg': 'ok', 'data': v })
+                }).catch((err) => {
+                    res.json({ 'stat': 0, 'msg': err })
+                })
+
+            } else {
+                res.json({ 'stat': 0, 'msg': '用户验证失败' })
+            }
+        })
     }
     // 按用户id创建文章
     createById () {

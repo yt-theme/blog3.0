@@ -41,6 +41,8 @@ export default {
             if (id='new') {
                 this.$store.dispatch('clearSidebarPopData')
                 return false
+            } else if (id='history') {
+                return false
             }
         }
     },
