@@ -101,6 +101,7 @@ export const uploadFileMultiple = (state, dat) => {
             state.curUploadFileMultiple_list = res.data.data
             for (let i=0; i<state.curUploadFileMultiple_list.length; i++) {
                 state.curUploadFileMultiple_list[i]['file_url'] = reqUrl + '/' + state.curUploadFileMultiple_list[i]['file_url']
+                console.log(`state.curUploadFileMultiple_list[i]['file_url'] =>`, state.curUploadFileMultiple_list[i]['file_url'])
             }
             // 通知
             dat['commit']('showNotifyPop', `upload ${state.curUploadFileMultiple_list.length} files success`)
@@ -167,7 +168,11 @@ export const requestWindowContent = (state, dat) => {
     axios.post(reqUrl + '/api/article/queryContentById', qs.stringify(dat)).then((res) => {
         if (res.data.stat === 1) {
             state.windowData[dat['article_id']] = res.data.data
-            state.windowData = Object.assign({}, state.windowData)
+            let tmp_data = Object.assign({}, state.windowData)
+            for (let i=0; i<tmp_data.length; i++) {
+                tmp_data[dat['article_id']][i].file_url = reqUrl + '/' + tmp_data[dat['article_id']][i].file_url
+            }
+            state.windowData[dat['article_id']] = tmp_data
         }
     })
 }
@@ -205,6 +210,8 @@ export const clearSidebarPopData = (state) => {
     state.VModelSidebarPopArticleTextareaData = ''
     state.VModelSidebarPopArticleIconLabelData = 'normal'
     state.VModelSidebarPopArticleTypeData = 'web'
+    state.uploadFileAll_list = []
+    state.curUploadFileMultiple_list = []
 }
 // 设置 sidebarPop 为新增
 export const setSidebarPopContentIsNew = (state) => {

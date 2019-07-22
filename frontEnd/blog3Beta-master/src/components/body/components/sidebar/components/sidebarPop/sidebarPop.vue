@@ -108,6 +108,8 @@ export default {
             this.$store.dispatch('toggleSidebarPop', false)
             // clear edit id
             this.$store.dispatch('set_windowEdit_id', '')
+            // 清空文件框内容
+            this.$store.dispatch('clearSidebarPopData', '')
         },
         setSidebarPopEditPassword () {
             this.$store.dispatch('setSidebarPopEditPassword')

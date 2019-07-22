@@ -179,8 +179,21 @@ module.exports = class {
                 }).then((v) => {
 
                     // 将文章下文件变成临时文件
+                    self.mongodb_model_files.updateMany(
+                        {
+                            "article_id": article_id
+                        },
+                        { $set: {
+                            article_id: '',
+                            is_tmp: true
+                        }}
+                    ).then((v1) => {
+                        res.json({ 'stat': 1, 'msg': 'ok', 'data': v1 })
 
-                    res.json({ 'stat': 1, 'msg': 'ok', 'data': v })
+                    }).catch((err1) => {
+                        res.json({ 'stat': 0, 'msg': err1 })
+                    })
+
                 }).catch((err) => {
                     res.json({ 'stat': 0, 'msg': err })
                 })
