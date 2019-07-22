@@ -1,47 +1,43 @@
 <!-- can move -->
 <template>
-  <div @click="handleClick()" :style="{'z-index': zIndex}" class="ProjectTab-container window" ref="ProjectT">
-      <div @mousedown="tabHandleMouseDown($event)" class="ProjectTab-container-header text_no_select">
+  <div @click="handleClick()" :style="{'z-index': zIndex}" class="window-container window" ref="ProjectT">
+      <div @mousedown="tabHandleMouseDown($event)" class="window-container-header text_no_select">
           <span>{{h1 ? h1 : '&nbsp;'}}</span>
           <i title="close the window" @click="deleteWindow($event)"></i>
       </div>
       <div class="divBody">
-          <!-- <template v-m v-for="i in [$store.state.windowData]"> -->
-              <div v-if="$store.state.windowData[id]">
-                <div style="display: flex;justify-content:space-between;align-items:center">
-                  <span>documentID -- {{ id ? id : 'loading...' }}</span>
-                  <span>
-                    <!-- 文件 -->
-                    <button class="button_edit"
-                      @click="showUploadBox">FileList({{$store.state.windowData[id].file_list.length}})</button>
-                    <!-- 编辑 -->
-                    <button class="button_edit"
-                      @click="articleToEdit(
-                        'Edit -- ' + $store.state.windowData[id].h1 + ' -- ' + id, 
-                        $store.state.windowData[id]._id, 
-                        $store.state.windowData[id].h1,
-                        $store.state.windowData[id].content,
-                        $store.state.windowData[id].label,
-                        $store.state.windowData[id].content_type,
-                        file_lists
-                      )">Edit</button>
-                  </span>
-                </div>
-                <!-- <hr/> -->
+          <div v-if="$store.state.windowData[id]">
+            <div style="display: flex;justify-content:space-between;align-items:center">
+              <span>documentID -- {{ id ? id : 'loading...' }}</span>
+              <span>
+                <!-- 文件 -->
+                <button class="button_edit"
+                  @click="showUploadBox">FileList({{$store.state.windowData[id] ? $store.state.windowData[id].file_list.length : 0}})</button>
+                <!-- 编辑 -->
+                <button class="button_edit"
+                  @click="articleToEdit(
+                    'Edit -- ' + $store.state.windowData[id].h1 + ' -- ' + id, 
+                    $store.state.windowData[id]._id, 
+                    $store.state.windowData[id].h1,
+                    $store.state.windowData[id].content,
+                    $store.state.windowData[id].label,
+                    $store.state.windowData[id].content_type,
+                    file_lists
+                  )">Edit</button>
+              </span>
+            </div>
 <!-- type no1 -->
-                <template v-if="$store.state.windowData[id].content_type == 'web'">
-                  <h3>{{$store.state.windowData[id].h1}}</h3>
-                  <div class="v_html" v-html="$store.state.windowData[id].content"></div>
-                </template>
+            <template v-if="$store.state.windowData[id].content_type == 'web'">
+              <h3>{{$store.state.windowData[id].h1}}</h3>
+              <div class="v_html" v-html="$store.state.windowData[id].content"></div>
+            </template>
 <!-- type no2 -->
-                <template v-if="$store.state.windowData[id].content_type == 'txt'">
-                  <h1>{{$store.state.windowData[id].h1}}</h1>
-                  <!-- <p>{{i.data[0].content}}</p> -->
-                  <textarea v-text="$store.state.windowData[id].content"></textarea>
-                </template>
+            <template v-if="$store.state.windowData[id].content_type == 'txt'">
+              <h1>{{$store.state.windowData[id].h1}}</h1>
+              <textarea v-text="$store.state.windowData[id].content"></textarea>
+            </template>
 
-              </div>
-          <!-- </template> -->
+          </div>
       </div>
 
       <!-- 文件框 -->
@@ -64,7 +60,7 @@ export default {
   computed: {
     // 文件列表
     file_lists () {
-      return this.$store.state.windowData[this.id].file_list
+      return this.$store.state.windowData[this.id] ? this.$store.state.windowData[this.id].file_list : []
     }
   },
   data () {
@@ -162,7 +158,7 @@ export default {
 }
 </script>
 <style scoped>
-.ProjectTab-container {
+.window-container {
   position: relative;
   display: flex;
   justify-content: center;
@@ -181,7 +177,7 @@ export default {
   box-shadow: 0 0 8px #489799;
   overflow: hidden;
 }
-.ProjectTab-container-header {
+.window-container-header {
   position: absolute;
   top: 0;
   left: 0;
@@ -196,7 +192,7 @@ export default {
   color: #B0B6B7;
   padding: 3px 6px;
 }
-.ProjectTab-container-header> span {
+.window-container-header> span {
   position: relative;
   top: -3px;
   background-color: #489799;
@@ -206,7 +202,7 @@ export default {
   text-shadow: 0 0 11px #B0B6B7;
   padding: 1px 23px;
 }
-.ProjectTab-container-header> i {
+.window-container-header> i {
   position: relative;
   top: -3px;
   display: block;
@@ -217,7 +213,7 @@ export default {
   cursor: pointer;
   box-shadow: 0 0 14px #489799;
 }
-.ProjectTab-container-header> i:hover {
+.window-container-header> i:hover {
   box-shadow: 0 0 14px #bb7570;
   background-color: #bb7570;
   transition: all 1s;

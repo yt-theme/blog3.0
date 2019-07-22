@@ -30,6 +30,8 @@ export const submitArticle = ({commit}, dat) => { commit('submitArticle', { 'dat
 export const requestWindowContent = ({commit}, dat) => { commit('requestWindowContent', dat) }
 // 删除文章
 export const deleteArticle = ({commit}, dat) => { commit('deleteArticle', {'dat': dat, 'commit': commit}) }
+// 請求側欄文件列表
+export const requestSidebarUploadBox_dataList = ({commit}, dat) => { commit('requestSidebarUploadBox_dataList', dat) }
 
 // --------------------------------------------------------------------
 

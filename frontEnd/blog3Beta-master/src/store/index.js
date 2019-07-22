@@ -51,7 +51,9 @@ const state = {
     // 窗口数组
     windowItem: [],
     // 窗口内容
-    windowData: []
+    windowData: [],
+    // 側欄文件列表
+    sidebarUploadBox_dataList: []
 }
 
 const store = new Vuex.Store({

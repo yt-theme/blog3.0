@@ -167,12 +167,12 @@ export const submitArticle = (state, obj) => {
 export const requestWindowContent = (state, dat) => {
     axios.post(reqUrl + '/api/article/queryContentById', qs.stringify(dat)).then((res) => {
         if (res.data.stat === 1) {
-            state.windowData[dat['article_id']] = res.data.data
-            let tmp_data = Object.assign({}, state.windowData)
-            for (let i=0; i<tmp_data.length; i++) {
-                tmp_data[dat['article_id']][i].file_url = reqUrl + '/' + tmp_data[dat['article_id']][i].file_url
+            let tmp_data = JSON.parse(JSON.stringify(res.data.data))
+            for (let i=0; i<tmp_data.file_list.length; i++) {
+                tmp_data.file_list[i].file_url = reqUrl + '/' + tmp_data.file_list[i].file_url
             }
             state.windowData[dat['article_id']] = tmp_data
+            state.windowData = Object.assign({}, state.windowData)
         }
     })
 }
@@ -184,6 +184,19 @@ export const deleteArticle = (state, obj) => {
         if (res.data.stat === 1) {
             // 刷新历史数据
             commit('requestDesktopIconList')
+        }
+    })
+}
+// 請求側欄文件列表
+export const requestSidebarUploadBox_dataList = (state, dat) => {
+    
+    axios.post(reqUrl + '/api/file/queryTmpAll', qs.stringify(dat)).then((res) => {
+        if (res.data.stat === 1) {
+            let tmp_data = JSON.parse(JSON.stringify(res.data.data))
+            for (let i=0; i<tmp_data.length; i++) {
+                tmp_data[i].file_url = reqUrl + '/' + tmp_data[i].file_url
+            }
+            state.sidebarUploadBox_dataList = tmp_data
         }
     })
 }
@@ -239,6 +252,7 @@ export const addWindow = (state, obj ) => {
     for (let i=0;i<state.windowItem.length;i++) {
         if (state.windowItem[i]['id'] == obj.id) {
             tag = false
+            break
         }
     }
     if (tag) {

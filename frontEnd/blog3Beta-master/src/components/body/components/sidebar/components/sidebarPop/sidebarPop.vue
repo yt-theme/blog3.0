@@ -1,5 +1,5 @@
 <template>
-    <div v-if="sidebarPopShow" class="sidebarPop_container">
+    <div v-if="sidebarPopShow" class="sidebarPop_container">{{$store.state.windowItem}}
         <i class="close" @click="closePop"></i>
         <div class="body">
             

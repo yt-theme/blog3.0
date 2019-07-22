@@ -5,7 +5,7 @@
           <i title="close the window" @click="deleteWindow($event)"></i>
       </div>
       <div class="divBody">
-          <template v-m v-for="i in this.$store.state.windowData">
+          <template v-for="i in this.$store.state.windowData">
               <div v-if="i.id == id">
                 <div style="display: flex;justify-content:space-between;align-items:center">
                   <span>documentID -- {{ i.id ? i.id : 'loading...' }}</span>

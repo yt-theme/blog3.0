@@ -23,6 +23,25 @@ module.exports = class {
         this.mongodb_model_article = mongodb_model_article
         this.middleWare            = middleWare ? middleWare : null
     }
+    // 查詢所有臨時文件
+    queryTmpAll () {
+        let self = this
+        self.router.post('/api/file/queryTmpAll', self.middleWare, multerUploadMiddleware.any(), function (req, res) {
+            const analyz_stat    = req.analyz_stat
+            const analyz_msg     = req.analyz_msg
+            if (analyz_stat === 1) {
+                self.mongodb_model_files.find({
+                    'is_tmp': true
+                }).then((v) => {
+                    res.json({ 'stat': 1, 'msg': 'ok', 'data':  v })
+                }).catch((err) => {
+                    res.json({ 'stat': 0, 'msg':  'err', 'data': err })
+                })
+            } else {
+                res.json({ 'stat': 0, 'msg':  analyz_msg || 'err' })
+            }
+        })
+    }
     upload () {
         let self = this
         self.router.post('/api/file/upload', self.middleWare, multerUploadMiddleware.any(), function (req, res) {

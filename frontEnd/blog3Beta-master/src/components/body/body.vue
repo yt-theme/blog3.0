@@ -8,7 +8,7 @@
             :is="i.component"
             :h1="i.h1"
             :id="i.id"></component>
-        <ViewPop v-if="this.$store.state.viewPopShow_state" :text="this.$store.state.monitor_content" title="server monitor"></ViewPop>
+        <ViewPop v-if="$store.state.viewPopShow_state" :text="$store.state.monitor_content" title="server monitor"></ViewPop>
     </div>
 </template>
 

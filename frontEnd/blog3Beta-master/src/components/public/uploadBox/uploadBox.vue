@@ -1,6 +1,6 @@
 <template>
     <!-- 上传文件及列表 -->
-    <div class="article_upload_box" >
+    <div class="article_upload_box" style="box-shadow: 0 0 8px #B0B6B6;">
         <!-- file search upload -->
         <div class="article_upload_box_fileSearch_wrapp">
             <input v-model="searchVal" placeholder="Search file" class="article_upload_box_fileSearch"/>
@@ -164,7 +164,6 @@ export default {
     max-width: 999px;
     min-height: 190px;
     background-color: #113337;
-    box-shadow: 0 0 8px #B0B6B6;
     border-radius: 4px;
 }
 .article_upload_box> div:nth-child(2) {
