@@ -1,5 +1,5 @@
 <template>
-    <div v-if="sidebarPopShow" class="sidebarPop_container">{{$store.state.windowItem}}
+    <div v-if="sidebarPopShow" class="sidebarPop_container">
         <i class="close" @click="closePop"></i>
         <div class="body">
             
@@ -287,6 +287,7 @@ export default {
     text-shadow: 0 0 14px #B0B6B6;
 }
 .body> h1 {
+    font-size: 31px;
     margin: 0 20px;
 }
 .table_head {
