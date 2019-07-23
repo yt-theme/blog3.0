@@ -56,7 +56,7 @@ export const checkLoginState = (state, dat) => {
 }
 // 请求桌面图标
 export const requestDesktopIconList = (state, dat) => {
-    axios.post(reqUrl + '/api/article/queryAllById', qs.stringify(dat)).then((res) => {
+    axios.post(reqUrl + '/api/article/queryAllById', qs.stringify(dat || { 'label_search': 'All', 'h1_search': '' })).then((res) => {
         if (res.data.stat === 1) {
             state.desktopIconList = res.data.data
         }
