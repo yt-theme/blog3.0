@@ -23,7 +23,7 @@ export const checkSidebarPopEditPassword = ({commit}, dat) => { commit('checkSid
 // 上传文件
 export const uploadFileMultiple = ({commit}, dat) => { commit('uploadFileMultiple', { 'dat': dat, 'commit': commit }) }
 // 删除文件
-export const requestDeleteFile = ({commit}, dat) => { commit('requestDeleteFile', dat) }
+export const requestDeleteFile = ({commit}, dat) => { commit('requestDeleteFile', { 'dat': dat, 'commit': commit }) }
 // 提交文章
 export const submitArticle = ({commit}, dat) => { commit('submitArticle', { 'dat': dat, 'commit': commit }) }
 // 请求窗口内容

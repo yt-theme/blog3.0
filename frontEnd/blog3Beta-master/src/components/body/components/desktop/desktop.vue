@@ -14,7 +14,7 @@ export default {
         DesktopIcon
     },
     mounted () {
-        this.$store.commit('requestDesktopIconList')
+        this.$store.commit('requestDesktopIconList', { 'label_search': 'All', 'h1_search': '' })
     }
 }
 </script>

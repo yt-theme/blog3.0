@@ -105,6 +105,8 @@ export const uploadFileMultiple = (state, dat) => {
             }
             // 通知
             dat['commit']('showNotifyPop', `upload ${state.curUploadFileMultiple_list.length} files success`)
+            // sidebar file list
+            dat['commit']('requestSidebarUploadBox_dataList')
             // 关闭通知
             clearTimeout(state.notifyPop_timer); state.notifyPop_timer = setTimeout(() => { dat['commit']('closeNotifyPop') }, 3000)
 
@@ -116,11 +118,14 @@ export const uploadFileMultiple = (state, dat) => {
     })
 }
 // 删除文件
-export const requestDeleteFile = (state, dat) => {
+export const requestDeleteFile = (state, obj) => {
+    const dat    = obj['dat']
+    const commit = obj['commit']
     axios.post(reqUrl + '/api/file/delete', qs.stringify({
         'id': dat
     })).then((res) => {
-
+        // sidebar file list
+        commit('requestSidebarUploadBox_dataList')
     })
 }
 // 提交文章
@@ -158,6 +163,8 @@ export const submitArticle = (state, obj) => {
             commit('toggleSidebarPop', false)
             // 请求桌面图标
             commit('requestDesktopIconList')
+            // sidebar file list
+            commit('requestSidebarUploadBox_dataList')
             // 通知
             clearTimeout(state.notifyPop_timer); commit('showNotifyPop', `${createOrEditTxt} success !!!`); setTimeout(() => { commit('closeNotifyPop') }, 3000)
         } else { clearTimeout(state.notifyPop_timer); commit('showNotifyPop', `${createOrEditTxt} faild`); setTimeout(() => { commit('closeNotifyPop') }, 3000) }
@@ -196,6 +203,7 @@ export const requestSidebarUploadBox_dataList = (state, dat) => {
             for (let i=0; i<tmp_data.length; i++) {
                 tmp_data[i].file_url = reqUrl + '/' + tmp_data[i].file_url
             }
+
             state.sidebarUploadBox_dataList = tmp_data
         }
     })

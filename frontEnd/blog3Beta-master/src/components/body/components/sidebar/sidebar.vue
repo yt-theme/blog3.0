@@ -13,6 +13,7 @@
                 :height="'50vh'"
                 :max_height="'80vh'"
                 :readonly="false"
+                :is_private_mode="true"
                 :file_list="$store.state.sidebarUploadBox_dataList"></Uploadbox>
         </div>
         <div class="sidebarIcon_list">

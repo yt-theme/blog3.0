@@ -53,7 +53,14 @@
                         </div>
                     </div>
                     <!-- 删除按钮 -->
-                    <img v-if="!readonly" @click="deleteFile(i._id)" class="article_upload_box_delete" title="delete" :src="allDelete"/>
+                    <!-- 组件模式 -->
+                    <template v-if="is_private_mode === false">
+                        <img v-if="!readonly" @click="deleteFile(i._id)" class="article_upload_box_delete" title="delete" :src="allDelete"/>
+                    </template>
+                    <!-- 专有模式 -->
+                    <template v-if="is_private_mode">
+                        <img v-if="!readonly" @click="deleteFile_private(i._id)" class="article_upload_box_delete" title="delete" :src="allDelete"/>
+                    </template>
                 </li>
                 
             </ul>
@@ -66,7 +73,13 @@
 <script>
 import allDelete from '@/assets/deleteWindow.svg'
 export default {
-    props: ['height', 'max_height', 'file_list', 'readonly'],
+    props: {
+        'height':          { default: '100px' },
+        'max_height':      { default: '100px' },
+        'file_list':       { default: [] },
+        'readonly':        { default: false },
+        'is_private_mode': { default: false }
+    },
     data () {
         return {
             // 删除图标
@@ -134,11 +147,28 @@ export default {
         },
         // 新标签打开文件链接
         openFileNewTab (url) { window.open(url, '_blank').location },
-        // 删除
+        // 用于子组件删除
         deleteFile (id) {
             // 先从列表中删除文件对象 uploadFileAll_list
             let uploadFileAll_list = []
             this.$store.state.uploadFileAll_list.forEach((ite) => { uploadFileAll_list.push(ite) })
+            for (let i=0; i<uploadFileAll_list.length; i++) {
+                if (uploadFileAll_list[i]['_id'] === id) {
+
+                    // 请求删除文件接口
+                    this.$store.dispatch('requestDeleteFile', uploadFileAll_list[i]['_id']) 
+                    
+                    // 删除此对象
+                    uploadFileAll_list.splice(i, 1)
+                    this.$store.dispatch('setUploadFileAll_list', uploadFileAll_list)
+                }
+            }
+        },
+        // 用于专有方式删除
+        deleteFile_private (id) {
+            // 先从列表中删除文件对象 uploadFileAll_list
+            let uploadFileAll_list = []
+            this.$store.state.sidebarUploadBox_dataList.forEach((ite) => { uploadFileAll_list.push(ite) })
             for (let i=0; i<uploadFileAll_list.length; i++) {
                 if (uploadFileAll_list[i]['_id'] === id) {
 

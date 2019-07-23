@@ -14,12 +14,22 @@ module.exports = class {
             // 用户验证结果
             const analyz_stat = req.analyz_stat
             const user_info   = req.analyz_profile
+            // 搜索字段
+            const h1_search    = String(req.body.h1_search) || ''
+            const label_search = req.body.label_search === 'All' ? '' : req.body.label_search
 
             if (analyz_stat === 1) {
                 // 查询数据库
                 self.mongodb_model_article.find(
                     // 查询条件
-                    { 'author_id': user_info['_id'], },
+                    { 
+                        'author_id': user_info['_id'],
+                        $and: [
+                            { $or: [ { 'h1': new RegExp(h1_search, 'i') } ] },
+                            { $or: [ { 'label': new RegExp(label_search, 'i') } ] }
+                        ]
+                        
+                    },
                     // 查询字段
                     '_id h1 label author_id create_date'
                 )

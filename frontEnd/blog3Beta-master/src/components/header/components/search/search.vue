@@ -30,21 +30,21 @@ export default {
         },
         inputKeyUp(e) {
             let dat = {
-                'type': this.search_type_data,
-                'input': this.search_input_data
+                'label_search': this.search_type_data,
+                'h1_search':    this.search_input_data
             }
             setTimeout(
-                () => {this.$store.dispatch('request_search', dat)}
+                () => {this.$store.dispatch('requestDesktopIconList', dat)}
             , 0)
         },
         clearAll() {
             let dat = {
-                'type': 'All',
-                'input': ''
+                'label_search': 'All',
+                'h1_search': ''
             }
             this.search_type_data = 'All'
             this.search_input_data = ''
-            this.$store.dispatch('request_search', dat)
+            this.$store.dispatch('requestDesktopIconList', dat)
         }
     },
     mounted() {
