@@ -14,8 +14,6 @@
         </div>
         
         <div v-bind:style="{height: `calc(${height} - 64px - 32px)`, minHeight: 'calc(190px - 64px)', maxHeight: max_height}">
-        {{file_list_data_arr}}
-
             <ul class="article_upload_box_fileArea">
 
                 <li v-for="i in file_list_data_arr">
@@ -151,54 +149,40 @@ export default {
         openFileNewTab (url) { window.open(url, '_blank').location },
         // 用于子组件删除
         deleteFile (id) {
-            // 先从列表中删除文件对象 uploadFileAll_list
-            alert(1)
-            let uploadFileAll_list = []
+            // 先从列表中删除文件对象 tmp_uploadFile_list
+            let tmp_uploadFile_list = []
             this.$store.state.uploadFileAll_list.forEach((ite) => { 
-                uploadFileAll_list.push(ite)
+                tmp_uploadFile_list.push(ite)
             })
-                    console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
 
-            alert(2)
-            for (let i=0; i<uploadFileAll_list.length; i++) {
-                if (uploadFileAll_list[i]['_id'] === id) {
-            console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
-
-            alert(3)
+            for (let i=0; i<tmp_uploadFile_list.length; i++) {
+                if (tmp_uploadFile_list[i]['_id'] === id) {
                     // 请求删除文件接口
-                    this.$store.dispatch('requestDeleteFile', uploadFileAll_list[i]['_id'])
-            console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
-            alert(4)
+                    this.$store.dispatch('requestDeleteFile', tmp_uploadFile_list[i]['_id'])
 
                     // 删除此对象
-                    uploadFileAll_list.splice(i, 1)
-            console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)            
-            alert(5)
-                    this.$store.dispatch('setUploadFileAll_list', uploadFileAll_list)
-            console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
-            alert(6)
+                    tmp_uploadFile_list.splice(i, 1)
+                    this.$store.dispatch('setUploadFileAll_list', tmp_uploadFile_list)
                     console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
 
                     break
-            console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
-            alert(4)
                 }
             }
         },
         // 用于专有方式删除
         deleteFile_private (id) {
             // 先从列表中删除文件对象 uploadFileAll_list
-            let uploadFileAll_list = []
-            this.$store.state.sidebarUploadBox_dataList.forEach((ite) => { uploadFileAll_list.push(ite) })
-            for (let i=0; i<uploadFileAll_list.length; i++) {
-                if (uploadFileAll_list[i]['_id'] === id) {
+            let tmp_uploadFile_list = []
+            this.$store.state.sidebarUploadBox_dataList.forEach((ite) => { tmp_uploadFile_list.push(ite) })
+            for (let i=0; i<tmp_uploadFile_list.length; i++) {
+                if (tmp_uploadFile_list[i]['_id'] === id) {
 
                     // 请求删除文件接口
-                    this.$store.dispatch('requestDeleteFile', uploadFileAll_list[i]['_id']) 
+                    this.$store.dispatch('requestDeleteFile', tmp_uploadFile_list[i]['_id']) 
                     
                     // 删除此对象
-                    uploadFileAll_list.splice(i, 1)
-                    this.$store.dispatch('setUploadFileAll_list', uploadFileAll_list)
+                    tmp_uploadFile_list.splice(i, 1)
+                    this.$store.dispatch('setUploadFileAll_list', tmp_uploadFile_list)
 
                     break
                 }
