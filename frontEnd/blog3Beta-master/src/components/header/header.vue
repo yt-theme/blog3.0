@@ -38,9 +38,11 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(204, 209, 210, 0.999);
-    border-bottom: 2px solid #489799;
-    box-shadow: 0 0 6px #489799;
+    /* background-color: rgba(204, 209, 210, 0.999); */
+    /* background-color: #113236; */
+    background-color: rgba(176,182,182,0.3);
+    /* border-bottom: 2px solid #489799; */
+    /* box-shadow: 0 0 6px #489799; */
     min-height: 33px;
     max-height: 51px;
     padding: 0 6px;

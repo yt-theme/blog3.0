@@ -24,7 +24,7 @@ export default {
 }
 .menuSection_container:hover {
     text-shadow: 0 0 14px #666;
-    box-shadow: 0 0 9px #999;
+    /* box-shadow: 0 0 9px #999; */
     background-color: #f9f8f7;
 }
 </style>

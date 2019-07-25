@@ -214,7 +214,7 @@ export default {
 .article_upload_box .article_upload_box_fileSearch {
     width: 100%;
     height: 30px;
-    background-color: #B0B6B6;
+    background-color: #ddd;
     border-radius: 4px;
     border: 0;
     padding: 0 11px;
@@ -311,10 +311,11 @@ export default {
 .article_upload_box_fileUpload_button {
     width: 100%;
     height: 30px;
-    background-color: #bb7570;
+    background-color: #489799;
     border: 0;
     border-radius: 4px;
     color: #113236;
     margin-top: 8px;
+    cursor: pointer;
 }
 </style>

@@ -67,11 +67,13 @@ export default {
     align-items: center;
 }
 .weather, .notifyArea_num, .notifyArea_timer {
-    background-color: #f9f8f7;
+    background-color: #113336;
     border-radius: 4px;
-    box-shadow: 0 0 0.5px #999;
-    text-shadow: 0 0 0.5px #f9f8f7;
+    box-shadow: 0 0 6px #489799;
+    border: 2px solid #489799;
+    text-shadow: 0 0 5px #000;
     margin-left: 6px;
+    color: #ddd;
     padding: 0 6px;
     cursor: default;
 }

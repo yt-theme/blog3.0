@@ -35,8 +35,9 @@ export default {
     justify-content: space-between;
     align-items: center;
     border-radius: 4px;
-    background-color: #666;
-    box-shadow: 0 0 3px #B0B6B6 inset; 
+    background-color: #113336;
+    border: 2px solid #489799;
+    box-shadow: 0 0 6px #489799; 
     /* padding: 0 6px; */
     padding: 4px 0;
 }

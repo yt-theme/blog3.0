@@ -59,8 +59,8 @@ export default {
 <style>
 @keyframes desktopIconShadow {
     0% {box-shadow: 0 0 7px #113337;background-color: #113034; border-radius: 4px;}
-    15% {box-shadow: 0 0 27px #B0B6B6;background-color: #113034; border-radius: 4px;}
-    25% {box-shadow: 0 0 27px #B0B6B6;background-color: #113034; border-radius: 4px;}
+    15% {box-shadow: 0 0 27px #dfdfdf;background-color: #113034; border-radius: 4px;}
+    25% {box-shadow: 0 0 27px #dfdfdf;background-color: #113034; border-radius: 4px;}
     50% {box-shadow: 0 0 27px #B0B6B6; background-color: #113034; border-radius: 4px;}
     100% {box-shadow: 0 0 7px #113337;background-color: #113034; border-radius: 4px;}
 }
@@ -71,7 +71,7 @@ export default {
     align-items: center;
     width: 130px;
     height: 135px;
-    color: #B0B6B6;
+    color: #dfdfdf;
     outline: none;
     text-decoration: none;
     border-radius: 4px;
@@ -93,7 +93,7 @@ export default {
     align-items: center;
     width: 33px;
     height: 33px;
-    color: #B0B6B6;
+    color: #dfdfdf;
     outline: none;
     text-decoration: none;
     border-radius: 4px;
@@ -103,7 +103,7 @@ export default {
     cursor: pointer;
 }
 .desktopIcon_container_list> span {
-    text-shadow: 0 0 14px #B0B6B6;
+    text-shadow: 0 0 14px #dfdfdf;
 }
 .desktopIcon_container_list> span:nth-child(2) {
     min-width: 220px;
@@ -125,7 +125,7 @@ export default {
     margin-top: 14.1px;
 }
 .desktopIcon_container> span {
-    text-shadow: 0 0 14px #B0B6B6;
+    text-shadow: 0 0 14px #dfdfdf;
     text-align: center;
     margin-bottom: 11px;
     padding: 0 6px;

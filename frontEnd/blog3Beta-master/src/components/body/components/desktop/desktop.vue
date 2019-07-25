@@ -5,7 +5,7 @@
     <div class="desktop_container" v-else-if="$store.state.desktopLayout === 1">
         <DesktopIcon v-for="i in $store.state.desktopIconList" :h1="i.h1" :img="i.label" :id="i._id" :date="i.create_date"></DesktopIcon>
         <!-- 填充 -->
-        <div style="width: 100%;height:10px;"></div>
+        <div style="width: 100%;height:1px;"></div>
     </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
     height: calc(100vh - 53px);
     border-radius: 4px;
     background-color: rgba(176,182,182,0.3);
-    padding: 10px;
+    /* padding: 10px; */
     margin-left: 10px;
     overflow: auto;
 }

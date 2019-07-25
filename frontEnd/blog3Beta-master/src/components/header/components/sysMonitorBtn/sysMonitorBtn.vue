@@ -29,9 +29,11 @@ export default {
     justify-content: space-between;
     align-items: center;
     border-radius: 4px;
-    color: #B0B6B6;
-    background-color: #666;
-    box-shadow: 0 0 3px #B0B6B6 inset;
+    color: #ddd;
+    background-color: #113336;
+    border: 2px solid #489799;
+    box-shadow: 0 0 6px #489799;
+    text-shadow: 0 0 5px #000;
     margin-right: 6px;
     padding: 0 6px;
     cursor: default;

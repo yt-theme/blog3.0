@@ -103,7 +103,7 @@ export default {
     animation: sidebarListShadow 1s infinite;
 }
 .sidebar_container> div> ul> li> a {
-    color: #B0B6B6;
+    color: #ddd;
     text-shadow: 0 0 5px #000;
     padding: 0 1.8em;
 }
