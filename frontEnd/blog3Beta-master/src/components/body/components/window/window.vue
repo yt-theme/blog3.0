@@ -207,7 +207,7 @@ export default {
   color: #113337;
   border-radius: 0 0 4px 4px;
   box-shadow: 0 0 14px #489799;
-  text-shadow: 0 0 11px #B0B6B7;
+  text-shadow: 0 0 6px #ddd;
   padding: 1px 2em;
 }
 .window-container-header> i {
@@ -269,7 +269,6 @@ export default {
   min-width: 600px;
   height: calc(100% - 30px);
   background-color: rgba(0, 0, 0, 0);
-  color: #f1f2f1;
   text-shadow: 0 0 14px #333;
   line-height: 1.8125;
   color: #dfdfdf;

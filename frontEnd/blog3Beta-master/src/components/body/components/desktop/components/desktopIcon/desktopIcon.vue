@@ -69,8 +69,8 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 130px;
-    height: 135px;
+    width: 135px;
+    height: 140px;
     color: #dfdfdf;
     outline: none;
     text-decoration: none;
@@ -128,6 +128,7 @@ export default {
     text-shadow: 0 0 14px #dfdfdf;
     text-align: center;
     margin-bottom: 11px;
-    padding: 0 6px;
+    font-size: 14px;
+    padding: 1px 6px;
 }
 </style>
