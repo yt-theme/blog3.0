@@ -94,7 +94,17 @@ export const checkSidebarPopEditPassword = (state, dat) => {
 }
 // 上传文件
 export const uploadFileMultiple = (state, dat) => {
-    const config = { headers: { 'Content-Type': 'multipart/form-data' } } 
+    const config = {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        // 文件上传进度
+        onUploadProgress: (progressEvent) => {
+            let progress = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
+            // 通知
+            dat['commit']('showNotifyPop', `upload progress ${progress} `)
+            // sidebar file list
+            dat['commit']('requestSidebarUploadBox_dataList')
+        }
+    } 
     axios.post(reqUrl + '/api/file/upload', dat['dat'], config).then((res) => {
         console.log('fileUpload =>', res)
         if (res.data.stat === 1) {
