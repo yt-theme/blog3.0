@@ -76,6 +76,7 @@ export default {
     text-decoration: none;
     border-radius: 4px;
     box-shadow: 0 0 120px #113034 inset, 0 0 6px #489799;
+    border: 2px solid #489799;
     margin: 10px;
     cursor: pointer;
 }

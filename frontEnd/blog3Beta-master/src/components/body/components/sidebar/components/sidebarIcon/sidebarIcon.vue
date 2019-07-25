@@ -14,10 +14,11 @@ export default {
 <style scoped>
     @keyframes sidebarIconShadow {
         0% {box-shadow: 0 0 27px #113337 inset,0 0 0px #113337 inset;}
-        25% {box-shadow: 0 0 27px #113337 inset,0 0 100px #ebd15f inset;}
+        /* 25% {box-shadow: 0 0 27px #113337 inset,0 0 100px #ebd15f inset;} */
         50% {box-shadow: 0 0 27px #B0B6B6 inset,0 0 27px #29814b inset;}
-        75% {box-shadow: 0 0 27px #B0B6B6 inset,0 0 100px #e78e3b inset;}
-        100% {box-shadow: 0 0 27px #113337 inset,0 0 0px #e44439 inset;}
+        100% {box-shadow: 0 0 27px #113337 inset,0 0 0px #113337 inset;}
+        /* 75% {box-shadow: 0 0 27px #B0B6B6 inset,0 0 100px #e78e3b inset;} */
+        /* 100% {box-shadow: 0 0 27px #113337 inset,0 0 0px #e44439 inset;} */
     }
     .sidebarIcon_container {
         display: flex;
@@ -28,9 +29,10 @@ export default {
         height: 30px;
         outline: none;
         border-radius: 4px;
-        box-shadow: 0 0 60px #113236 inset;
-        margin-right: 10px;
-        margin-top: 10px;
+        box-shadow: 0 0 120px #113034 inset, 0 0 3px #489799;
+        border: 2px solid #489799;
+        margin-right: 11px;
+        margin-top: 11px;
         padding: 0 1em;
     }
     .sidebarIcon_container:hover {

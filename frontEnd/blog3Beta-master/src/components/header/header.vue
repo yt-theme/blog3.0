@@ -39,6 +39,8 @@ export default {
     justify-content: space-between;
     align-items: center;
     background-color: rgba(204, 209, 210, 0.999);
+    border-bottom: 2px solid #489799;
+    box-shadow: 0 0 6px #489799;
     min-height: 33px;
     max-height: 51px;
     padding: 0 6px;

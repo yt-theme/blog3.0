@@ -8,7 +8,7 @@
       <div class="divBody">
           <div v-if="$store.state.windowData[id]">
             <div style="display: flex;justify-content:space-between;align-items:center">
-              <span>documentID -- {{ id ? id : 'loading...' }}</span>
+              <span class="docu_id">ID {{ id ? id : 'loading...' }}</span>
               <span>
                 <!-- 文件 -->
                 <button class="button_edit"
@@ -28,13 +28,13 @@
             </div>
 <!-- type no1 -->
             <template v-if="$store.state.windowData[id].content_type == 'web'">
-              <h3>{{$store.state.windowData[id].h1}}</h3>
+              <!-- <h3>{{$store.state.windowData[id].h1}}</h3> -->
               <div class="v_html" v-html="$store.state.windowData[id].content"></div>
             </template>
 <!-- type no2 -->
             <template v-if="$store.state.windowData[id].content_type == 'txt'">
-              <h1>{{$store.state.windowData[id].h1}}</h1>
-              <textarea v-text="$store.state.windowData[id].content"></textarea>
+              <!-- <h1>{{$store.state.windowData[id].h1}}</h1> -->
+              <textarea ref="windowTextarea" @scroll="windowTextareaScroll($event)" v-text="$store.state.windowData[id].content"></textarea>
             </template>
 
           </div>
@@ -150,10 +150,17 @@ export default {
 
         // close this window
         this.$store.dispatch('deleteWindow', this.id)
+    },
+    // textarea鼠标滚动事件
+    windowTextareaScroll (e) {
+
+    },
+    scrollBar () {
+
     }
   },
   created () {
-
+    this.scrollBar()
   }
 }
 </script>
@@ -166,7 +173,7 @@ export default {
   position: absolute;
   left: 10px;
   /* width: 12vw; */
-  width: 30%;
+  /* width: 30%; */
   min-width: 600px;
   height: 50vh;
   min-height: 600px;
@@ -174,7 +181,8 @@ export default {
   border-radius: 6px;
   background-color: #113337;
   overflow: auto; /* 加上overflow鼠标离开事件源神奇不影响事件生存 */
-  box-shadow: 0 0 8px #489799;
+  box-shadow: 0 0 6px #489799;
+  border: 2px solid #489799;
   overflow: hidden;
 }
 .window-container-header {
@@ -185,7 +193,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  min-height: 29px;
+  /* min-height: 29px; */
   background-color: #113337;
   cursor: move;
   text-align: center;
@@ -200,14 +208,14 @@ export default {
   border-radius: 0 0 4px 4px;
   box-shadow: 0 0 14px #489799;
   text-shadow: 0 0 11px #B0B6B7;
-  padding: 1px 23px;
+  padding: 1px 2em;
 }
 .window-container-header> i {
   position: relative;
-  top: -3px;
+  /* top: -3px; */
   display: block;
-  width: 19px;
-  height: 19px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background-color: #489799;
   cursor: pointer;
@@ -218,12 +226,18 @@ export default {
   background-color: #bb7570;
   transition: all 1s;
 }
+.docu_id {
+  color: #489799;
+  text-shadow: 0 0 3px #000;
+  font-weight: bold;
+}
 .button_edit {
   height: 30px;
   border: none;
-  background-color: #489799;
-  color: #113337;
-  text-shadow: 0 0 6px #489799;
+  background-color: #113337;
+  color: #489799;
+  text-shadow: 0 0 3px #000;
+  font-weight: bold;
   /* box-shadow: 0 0 3px #B0B6B6 inset; */
   outline: none;
   border-radius: 4px;
@@ -232,7 +246,7 @@ export default {
   cursor: pointer;
 }
 .button_edit:hover {
-  text-shadow: 0 0 14px #B0B6B7;
+  text-shadow: 0 0 14px #f1f3f1;
 }
 .divBody {
   width: 100%;
@@ -241,23 +255,32 @@ export default {
   padding: 0 6px;
   overflow: auto;
 }
+.divBody> div {
+  height: 100%;
+  padding-bottom: 8px;
+}
 .divBody hr {
   border: 1px groove #B0B6B6;
   margin: 6px 0;
   box-shadow: 0 0 1px #B0B6B6;
 }
-.v_html {
-  min-width: 100%;
-  height: 100%;
-}
 .divBody textarea {
-  min-width: 700px;
-  height: 370px;
+  display: inline-block;
+  min-width: 600px;
+  height: calc(100% - 30px);
   background-color: rgba(0, 0, 0, 0);
   color: #f1f2f1;
   text-shadow: 0 0 14px #333;
+  line-height: 1.8125;
+  color: #dfdfdf;
   border: none;
   resize: none;
+  /* overflow: hidden; */
+}
+.divBody .v_html {
+  min-width: 600px;
+  height: calc(100% - 30px);
+  color: #dfdfdf;
 }
 .player {
   margin: auto;

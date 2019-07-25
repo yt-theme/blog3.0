@@ -8,8 +8,9 @@
                 <li @click="showPopAction('num3')"><a>New Note</a></li>
                 <li @click="showPopAction('num4')"><a>Note History</a></li> -->
             </ul>
+            
             <Uploadbox
-                style="margin-top: 34px;box-shadow: 0"
+                style="margin-top: 11px;box-shadow: 0 0 120px #113034 inset, 0 0 6px #489799;border: 2px solid #489799;"
                 :height="'50vh'"
                 :max_height="'80vh'"
                 :readonly="false"
@@ -18,6 +19,8 @@
         </div>
         <div class="sidebarIcon_list">
             <SidebarIcon v-for="i in this.$store.state.sidebarWebsiteList" :label="i.label" :img="i.img" :url="i.url" ></SidebarIcon>
+            <!-- 填充 -->
+            <div style="width: 100%;height: 6px"></div>
         </div>
         <SidebarPop></SidebarPop>
     </div>
@@ -75,7 +78,6 @@ export default {
     /* min-width: 199px; */
     min-width: 279px;
     height: calc(100vh - 53px);
-    margin-left: 10px;
     border-radius: 4px;
     background-color: rgba(176,182,182,0.3);
     padding: 10px;
@@ -86,8 +88,12 @@ export default {
 }
 .sidebar_container> div> ul> li {
     line-height: 3;
-    border-radius: 9px;
-    box-shadow: 0 0 27px #B0B6B6 inset;
+    border-radius: 4px;
+    /* box-shadow: 0 0 27px #B0B6B6 inset; */
+    background-color: #113337;
+    text-shadow: 0 0 5px #000;
+    box-shadow: 0 0 120px #113034 inset, 0 0 6px #489799;
+    border: 2px solid #489799;
     margin-bottom: 11px;
     cursor: pointer;
 }
@@ -112,7 +118,7 @@ export default {
     align-content: flex-start;
     text-shadow: 0 0 5px #000;
     border-radius: 4px;
-    margin-top: 26px;
+    /* margin-top: 0px; */
     overflow: auto;
 }
 </style>

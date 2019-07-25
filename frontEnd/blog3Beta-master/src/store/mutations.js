@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
-const reqUrl = 'http://localhost' + ':14499'
+const reqUrl = 'http://192.168.0.126' + ':14499'
 
 // axios配置
 axios.interceptors.request.use(config => {
@@ -101,8 +101,6 @@ export const uploadFileMultiple = (state, dat) => {
             let progress = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
             // 通知
             dat['commit']('showNotifyPop', `upload progress ${progress} `)
-            // sidebar file list
-            dat['commit']('requestSidebarUploadBox_dataList')
         }
     } 
     axios.post(reqUrl + '/api/file/upload', dat['dat'], config).then((res) => {

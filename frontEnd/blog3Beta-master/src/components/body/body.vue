@@ -1,9 +1,9 @@
 <template>
     <div class="body_container">
         <!-- <div class="test" @click="addWindow"></div> -->
-        <Desktop></Desktop>
         <notifyPop></notifyPop>
         <Sidebar></Sidebar>
+        <Desktop></Desktop>
         <component v-for="i in $store.state.windowItem"
             :is="i.component"
             :h1="i.h1"
