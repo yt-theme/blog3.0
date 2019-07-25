@@ -9,11 +9,11 @@ const server_model = require('./src/model/router/router')
 
 // mongodb 模型
 // 用户
-const mongodb_model_user = require('./src/db/mongodb/mongodb').Mongodb_model_user()
+const mongodb_model_user           = require('./src/db/mongodb/mongodb').Mongodb_model_user()
 // 文章
-const mongodb_model_article = require('./src/db/mongodb/mongodb').Mongodb_model_article()
+const mongodb_model_article        = require('./src/db/mongodb/mongodb').Mongodb_model_article()
 // 文件
-const mongodb_model_files = require('./src/db/mongodb/mongodb').Mongodb_model_files()
+const mongodb_model_files          = require('./src/db/mongodb/mongodb').Mongodb_model_files()
 // 建议网址
 const mongodb_model_proposeWebsite = require('./src/db/mongodb/mongodb').Mongodb_model_proposeWebsite()
 
@@ -41,12 +41,12 @@ class Server {
         // express 解析 params
         this.app.use(bodyParser.json())
         this.app.use(bodyParser.urlencoded({ extended: false }))
-        // 静态文件目录
+        // 静态文件目录 (html)
         this.app.use(this.express.static(HTML_STATIC_DIR))
-        // 上传文件目录
-        this.app.use('/' + UPLOAD_DIR_NAME, this.express.static(UPLOAD_DIR))
-        // index.html 位置
+        // index.html 位置 (html目录下index.html位置)
         this.app.use('/index', this.express.static(INDEX_HTML_STATIC))
+        // 上传文件目录 (file)
+        this.app.use('/' + UPLOAD_DIR_NAME, this.express.static(UPLOAD_DIR))
     }
     _init () {
         const app    = this.app
