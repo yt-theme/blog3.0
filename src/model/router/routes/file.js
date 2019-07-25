@@ -98,50 +98,40 @@ module.exports = class {
                 self.mongodb_model_files.findOne({
                     '_id': id
                 }).then((v) => {
-                    console.log('delete --------------- =>', v)
                     fs.unlink(v['file_path'], function (err) {
                         if (err) {
                             res.json({ 'stat': 0, 'msg': err })
                         } else {
-                            // ----------------------------------------------
-
-                            // 从数据库中删除
-                            // 分别从 article file 中删除相应项目
-                            // const promise_files = () => {
-                            //     return new Promise((resolve, reject) => {
-                                    self.mongodb_model_files.deleteOne({
-                                        '_id': id
-                                    }).then((v) => {
-                                        console.log('文件已从数据库删除 =>', v)
-                                        res.json({ 'stat': 1, 'msg': 'ok' })
-                                    }).catch((err) => {
-                                        res.json({ 'stat': 0, 'msg': err })
-                                    })
-                            //     })
-                            // }
-                            // const promise_article = () => {
-                            //     return new Promise((resolve, reject) => {
-                            //         self.mongodb_model_article.deleteOne({
-                            //             '_id': id
-                            //         }).then((v) => {
-                            //             console.log('文件已从数据库删除 =>', v)
-                            //             resolve({ 'stat': 1, 'msg': 'ok' })
-                            //         }).catch((err) => {
-                            //             reject({ 'stat': 0, 'msg': err })
-                            //         })
-                            //     })
-                            // }
-                            
-                            // Promise.all([promise_files, promise_article]).then((v) => {
-                            //     console.log('v ------------------------- =>', v)
-                            //     res.json(v)
-                            // }).catch((err) => {
-                            //     res.json(err)
-                            //     console.log('delete file from article files err =>', err)
-                            // })
-                            // ----------------------------------------------
 
                         }
+
+                        // ----------------------------------------------
+
+                        // 从数据库中删除
+                        // 分别从 article file 中删除相应项目
+                        // const promise_files = () => {
+                            console.log('id -------------- =>', id)
+                            self.mongodb_model_files.deleteOne({
+                                '_id': id
+                            }).then((v) => {
+                                res.json({ 'stat': 1, 'msg': 'ok', 'data': v })
+                            }).catch((err) => {
+                                res.json({ 'stat': 0, 'msg': 'err', 'data': err })
+                            })
+                        // }
+                        // const promise_article = () => {
+                        //     self.mongodb_model_article.deleteOne({
+                        //         '_id': id
+                        //     })
+                        // }
+                        
+                        // Promise.all([promise_files]).then((v) => {
+                        //     res.json({ 'stat': 1, 'msg': 'ok', 'data': v })
+                        // }).catch((err) => {
+                        //     res.json({ 'stat': 0, 'msg': 'err', 'data': err })
+                        // })
+                        // ----------------------------------------------
+
                     })
                 }).catch((err) => {
                     res.json({ 'stat': 0, 'msg': err })

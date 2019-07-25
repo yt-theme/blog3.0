@@ -163,7 +163,7 @@ export default {
             let boxFileList = this.$store.state.curUploadFileMultiple_list
             let allFileList = this.$store.state.uploadFileAll_list
             let resultList  = boxFileList.concat(allFileList)
-            console.log('resultList =>', resultList)
+            // console.log('resultList =>', resultList)
             // 将box文件列表合并时all
             this.$store.dispatch('setUploadFileAll_list', resultList)
             return resultList

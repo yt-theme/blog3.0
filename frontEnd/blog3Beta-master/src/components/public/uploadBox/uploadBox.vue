@@ -14,6 +14,8 @@
         </div>
         
         <div v-bind:style="{height: `calc(${height} - 64px - 32px)`, minHeight: 'calc(190px - 64px)', maxHeight: max_height}">
+        {{file_list_data_arr}}
+
             <ul class="article_upload_box_fileArea">
 
                 <li v-for="i in file_list_data_arr">
@@ -96,7 +98,7 @@ export default {
                 return this.file_list
             },
             set (v) {
-                console.log('v =>', v)
+                // console.log('v =>', v)
                 this.file_list_data_arr = v
             }
         }
@@ -150,17 +152,36 @@ export default {
         // 用于子组件删除
         deleteFile (id) {
             // 先从列表中删除文件对象 uploadFileAll_list
+            alert(1)
             let uploadFileAll_list = []
-            this.$store.state.uploadFileAll_list.forEach((ite) => { uploadFileAll_list.push(ite) })
+            this.$store.state.uploadFileAll_list.forEach((ite) => { 
+                uploadFileAll_list.push(ite)
+            })
+                    console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
+
+            alert(2)
             for (let i=0; i<uploadFileAll_list.length; i++) {
                 if (uploadFileAll_list[i]['_id'] === id) {
+            console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
 
+            alert(3)
                     // 请求删除文件接口
-                    this.$store.dispatch('requestDeleteFile', uploadFileAll_list[i]['_id']) 
-                    
+                    this.$store.dispatch('requestDeleteFile', uploadFileAll_list[i]['_id'])
+            console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
+            alert(4)
+
                     // 删除此对象
                     uploadFileAll_list.splice(i, 1)
+            console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)            
+            alert(5)
                     this.$store.dispatch('setUploadFileAll_list', uploadFileAll_list)
+            console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
+            alert(6)
+                    console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
+
+                    break
+            console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
+            alert(4)
                 }
             }
         },
@@ -178,6 +199,8 @@ export default {
                     // 删除此对象
                     uploadFileAll_list.splice(i, 1)
                     this.$store.dispatch('setUploadFileAll_list', uploadFileAll_list)
+
+                    break
                 }
             }
         }

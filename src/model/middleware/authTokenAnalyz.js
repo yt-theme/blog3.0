@@ -11,11 +11,11 @@ module.exports = (req, res, next, mongodb_model_user, TOKEN_SECRET) => {
         // 判断 token 解密是否成功
         try {
             tokenReal = jwt.verify(req_authorization, TOKEN_SECRET)
-            console.log('tokenReal1 ==============>', tokenReal)
+            // console.log('tokenReal1 ==============>', tokenReal)
         } catch (err) {
 
             if (String(err.name) === 'JsonWebTokenError') {
-                console.log('tokenReal ==============>', 'JsonWebTokenError')
+                // console.log('tokenReal ==============>', 'JsonWebTokenError')
                 req.analyz_stat = 0
                 req.analyz_msg = 'token解密失败'
                 req.analyz_profile = null
@@ -38,7 +38,7 @@ module.exports = (req, res, next, mongodb_model_user, TOKEN_SECRET) => {
             req.analyz_stat = 1
             req.analyz_msg = 'ok'
             req.analyz_profile = v
-            console.log('解密成功 ==============>', v)
+            // console.log('解密成功 ==============>', v)
             next()
         }).catch((err) => {
             // 解密失败则
