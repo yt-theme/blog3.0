@@ -76,7 +76,7 @@ export default {
     flex-direction: column;
     width: calc(10vw - 20px);
     /* min-width: 199px; */
-    min-width: 279px;
+    min-width: 290px;
     height: calc(100vh - 53px);
     border-radius: 4px;
     background-color: rgba(176,182,182,0.3);

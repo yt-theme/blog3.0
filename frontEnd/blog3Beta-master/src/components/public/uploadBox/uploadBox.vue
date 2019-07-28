@@ -155,11 +155,11 @@ export default {
         openFileNewTab (url) { window.open(url, '_blank').location },
         // 用于子组件删除
         deleteFile (id) {
-            if (this.$store.state.curUploadFileMultiple_list.length>0) {
+            if (this.$store.state.uploadFileAll_list.length>0) {
 
                 // 先从列表中删除文件对象 tmp_uploadFile_list
                 let tmp_uploadFile_list = []
-                this.$store.state.curUploadFileMultiple_list.forEach((ite) => { tmp_uploadFile_list.push(ite) })
+                this.$store.state.uploadFileAll_list.forEach((ite) => { tmp_uploadFile_list.push(ite) })
 
                 for (let i=0; i<tmp_uploadFile_list.length; i++) {
                     if (tmp_uploadFile_list[i]['_id'] === id) {
@@ -167,9 +167,10 @@ export default {
                         this.$store.dispatch('requestDeleteFile', tmp_uploadFile_list[i]['_id'])
 
                         // // 删除此对象
-                        // tmp_uploadFile_list.splice(i, 1)
-                        // this.$store.dispatch('setUploadFileAll_list', tmp_uploadFile_list)
-                        console.log('this.$store.state.curUploadFileMultiple_list =>', this.$store.state.curUploadFileMultiple_list)
+                        tmp_uploadFile_list.splice(i, 1)
+                        this.$store.dispatch('setUploadFileAll_list', tmp_uploadFile_list)
+                        console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
+                        
 
                         // 设置文件上传框当前删除的对象 _id
                         this.$store.dispatch('setCurrentUploadFileDelete__id', tmp_uploadFile_list[i]['_id'])

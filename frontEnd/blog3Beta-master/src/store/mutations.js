@@ -108,11 +108,26 @@ export const uploadFileMultiple = (state, obj) => {
         if (res.data.stat === 1) {
             // 如果上传组件不是私有模式
             if (!obj['is_private_mode']) {
-                state.curUploadFileMultiple_list = res.data.data
-                for (let i=0; i<state.curUploadFileMultiple_list.length; i++) {
-                    state.curUploadFileMultiple_list[i]['file_url'] = reqUrl + '/' + state.curUploadFileMultiple_list[i]['file_url']
-                    console.log(`state.curUploadFileMultiple_list[i]['file_url'] =>`, state.curUploadFileMultiple_list[i]['file_url'])
+
+                state.uploadFileAll_list = [...state.uploadFileAll_list, ...res.data.data]
+
+                // 去重
+                let tmpObj = {}
+                let tmp_return_uploadFileAll_list = []
+                for (let i=0; i<state.uploadFileAll_list.length; i++) {
+                    if (tmpObj[state.uploadFileAll_list[i]['_id']]) {
+
+                    } else {
+                        tmpObj[state.uploadFileAll_list[i]['_id']] = true
+                        tmp_return_uploadFileAll_list.push(state.uploadFileAll_list[i])
+                    }
                 }
+                state.uploadFileAll_list = tmp_return_uploadFileAll_list
+
+                // for (let i=0; i<state.uploadFileAll_list.length; i++) {
+                //     state.uploadFileAll_list[i]['file_url'] = reqUrl + '/' + state.uploadFileAll_list[i]['file_url']
+                //     console.log(`state.uploadFileAll_list[i]['file_url'] =>`, state.uploadFileAll_list[i]['file_url'])
+                // }
             }
             // 通知
             obj['commit']('showNotifyPop', `upload files success`)
@@ -186,9 +201,9 @@ export const requestWindowContent = (state, dat) => {
     axios.post(reqUrl + '/api/article/queryContentById', qs.stringify(dat)).then((res) => {
         if (res.data.stat === 1) {
             let tmp_data = JSON.parse(JSON.stringify(res.data.data))
-            for (let i=0; i<tmp_data.file_list.length; i++) {
-                tmp_data.file_list[i].file_url = reqUrl + '/' + tmp_data.file_list[i].file_url
-            }
+            // for (let i=0; i<tmp_data.file_list.length; i++) {
+            //     tmp_data.file_list[i].file_url = reqUrl + '/' + tmp_data.file_list[i].file_url
+            // }
             state.windowData[dat['article_id']] = tmp_data
             state.windowData = Object.assign({}, state.windowData)
         }
@@ -211,9 +226,9 @@ export const requestSidebarUploadBox_dataList = (state, dat) => {
     axios.post(reqUrl + '/api/file/queryTmpAll', qs.stringify(dat)).then((res) => {
         if (res.data.stat === 1) {
             let tmp_data = JSON.parse(JSON.stringify(res.data.data))
-            for (let i=0; i<tmp_data.length; i++) {
-                tmp_data[i].file_url = reqUrl + '/' + tmp_data[i].file_url
-            }
+            // for (let i=0; i<tmp_data.length; i++) {
+            //     tmp_data[i].file_url = reqUrl + '/' + tmp_data[i].file_url
+            // }
 
             state.sidebarUploadBox_dataList = tmp_data
         }

@@ -3,7 +3,7 @@ const uuid   = require('uuid')
 const fs     = require('fs')
 let mongoose=require('mongoose');
 
-const { SERVER_PORT, UPLOAD_DIR_NAME, UPLOAD_DIR } = require('../../../../config')
+const { PROTOCOL, SERVER_IP, SERVER_PORT, UPLOAD_DIR_NAME, UPLOAD_DIR } = require('../../../../config')
 
 // form-data 上传文件
 const multerStorage = multer.diskStorage({
@@ -64,7 +64,7 @@ module.exports = class {
                             'file_storageName': req_files[i]['filename'],
                             'file_size':        req_files[i]['size'],
                             'file_type':        req_files[i]['mimetype'],
-                            'file_url':         `${UPLOAD_DIR_NAME}${req_files[i]['path'].split(UPLOAD_DIR_NAME).pop()}`,
+                            'file_url':         `${PROTOCOL}://${SERVER_IP}:${SERVER_PORT}/${UPLOAD_DIR_NAME}${req_files[i]['path'].split(UPLOAD_DIR_NAME).pop()}`,
                             'file_path':        req_files[i]['path'],
                             'article_id':       '',
                             'user_id':          analyz_profile['_id'],
