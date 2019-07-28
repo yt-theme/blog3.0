@@ -33,7 +33,9 @@
                             <!-- bottom left文件上传时间 center文件类型 right文件大小 -->
                             <p>
                                 <span v-if="i.file_uploadDate">{{new Date(parseInt(i.file_uploadDate/1)).getFullYear() + '-' + (new Date(i.file_uploadDate/1).getMonth() + 1) + '-' + new Date(i.file_uploadDate/1).getDate()}}</span>
+                                &nbsp;&nbsp;&nbsp;
                                 <span><nobr>{{i.file_type || ''}}</nobr></span>
+                                &nbsp;&nbsp;&nbsp;
                                 <span>{{`${
                                         Number(i.file_size)>1000000000
                                         ?
@@ -57,7 +59,7 @@
                     <template v-if="is_private_mode === false">
                         <img v-if="!readonly" @click="deleteFile(i._id)" class="article_upload_box_delete" title="delete" :src="allDelete"/>
                     </template>
-                    <!-- 专有模式 -->
+                    <!-- 专有模式 侧边栏专用-->
                     <template v-if="is_private_mode">
                         <img v-if="!readonly" @click="deleteFile_private(i._id)" class="article_upload_box_delete" title="delete" :src="allDelete"/>
                     </template>
@@ -127,6 +129,7 @@ export default {
         },
         // 文件上传选择文件
         selectMultipleFile (event) {
+            let self = this
             let filesDom = this.$refs.article_upload_box_fileUpload
             let files = filesDom.files
             console.log('files', files)
@@ -142,50 +145,61 @@ export default {
             this.$store.dispatch('showNotifyPop', 'uploading..')
 
             // 进行上传文件
-            this.$store.dispatch('uploadFileMultiple', formdata)
+            this.$store.dispatch('uploadFileMultiple', {
+                'dat': formdata,
+                'is_private_mode': self.is_private_mode
+            })
             this.$refs.article_upload_box_fileUpload.value = ''
         },
         // 新标签打开文件链接
         openFileNewTab (url) { window.open(url, '_blank').location },
         // 用于子组件删除
         deleteFile (id) {
-            // 先从列表中删除文件对象 tmp_uploadFile_list
-            let tmp_uploadFile_list = []
-            this.$store.state.uploadFileAll_list.forEach((ite) => { 
-                tmp_uploadFile_list.push(ite)
-            })
+            if (this.$store.state.curUploadFileMultiple_list.length>0) {
 
-            for (let i=0; i<tmp_uploadFile_list.length; i++) {
-                if (tmp_uploadFile_list[i]['_id'] === id) {
-                    // 请求删除文件接口
-                    this.$store.dispatch('requestDeleteFile', tmp_uploadFile_list[i]['_id'])
+                // 先从列表中删除文件对象 tmp_uploadFile_list
+                let tmp_uploadFile_list = []
+                this.$store.state.curUploadFileMultiple_list.forEach((ite) => { tmp_uploadFile_list.push(ite) })
 
-                    // 删除此对象
-                    tmp_uploadFile_list.splice(i, 1)
-                    this.$store.dispatch('setUploadFileAll_list', tmp_uploadFile_list)
-                    console.log('this.$store.state.uploadFileAll_list =>', this.$store.state.uploadFileAll_list)
+                for (let i=0; i<tmp_uploadFile_list.length; i++) {
+                    if (tmp_uploadFile_list[i]['_id'] === id) {
+                        // 请求删除文件接口
+                        this.$store.dispatch('requestDeleteFile', tmp_uploadFile_list[i]['_id'])
 
-                    break
+                        // // 删除此对象
+                        // tmp_uploadFile_list.splice(i, 1)
+                        // this.$store.dispatch('setUploadFileAll_list', tmp_uploadFile_list)
+                        console.log('this.$store.state.curUploadFileMultiple_list =>', this.$store.state.curUploadFileMultiple_list)
+
+                        // 设置文件上传框当前删除的对象 _id
+                        this.$store.dispatch('setCurrentUploadFileDelete__id', tmp_uploadFile_list[i]['_id'])
+                    }
                 }
+            } else {
+                this.$store.dispatch('setUploadFileAll_list', [])
             }
         },
         // 用于专有方式删除
         deleteFile_private (id) {
-            // 先从列表中删除文件对象 uploadFileAll_list
-            let tmp_uploadFile_list = []
-            this.$store.state.sidebarUploadBox_dataList.forEach((ite) => { tmp_uploadFile_list.push(ite) })
-            for (let i=0; i<tmp_uploadFile_list.length; i++) {
-                if (tmp_uploadFile_list[i]['_id'] === id) {
+            if (this.$store.state.sidebarUploadBox_dataList.length>0) {
+                // 先从列表中删除文件对象 uploadFileAll_list
+                let tmp_uploadFile_list = []
+                this.$store.state.sidebarUploadBox_dataList.forEach((ite) => { tmp_uploadFile_list.push(ite) })
+                for (let i=0; i<tmp_uploadFile_list.length; i++) {
+                    if (tmp_uploadFile_list[i]['_id'] === id) {
 
-                    // 请求删除文件接口
-                    this.$store.dispatch('requestDeleteFile', tmp_uploadFile_list[i]['_id']) 
-                    
-                    // 删除此对象
-                    tmp_uploadFile_list.splice(i, 1)
-                    this.$store.dispatch('setUploadFileAll_list', tmp_uploadFile_list)
+                        // 请求删除文件接口
+                        this.$store.dispatch('requestDeleteFile', tmp_uploadFile_list[i]['_id']) 
+                        
+                        // 删除此对象
+                        // tmp_uploadFile_list.splice(i, 1)
+                        // this.$store.dispatch('setUploadFileAll_list', tmp_uploadFile_list)
 
-                    break
+                        break
+                    }
                 }
+            } else {
+                
             }
         }
     },
@@ -284,19 +298,22 @@ export default {
 }
 .article_upload_box .article_upload_box_fileArea> li> div> div:nth-child(2)> p {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     text-align: left;
     font-size: 17px;
 }
 .article_upload_box .article_upload_box_fileArea> li> div> div:nth-child(2)> p:nth-child(2) {
     display: flex;
-    justify-content: space-between;
+    justify-content:space-between;
     align-items: center;
     font-size: 12px;
     margin-top: 0.6em;
 }
 .article_upload_box .article_upload_box_fileArea> li> div> div:nth-child(2)> p:nth-child(2)> span:nth-child(2) {
-    padding: 0 1em;
+    /* padding: 0 1em; */
 }
 .article_upload_box_delete {
     position: absolute;

@@ -55,7 +55,7 @@
                         <div style="display:flex;align-items:center">
 
                             <!-- 显示上传文件列表 -->
-                            <button @click="toggleArticleUpload" class="article_upload_toggle">fileList ({{this.$store.state.uploadFileAll_list.length}}) </button>
+                            <button @click="toggleArticleUpload" class="article_upload_toggle">fileList ({{this.$store.state.curUploadFileMultiple_list.length}}) </button>
                             <!-- 上传文件及列表 -->
                             <div v-show="article_upload_box_show" class="article_upload_box_wrapp">
                                 <UploadBox :height="uploadBoxHeight" :max_height="uploadBoxMaxHeight" :file_list="uploadFileBox_list"></UploadBox>
@@ -138,7 +138,7 @@ export default {
                     'label': this.$store.state.VModelSidebarPopArticleIconLabelData,
                     'content': this.$store.state.VModelSidebarPopArticleTextareaData,
                     'date': Y + '-' + M + '-' + D + ' week ' + week + ' ' + h + ':' + m + ':' + s,
-                    'files': this.$store.state.uploadFileAll_list
+                    'files': this.$store.state.curUploadFileMultiple_list
                 }
                 this.$store.dispatch('submitArticle', dat)
             } else {
@@ -159,14 +159,45 @@ export default {
             this.article_upload_box_show = false
             return this.$store.state.sidebarPopShow
         },
-        uploadFileBox_list() {
+        uploadFileBox_list () {
             let boxFileList = this.$store.state.curUploadFileMultiple_list
-            let allFileList = this.$store.state.uploadFileAll_list
-            let resultList  = boxFileList.concat(allFileList)
-            // console.log('resultList =>', resultList)
+            // let allFileList = this.$store.state.uploadFileAll_list
+
+            let resultList = [...boxFileList]
+
+            // 去重
+            let tmpObj = {}
+            let tmp_result = []
+            for (let i=0; i<resultList.length; i++) {
+                if (tmpObj[resultList[i]['_id']]) {
+
+                } else {
+                    tmpObj[resultList[i]['_id']] = true
+                    tmp_result.push(resultList[i])
+                }
+            }
+
+            // 去掉已删除项
+            let tmp_result_return = []
+            for (let j=0; j<tmp_result.length; j++) {
+                if (this.$store.state.currentUploadFileDelete__id !== tmp_result[j]['_id']) {
+                    tmp_result_return.push(tmp_result[j])
+                }
+            }
+
             // 将box文件列表合并时all
-            this.$store.dispatch('setUploadFileAll_list', resultList)
-            return resultList
+            this.$store.dispatch('setUploadFileAll_list', tmp_result_return)
+
+            console.log("-------------------------------------------------")
+            console.log('boxFileList =>', boxFileList)
+            // console.log('allFileList =>', allFileList)
+            console.log('resultList =>', resultList)
+            console.log('tmp_result =>', tmp_result)
+            console.log('this.$store.state.setCurrentUploadFileDelete__id =>', this.$store.state.currentUploadFileDelete__id)
+            console.log('tmp_result_return =>', tmp_result_return)
+            console.log("-------------------------------------------------")
+
+            return tmp_result_return
         },
         titleTop () {
             let id = this.$store.state.sidebarPopData['id']
@@ -339,6 +370,9 @@ export default {
     background-color: #bb7570;
     padding: 3px 14px;
     cursor: pointer;
+}
+.content_container .article_upload_box_wrapp button {
+    background-color: #489799;
 }
 .article {
     position: relative;

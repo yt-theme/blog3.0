@@ -53,7 +53,9 @@ const state = {
     // 窗口内容
     windowData: [],
     // 側欄文件列表
-    sidebarUploadBox_dataList: []
+    sidebarUploadBox_dataList: [],
+    // 文件框当前删除id
+    currentUploadFileDelete__id: ''
 }
 
 const store = new Vuex.Store({

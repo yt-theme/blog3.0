@@ -93,30 +93,33 @@ export const checkSidebarPopEditPassword = (state, dat) => {
     })
 }
 // 上传文件
-export const uploadFileMultiple = (state, dat) => {
+export const uploadFileMultiple = (state, obj) => {
     const config = {
         headers: { 'Content-Type': 'multipart/form-data' },
         // 文件上传进度
         onUploadProgress: (progressEvent) => {
             let progress = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
             // 通知
-            dat['commit']('showNotifyPop', `upload progress ${progress} `)
+            obj['commit']('showNotifyPop', `upload progress ${progress} `)
         }
     } 
-    axios.post(reqUrl + '/api/file/upload', dat['dat'], config).then((res) => {
+    axios.post(reqUrl + '/api/file/upload', obj['dat'], config).then((res) => {
         console.log('fileUpload =>', res)
         if (res.data.stat === 1) {
-            state.curUploadFileMultiple_list = res.data.data
-            for (let i=0; i<state.curUploadFileMultiple_list.length; i++) {
-                state.curUploadFileMultiple_list[i]['file_url'] = reqUrl + '/' + state.curUploadFileMultiple_list[i]['file_url']
-                console.log(`state.curUploadFileMultiple_list[i]['file_url'] =>`, state.curUploadFileMultiple_list[i]['file_url'])
+            // 如果上传组件不是私有模式
+            if (!obj['is_private_mode']) {
+                state.curUploadFileMultiple_list = res.data.data
+                for (let i=0; i<state.curUploadFileMultiple_list.length; i++) {
+                    state.curUploadFileMultiple_list[i]['file_url'] = reqUrl + '/' + state.curUploadFileMultiple_list[i]['file_url']
+                    console.log(`state.curUploadFileMultiple_list[i]['file_url'] =>`, state.curUploadFileMultiple_list[i]['file_url'])
+                }
             }
             // 通知
-            dat['commit']('showNotifyPop', `upload ${state.curUploadFileMultiple_list.length} files success`)
+            obj['commit']('showNotifyPop', `upload files success`)
             // sidebar file list
-            dat['commit']('requestSidebarUploadBox_dataList')
+            obj['commit']('requestSidebarUploadBox_dataList')
             // 关闭通知
-            clearTimeout(state.notifyPop_timer); state.notifyPop_timer = setTimeout(() => { dat['commit']('closeNotifyPop') }, 3000)
+            clearTimeout(state.notifyPop_timer); state.notifyPop_timer = setTimeout(() => { obj['commit']('closeNotifyPop') }, 3000)
 
         } else {
 
@@ -305,4 +308,12 @@ export const addDataSidebarPopEditArticle = (state, dat ) => {
     state.VModelSidebarPopArticleIconLabelData = dat.img
     state.VModelSidebarPopArticleTypeData = dat.type
     state.uploadFileAll_list = dat.file_list
+}
+// 文件框当前删除的 _id
+export const setCurrentUploadFileDelete__id = (state, dat) => {
+    state.currentUploadFileDelete__id = dat
+}
+// 设置 当前请求文件列表数据
+export const setCurUploadFileMultiple_list = (state, dat) => {
+    state.curUploadFileMultiple_list = dat
 }

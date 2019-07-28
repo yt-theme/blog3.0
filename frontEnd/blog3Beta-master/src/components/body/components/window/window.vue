@@ -2,7 +2,7 @@
 <template>
   <div @click="handleClick()" :style="{'z-index': zIndex}" class="window-container window" ref="ProjectT">
       <div @mousedown="tabHandleMouseDown($event)" class="window-container-header text_no_select">
-          <span>{{h1 ? h1 : '&nbsp;'}}</span>
+          <span>{{h1 ? h1 : ' '}}</span>
           <i title="close the window" @click="deleteWindow($event)"></i>
       </div>
       <div class="divBody">

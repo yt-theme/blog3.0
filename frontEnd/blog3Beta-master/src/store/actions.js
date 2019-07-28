@@ -21,7 +21,7 @@ export const requestSidebarPopContent = ({commit}, dat) => {
 // 检查sidebarPop密码
 export const checkSidebarPopEditPassword = ({commit}, dat) => { commit('checkSidebarPopEditPassword', dat) }
 // 上传文件
-export const uploadFileMultiple = ({commit}, dat) => { commit('uploadFileMultiple', { 'dat': dat, 'commit': commit }) }
+export const uploadFileMultiple = ({commit}, obj) => { commit('uploadFileMultiple', { 'dat': obj['dat'], 'is_private_mode': obj['is_private_mode'], 'commit': commit }) }
 // 删除文件
 export const requestDeleteFile = ({commit}, dat) => { commit('requestDeleteFile', { 'dat': dat, 'commit': commit }) }
 // 提交文章
@@ -81,4 +81,12 @@ export const deleteWindow = ({commit}, obj ) => { commit('deleteWindow', obj) }
 export const addDataSidebarPopEditArticle = ({commit}, dat ) => { 
     commit('addDataSidebarPopEditArticle', dat)
     commit('set_windowEdit_id', dat.id)
+}
+// 文件框当前删除的 _id
+export const setCurrentUploadFileDelete__id = ({commit}, dat) => {
+    commit('setCurrentUploadFileDelete__id', dat)
+}
+// 设置 当前请求文件列表数据
+export const setCurUploadFileMultiple_list = ({commit}, dat) => {
+    commit('setCurUploadFileMultiple_list', dat)
 }
