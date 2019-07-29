@@ -3,28 +3,30 @@
   <div @click="handleClick()" :style="{'z-index': zIndex}" class="window-container window" ref="ProjectT">
       <div @mousedown="tabHandleMouseDown($event)" class="window-container-header text_no_select">
           <span>{{h1 ? h1 : ' '}}</span>
-          <i title="close the window" @click="deleteWindow($event)"></i>
+          <div>
+              <!-- 文件 -->
+              <button class="button_edit"
+                @click="showUploadBox">FileList({{$store.state.windowData[id] ? $store.state.windowData[id].file_list.length : 0}})</button>
+              <!-- 编辑 -->
+              <button class="button_edit"
+                @click="articleToEdit(
+                  'Edit -- ' + $store.state.windowData[id].h1 + ' -- ' + id, 
+                  $store.state.windowData[id]._id, 
+                  $store.state.windowData[id].h1,
+                  $store.state.windowData[id].content,
+                  $store.state.windowData[id].label,
+                  $store.state.windowData[id].content_type,
+                  file_lists
+                )">Edit</button>
+                &nbsp;&nbsp;&nbsp;
+              <i title="close the window" @click="deleteWindow($event)"></i>
+          </div>
       </div>
       <div class="divBody">
           <div v-if="$store.state.windowData[id]">
             <div style="display: flex;justify-content:space-between;align-items:center">
-              <span class="docu_id">ID {{ id ? id : 'loading...' }}</span>
-              <span>
-                <!-- 文件 -->
-                <button class="button_edit"
-                  @click="showUploadBox">FileList({{$store.state.windowData[id] ? $store.state.windowData[id].file_list.length : 0}})</button>
-                <!-- 编辑 -->
-                <button class="button_edit"
-                  @click="articleToEdit(
-                    'Edit -- ' + $store.state.windowData[id].h1 + ' -- ' + id, 
-                    $store.state.windowData[id]._id, 
-                    $store.state.windowData[id].h1,
-                    $store.state.windowData[id].content,
-                    $store.state.windowData[id].label,
-                    $store.state.windowData[id].content_type,
-                    file_lists
-                  )">Edit</button>
-              </span>
+              <!-- <span class="docu_id">ID {{ id ? id : 'loading...' }}</span> -->
+              
             </div>
 <!-- type no1 -->
             <template v-if="$store.state.windowData[id].content_type == 'web'">
@@ -202,7 +204,7 @@ export default {
 }
 .window-container-header> span {
   position: relative;
-  top: -3px;
+  top: -6.6px;
   background-color: #489799;
   color: #113337;
   border-radius: 0 0 4px 4px;
@@ -210,7 +212,11 @@ export default {
   text-shadow: 0 0 6px #ddd;
   padding: 1px 2em;
 }
-.window-container-header> i {
+.window-container-header> div {
+  display: flex;
+  align-items: center;
+}
+.window-container-header i {
   position: relative;
   /* top: -3px; */
   display: block;
