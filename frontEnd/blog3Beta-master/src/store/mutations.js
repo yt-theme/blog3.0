@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
-const reqUrl = 'http://localhost' + ':14499'
+const reqUrl = 'http://192.168.0.126' + ':14499'
 
 // axios配置
 axios.interceptors.request.use(config => {
@@ -10,9 +10,7 @@ axios.interceptors.request.use(config => {
         // config.headers = { 'Content-Type':'application/json' }
     }
     return config
-}, error => {
-    return Promise.reject(error)
-})
+}, error => { return Promise.reject(error) })
 
 // api ---------------------------------------------
 // 登录
@@ -261,9 +259,7 @@ export const clearSidebarPopData = (state) => {
     state.curUploadFileMultiple_list = []
 }
 // 设置 sidebarPop 为新增
-export const setSidebarPopContentIsNew = (state) => {
-    state.sidebarPopData.id = 'new'
-}
+export const setSidebarPopContentIsNew = (state) => { state.sidebarPopData.id = 'new' }
 // 显示通知
 export const showNotifyPop = (state, dat ) => { state.notifyPopData = dat; state.notifyPopShow = true }
 // 关闭通知
@@ -316,6 +312,9 @@ export const deleteWindow = (state, dat ) => {
         }
     }
 }
+// 关闭所有窗口
+export const deleteAllWindow = (state, obj ) => { state.windowItem = [] }
+
 // sidebarPop 加数据
 export const addDataSidebarPopEditArticle = (state, dat ) => {
     state.VModelSidebarPopArticleInputData = dat.h1
@@ -325,10 +324,6 @@ export const addDataSidebarPopEditArticle = (state, dat ) => {
     state.uploadFileAll_list = dat.file_list
 }
 // 文件框当前删除的 _id
-export const setCurrentUploadFileDelete__id = (state, dat) => {
-    state.currentUploadFileDelete__id = dat
-}
+export const setCurrentUploadFileDelete__id = (state, dat) => { state.currentUploadFileDelete__id = dat }
 // 设置 当前请求文件列表数据
-export const setCurUploadFileMultiple_list = (state, dat) => {
-    state.curUploadFileMultiple_list = dat
-}
+export const setCurUploadFileMultiple_list = (state, dat) => { state.curUploadFileMultiple_list = dat }

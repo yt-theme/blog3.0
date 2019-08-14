@@ -5,7 +5,7 @@ module.exports = {
     // 通信协议
     PROTOCOL: 'http',
     // 服务器IP
-    SERVER_IP: 'localhost',
+    SERVER_IP: '192.168.0.126',
     // 服务器端口
     SERVER_PORT: 14499,
     // 静态文件目录 (只可存放vue项目网页以及依赖)
