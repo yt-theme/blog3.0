@@ -1,6 +1,10 @@
 <!-- can move -->
 <template>
-  <div :id="'_' + id" :ref="'_' + id" @mousedown="handleClick()" @mouseenter="handleMouseEnter($event)" :style="{'z-index': zIndex}" class="window-container window">
+  <div :id="'_' + id" :ref="'_' + id" 
+    @mousedown="handleClick()" 
+    @mouseenter="handleMouseEnter($event)"
+    @mousemove="handleMouseMove($event)"
+    :style="{'z-index': zIndex}" class="window-container window">
       <div @mousedown="tabHandleMouseDown($event)" class="window-container-header text_no_select">
           <span>{{h1 ? h1 : ' '}}</span>
           <div>
@@ -75,6 +79,9 @@ export default {
     }
   },
   methods: {
+
+// #################### 窗口移动 #################
+
     tabHandleMouseDown: function($event) {
       this.dragStat = true
       let e = $event.target
@@ -101,35 +108,61 @@ export default {
       window.onmousemove = null
       window.onmouseup   = null
     },
+
+// ################### 窗口调整大小 ################
+
     handleMouseEnter: function (event) {
-      
-      const target_dom = event.target
 
-      const clientHeight = document.body.clientHeight
-      const scrollWidth  = target_dom.scrollWidth
-      const scrollHeight = target_dom.scrollHeight
-      const clientX      = event.clientX
-      const clientY      = event.clientY
-      const offsetLeft   = target_dom.offsetLeft
-      const offsetTop    = target_dom.offsetTop
+      // const target_dom = event.target
 
-      // 如果是从上面划入
-      if ((offsetTop) >= (clientY - 5)) {
-        console.log('top in')
-      }
-      // 如果是从下面划入
-      else if ((offsetTop + scrollHeight) <= clientY) {
-        console.log('bottom in')
-      }
-      // 如果是从左面划入
-      else if ((offsetLeft) >= (clientX)) {
-        console.log('left in')
-      }
-      // 如果是从右面划入
-      else if ((scrollWidth + offsetLeft) >= (clientX - 5)) {
-        console.log('right in')
-      }
+      // const clientHeight = document.body.clientHeight
+      // const scrollWidth  = target_dom.scrollWidth
+      // const scrollHeight = target_dom.scrollHeight
+      // const clientX      = event.clientX
+      // const clientY      = event.clientY
+      // const offsetLeft   = target_dom.offsetLeft
+      // const offsetTop    = target_dom.offsetTop
+
+      // // 如果是从上面划入
+      // if ((offsetTop) >= (clientY - 5)) {
+      //   target_dom.style.cursor = 'n-resize'
+      // }
+      // // 如果是从下面划入
+      // else if ((offsetTop + scrollHeight) <= clientY) {
+      //   target_dom.style.cursor = 's-resize'
+      // }
+      // // 如果是从左面划入
+      // else if ((offsetLeft) >= (clientX)) {
+      //   target_dom.style.cursor = 'w-resize'
+      // }
+      // // 如果是从右面划入
+      // else if ((scrollWidth + offsetLeft) >= (clientX - 5)) {
+      //   target_dom.style.cursor = 'e-resize'
+      // }
     },
+    handleMouseMove: function (event) {
+      // const target_dom = event.target
+
+      // const clientHeight = document.body.clientHeight
+      // const scrollWidth  = target_dom.scrollWidth
+      // const scrollHeight = target_dom.scrollHeight
+      // const clientX      = event.clientX
+      // const clientY      = event.clientY
+      // const offsetLeft   = target_dom.offsetLeft
+      // const offsetTop    = target_dom.offsetTop
+
+      // // 如果从左面移动超过 9px
+      // if ((clientX - offsetLeft) > 9) {
+      //   // target_dom.style.cursor = 'auto'
+      // }
+      // // 如果从右面移动超过 9px
+      // else if ((clientX - offsetLeft - scrollWidth) < -9) {
+      //   target_dom.style.cursor = 'auto'
+      // }
+    },
+
+// #############################################
+
     handleClick: function () {
       const wind = document.getElementsByClassName('window')
 
