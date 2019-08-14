@@ -1,6 +1,6 @@
 <!-- can move -->
 <template>
-  <div :id="'_' + id" :ref="'_' + id" @click="handleClick()" :style="{'z-index': zIndex}" class="window-container window">
+  <div :id="'_' + id" :ref="'_' + id" @mousedown="handleClick()" @mouseenter="handleMouseEnter($event)" :style="{'z-index': zIndex}" class="window-container window">
       <div @mousedown="tabHandleMouseDown($event)" class="window-container-header text_no_select">
           <span>{{h1 ? h1 : ' '}}</span>
           <div>
@@ -67,7 +67,7 @@ export default {
   },
   data () {
     return {
-        zIndex: 99,
+        zIndex: 1,
         // 拖拽状态
         dragStat: false,
         // 文件上传框显示
@@ -101,19 +101,50 @@ export default {
       window.onmousemove = null
       window.onmouseup   = null
     },
+    handleMouseEnter: function (event) {
+      
+      const target_dom = event.target
+
+      const clientHeight = document.body.clientHeight
+      const scrollWidth  = target_dom.scrollWidth
+      const scrollHeight = target_dom.scrollHeight
+      const clientX      = event.clientX
+      const clientY      = event.clientY
+      const offsetLeft   = target_dom.offsetLeft
+      const offsetTop    = target_dom.offsetTop
+
+      // 如果是从上面划入
+      if ((offsetTop) >= (clientY - 5)) {
+        console.log('top in')
+      }
+      // 如果是从下面划入
+      else if ((offsetTop + scrollHeight) <= clientY) {
+        console.log('bottom in')
+      }
+      // 如果是从左面划入
+      else if ((offsetLeft) >= (clientX)) {
+        console.log('left in')
+      }
+      // 如果是从右面划入
+      else if ((scrollWidth + offsetLeft) >= (clientX - 5)) {
+        console.log('right in')
+      }
+    },
     handleClick: function () {
-        let wind = document.getElementsByClassName('window')
-        for (let i=0;i<wind.length;i++) {
-            wind[i].style.zIndex = wind[i].style.zIndex - 1
-            if (wind[i].style.zIndex < 1) {
-                wind[i].style.zIndex = 1
-            }
-        }
-        this.zIndex = 99
+      const wind = document.getElementsByClassName('window')
+
+      for (let i=0;i<wind.length;i++) {
+          // wind[i].style.zIndex -= 1
+          wind[i].style.zIndex = 1
+          // if (wind[i].style.zIndex < 1) {
+          //   wind[i].style.zIndex = 1
+          // }
+      }
+
+      this.zIndex += 1
     },
     deleteWindow: function (e) {
         e.preventDefault()
-        // this.$store.commit('deleteWindow', this.id)
         this.$store.dispatch('deleteWindow', this.id)
     },
     // 显示文件框
