@@ -92,3 +92,7 @@ export const setCurrentUploadFileDelete__id = ({commit}, dat) => {
 export const setCurUploadFileMultiple_list = ({commit}, dat) => {
     commit('setCurUploadFileMultiple_list', dat)
 }
+// 当前鼠标点击图标位置
+export const currentClicked_iconPosition = ({commit}, obj) => {
+    commit('currentClicked_iconPosition', obj)
+}

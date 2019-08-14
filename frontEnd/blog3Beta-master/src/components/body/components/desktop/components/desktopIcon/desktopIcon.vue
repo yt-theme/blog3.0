@@ -37,7 +37,8 @@ export default {
     },
     methods: {
         addWindow (event, h1, id) {
-            console.log('event =>', event.clientX, event.clientY)
+            // 记录当前点击桌面图标鼠标位置 用于计算窗口出现位置
+            this.$store.dispatch('currentClicked_iconPosition', { 'id': id, 'x': event.clientX, 'y': event.clientY })
             // reset window data
             // this.$store.dispatch('addchangeWindowDataKey', id)
             // update data
@@ -51,7 +52,7 @@ export default {
             }
 
             // 打开窗口
-            this.$store.dispatch('addWindow', obj)
+            this.$nextTick(() => { this.$store.dispatch('addWindow', obj) })
         }
     }
 }

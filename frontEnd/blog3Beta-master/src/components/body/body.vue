@@ -26,6 +26,26 @@ export default {
         notifyPop,
         ViewPop
     },
+    computed: {
+        window_item () {
+            return this.$store.state.windowItem
+        }
+    },
+    watch: {
+        window_item () {
+            // 更改新窗口位置
+            const new_wind  = this.$store.state.windowItem[this.$store.state.windowItem.length - 1]
+            const click_pos = this.$store.state.clickedIconPosition
+            if (new_wind.id === click_pos.id) {
+                const dom_id = new_wind.id
+                this.$nextTick(() => {
+                    const new_dom = document.getElementById('_' + dom_id)
+                    new_dom.style.left = (this.$store.state.clickedIconPosition.x - 50) + 'px'
+                    new_dom.style.top = (this.$store.state.clickedIconPosition.y - 50) + 'px'
+                })
+            }
+        }
+    },
     data () {
         return {
 

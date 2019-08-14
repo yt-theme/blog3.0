@@ -327,3 +327,11 @@ export const addDataSidebarPopEditArticle = (state, dat ) => {
 export const setCurrentUploadFileDelete__id = (state, dat) => { state.currentUploadFileDelete__id = dat }
 // 设置 当前请求文件列表数据
 export const setCurUploadFileMultiple_list = (state, dat) => { state.curUploadFileMultiple_list = dat }
+// 当前鼠标点击图标位置
+export const currentClicked_iconPosition = (state, obj) => {
+    state.clickedIconPosition = {
+        'id': obj.id,
+        'x':  obj.x,
+        'y':  obj.y
+    }
+}

@@ -1,6 +1,6 @@
 <!-- can move -->
 <template>
-  <div @click="handleClick()" :style="{'z-index': zIndex}" class="window-container window" ref="ProjectT">
+  <div :id="'_' + id" :ref="'_' + id" @click="handleClick()" :style="{'z-index': zIndex}" class="window-container window">
       <div @mousedown="tabHandleMouseDown($event)" class="window-container-header text_no_select">
           <span>{{h1 ? h1 : ' '}}</span>
           <div>
@@ -80,14 +80,14 @@ export default {
       let e = $event.target
       e.style.zIndex            = "99999"
       e.parentNode.style.zIndex = "99999"
-      let ProjectT  = this.$refs.ProjectT
+      let ProjectT  = this.$refs['_' + this.id]
       let startX  = $event.clientX-ProjectT.offsetLeft
       let startY  = $event.clientY-ProjectT.offsetTop
       this.startX = startX
       this.startY = startY
       this.ProjectT = ProjectT
       window.onmousemove = this.tabHandleMouseMove
-      window.onmouseup      = this.tabHandleMouseUp
+      window.onmouseup   = this.tabHandleMouseUp
     },
     tabHandleMouseMove: function(e) {
       this.ProjectT.style.left = e.clientX-this.startX+"px"
@@ -173,7 +173,7 @@ export default {
   justify-content: center;
   padding-top: 33px;
   position: absolute;
-  left: 10px;
+  /* left: 10px; */
   /* width: 12vw; */
   /* width: 30%; */
   min-width: 600px;

@@ -36,6 +36,8 @@ const state = {
     // 数据 ----------------------------------
     // 桌面图标 list
     desktopIconList: [],
+    // 桌面图标被点击位置
+    clickedIconPosition: {},
     // 常规文件列表
     fileList: [],
     // 天气
