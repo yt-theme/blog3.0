@@ -32,7 +32,8 @@ export const requestWindowContent = ({commit}, dat) => { commit('requestWindowCo
 export const deleteArticle = ({commit}, dat) => { commit('deleteArticle', {'dat': dat, 'commit': commit}) }
 // 請求側欄文件列表
 export const requestSidebarUploadBox_dataList = ({commit}, dat) => { commit('requestSidebarUploadBox_dataList', dat) }
-
+// 改变当前页码请求分页
+export const setCur_queryPageData = ({commit}, dat) => { commit('setCur_queryPageData', { 'dat': dat, 'commit': commit}) }
 // --------------------------------------------------------------------
 
 // 设置新增 / 编辑 / 历史弹窗标题

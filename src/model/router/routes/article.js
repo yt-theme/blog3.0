@@ -40,13 +40,43 @@ module.exports = class {
             }
         })
     }
-    // 按页码查询当前用户所有文章
+    // 按页码查询当前用户文章
     queryPageById () {
         let self = this
         self.router.post('/api/article/queryPageById', self.middleWare, function (req, res) {
+            // 用户验证结果
             const analyz_stat = req.analyz_stat
+            const user_info   = req.analyz_profile
+            // 搜索字段
+            const h1_search    = String(req.body.h1_search) || ''
+            const label_search = req.body.label_search === 'All' ? '' : req.body.label_search
+            const page         = Number(req.body.page)
+            const size         = Number(req.body.size)
+
+            console.log("para =>", page, size, h1_search, label_search)
             if (analyz_stat === 1) {
-                
+                // 查询数据库
+                self.mongodb_model_article.findAsPage(
+                    // 查询条件
+                    { 
+                        'author_id': user_info['_id'],
+                        $and: [
+                            { $or: [ { 'h1': new RegExp(h1_search, 'i') } ] },
+                            { $or: [ { 'label': new RegExp(label_search, 'i') } ] }
+                        ]
+                        
+                    },
+                    // skip
+                    (page - 1) * size,
+                    // limit
+                    size,
+                    // 查询字段
+                    '_id h1 label author_id create_date'
+                )
+                .then((v) => { res.json({ 'stat': 1, 'msg':  'ok', 'data': v }) })
+                .catch((err) => { res.json({ 'stat': 0, 'msg':  err }) })
+            } else { 
+                res.json({ 'stat': 0, 'msg':  '用户验证失败' })
             }
         })
     }

@@ -31,7 +31,7 @@ export default {
         inputKeyUp(e) {
             let dat = {
                 'label_search': this.search_type_data,
-                'h1_search':    this.search_input_data
+                'h1_search':    this.search_input_data,
             }
             setTimeout(
                 () => {this.$store.dispatch('requestDesktopIconList', dat)}

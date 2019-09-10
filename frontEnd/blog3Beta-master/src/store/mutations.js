@@ -1,6 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
-const reqUrl = 'http://192.168.0.126' + ':14499'
+const reqUrl = 'http://192.168.0.126' + ':14498'
+// const reqUrl = 'http://192.168.0.126' + ':14499'
 
 // axios配置
 axios.interceptors.request.use(config => {
@@ -54,13 +55,31 @@ export const checkLoginState = (state, dat) => {
 }
 // 请求桌面图标
 export const requestDesktopIconList = (state, dat) => {
-    axios.post(reqUrl + '/api/article/queryAllById', qs.stringify(dat || { 'label_search': 'All', 'h1_search': '' })).then((res) => {
+    let copy_dat = {}
+    if (dat) {
+        copy_dat = JSON.parse(JSON.stringify(dat))
+    }
+    copy_dat['label_search'] ? (copy_dat['label_search'] = copy_dat['label_search']) : (copy_dat['label_search'] = 'All')
+    copy_dat['h1_search']    ? (copy_dat['h1_search'] = copy_dat['h1_search'])       : (copy_dat['h1_search'] = '')
+    copy_dat['page'] = state.page
+    copy_dat['size'] = state.size
+    // 请求
+    axios.post(reqUrl + '/api/article/queryPageById', qs.stringify(copy_dat)).then((res) => {
         if (res.data.stat === 1) {
             state.desktopIconList = res.data.data
         }
     }).catch((err) => {
 
     })
+}
+// 改变当前页码
+export const setCur_queryPageData = (state, obj) => {
+    let dat    = obj['dat']
+    let commit = obj['commit']
+    // 设置当前页码
+    state.page = dat
+    // 请求分页
+    commit('requestDesktopIconList')
 }
 // 请求侧边栏收藏网址
 export const requestSidebarWebsiteList = (state, dat) => {
@@ -234,7 +253,6 @@ export const requestSidebarUploadBox_dataList = (state, dat) => {
 }
 
 // -------------------------------------------------
-
 // 设置新增 / 编辑 / 历史弹窗标题
 export const setSidebarPoptitle = (state, dat) => { state.sidebarPoptitle = dat }
 // 设置 窗口 edit id

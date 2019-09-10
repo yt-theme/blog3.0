@@ -3,28 +3,28 @@
   <div :id="'_' + id" :ref="'_' + id" 
     @mousedown="handleClick()" 
     @mouseenter="handleMouseEnter($event)"
-    @mousemove="handleMouseMove($event)"
     :style="{'z-index': zIndex}" class="window-container window">
       <div @mousedown="tabHandleMouseDown($event)" class="window-container-header text_no_select">
-          <span>{{h1 ? h1 : ' '}}</span>
-          <div>
-              <!-- 文件 -->
-              <button class="button_edit"
-                @click="showUploadBox">FileList({{$store.state.windowData[id] ? $store.state.windowData[id].file_list.length : 0}})</button>
-              <!-- 编辑 -->
-              <button class="button_edit"
-                @click="articleToEdit(
-                  'Edit -- ' + $store.state.windowData[id].h1 + ' -- ' + id, 
-                  $store.state.windowData[id]._id, 
-                  $store.state.windowData[id].h1,
-                  $store.state.windowData[id].content,
-                  $store.state.windowData[id].label,
-                  $store.state.windowData[id].content_type,
-                  file_lists
-                )">Edit</button>
-                &nbsp;&nbsp;&nbsp;
-              <i title="close the window" @click="deleteWindow($event)"></i>
-          </div>
+        <!-- 标题 -->
+        <span>{{h1 ? h1 : ' '}}</span>
+        <div>
+            <!-- 文件 -->
+            <button class="button_edit"
+              @click="showUploadBox">FileList({{$store.state.windowData[id] ? $store.state.windowData[id].file_list.length : 0}})</button>
+            <!-- 编辑 -->
+            <button class="button_edit"
+              @click="articleToEdit(
+                'Edit -- ' + $store.state.windowData[id].h1 + ' -- ' + id, 
+                $store.state.windowData[id]._id, 
+                $store.state.windowData[id].h1,
+                $store.state.windowData[id].content,
+                $store.state.windowData[id].label,
+                $store.state.windowData[id].content_type,
+                file_lists
+              )">Edit</button>
+              &nbsp;&nbsp;&nbsp;
+            <i title="close the window" @click="deleteWindow($event)"></i>
+        </div>
       </div>
       <div class="divBody">
           <div v-if="$store.state.windowData[id]">
@@ -112,51 +112,36 @@ export default {
 // ################### 窗口调整大小 ################
 
     handleMouseEnter: function (event) {
+      let self = this
+      const target_dom = event.target
 
-      // const target_dom = event.target
+      const clientHeight = document.body.clientHeight
+      const scrollWidth  = target_dom.scrollWidth
+      const scrollHeight = target_dom.scrollHeight
+      const clientX      = event.clientX
+      const clientY      = event.clientY
+      const offsetLeft   = target_dom.offsetLeft
+      const offsetTop    = target_dom.offsetTop
 
-      // const clientHeight = document.body.clientHeight
-      // const scrollWidth  = target_dom.scrollWidth
-      // const scrollHeight = target_dom.scrollHeight
-      // const clientX      = event.clientX
-      // const clientY      = event.clientY
-      // const offsetLeft   = target_dom.offsetLeft
-      // const offsetTop    = target_dom.offsetTop
-
-      // // 如果是从上面划入
-      // if ((offsetTop) >= (clientY - 5)) {
-      //   target_dom.style.cursor = 'n-resize'
-      // }
-      // // 如果是从下面划入
-      // else if ((offsetTop + scrollHeight) <= clientY) {
-      //   target_dom.style.cursor = 's-resize'
-      // }
-      // // 如果是从左面划入
-      // else if ((offsetLeft) >= (clientX)) {
-      //   target_dom.style.cursor = 'w-resize'
-      // }
-      // // 如果是从右面划入
-      // else if ((scrollWidth + offsetLeft) >= (clientX - 5)) {
-      //   target_dom.style.cursor = 'e-resize'
-      // }
     },
     handleMouseMove: function (event) {
-      // const target_dom = event.target
+      const target_dom = event.target
 
-      // const clientHeight = document.body.clientHeight
-      // const scrollWidth  = target_dom.scrollWidth
-      // const scrollHeight = target_dom.scrollHeight
-      // const clientX      = event.clientX
-      // const clientY      = event.clientY
-      // const offsetLeft   = target_dom.offsetLeft
-      // const offsetTop    = target_dom.offsetTop
+      const clientHeight = document.body.clientHeight
+      const scrollWidth  = target_dom.scrollWidth
+      const scrollHeight = target_dom.scrollHeight
+      const clientX      = event.clientX
+      const clientY      = event.clientY
+      const offsetLeft   = target_dom.offsetLeft
+      const offsetTop    = target_dom.offsetTop
 
-      // // 如果从左面移动超过 9px
-      // if ((clientX - offsetLeft) > 9) {
-      //   // target_dom.style.cursor = 'auto'
+      
+      // 如果从右面移动超过 9px
+      // if ((clientX - offsetLeft - scrollWidth) < -9) {
+      //   target_dom.style.cursor = 'auto'
       // }
-      // // 如果从右面移动超过 9px
-      // else if ((clientX - offsetLeft - scrollWidth) < -9) {
+      // 如果从左面移动超过 9px
+      // if ((clientX - offsetLeft) > 9) {
       //   target_dom.style.cursor = 'auto'
       // }
     },

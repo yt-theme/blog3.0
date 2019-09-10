@@ -130,6 +130,20 @@ class Model {
             })
         })
     }
+    findAsPage (query, skip, limit, fields, options) {
+        const model = this.model
+        return new Promise((resolve, reject) => {
+            return model.find(query, fields, options, (err, result) => {
+                if (err) {
+                    reject(err)
+                    return false
+                } else {
+                    resolve(result)
+                    // console.log('查找 =>', result)
+                }
+            }).skip(skip).limit(limit)
+        })
+    }
 }
 
 module.exports = {

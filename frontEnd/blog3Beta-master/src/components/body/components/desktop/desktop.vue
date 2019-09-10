@@ -1,19 +1,23 @@
 <template>
     <div class="desktop_container_list" v-if="$store.state.desktopLayout === 0">
         <DesktopIcon v-for="i in $store.state.desktopIconList" :h1="i.h1" :img="i.label" :id="i._id" :date="i.create_date"></DesktopIcon>
+        <DesktopPager></DesktopPager>
     </div>
     <div class="desktop_container" v-else-if="$store.state.desktopLayout === 1">
         <DesktopIcon v-for="i in $store.state.desktopIconList" :h1="i.h1" :img="i.label" :id="i._id" :date="i.create_date"></DesktopIcon>
         <!-- 填充 -->
         <div style="width: 100%;height:1px;"></div>
+        <DesktopPager></DesktopPager>
     </div>
 </template>
 
 <script>
 import DesktopIcon from './components/desktopIcon/desktopIcon'
+import DesktopPager from './components/desktopPager/desktopPager'
 export default {
     components: {
-        DesktopIcon
+        DesktopIcon,
+        DesktopPager
     },
     mounted () {
         this.$store.commit('requestDesktopIconList', { 'label_search': 'All', 'h1_search': '' })
