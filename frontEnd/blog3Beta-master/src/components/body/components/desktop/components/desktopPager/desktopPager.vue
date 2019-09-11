@@ -61,7 +61,8 @@ export default {
             this.toPage()
         },
         toEnd () {
-
+            this.page = Math.ceil(this.$store.state.count / this.$store.state.onePageCount)
+            this.toPage()
         }
     }
 }

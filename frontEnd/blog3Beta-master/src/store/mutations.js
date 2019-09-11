@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
-const reqUrl = 'http://192.168.0.126' + ':14498'
-// const reqUrl = 'http://192.168.0.126' + ':14499'
+// const reqUrl = 'http://192.168.0.126' + ':14498'
+const reqUrl = 'http://192.168.0.126' + ':14499'
 
 // axios配置
 axios.interceptors.request.use(config => {
@@ -67,6 +67,7 @@ export const requestDesktopIconList = (state, dat) => {
     axios.post(reqUrl + '/api/article/queryPageById', qs.stringify(copy_dat)).then((res) => {
         if (res.data.stat === 1) {
             state.desktopIconList = res.data.data
+            state.count = res.data.count
         }
     }).catch((err) => {
 

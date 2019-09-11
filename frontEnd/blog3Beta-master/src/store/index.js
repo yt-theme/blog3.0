@@ -40,6 +40,8 @@ const state = {
     // size: 10,
     // 每页显示图标数量
     onePageCount: 10,
+    // 所有图标数量
+    count: 0,
     // 桌面图标 list
     desktopIconList: [],
     // 桌面图标被点击位置

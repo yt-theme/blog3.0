@@ -144,6 +144,20 @@ class Model {
             }).skip(skip).limit(limit)
         })
     }
+    findIdCount (query) {
+        const model = this.model
+        return new Promise((resolve, reject) => {
+            return model.find(query, (err, result) => {
+                if (err) {
+                    reject(err)
+                    return false
+                } else {
+                    resolve(result.length)
+                    // console.log('查找 =>', result)
+                }
+            }).count()
+        })
+    }
 }
 
 module.exports = {

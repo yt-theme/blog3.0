@@ -4,7 +4,7 @@
             {{this.$store.state.weather ?  this.$store.state.weather[2] : ' -- '}}
         </div>
         <div class="notifyArea_num">
-            amount: <span>{{this.$store.state.desktopIconList.length ? this.$store.state.desktopIconList.length : '0'}}</span>
+            amount: <span>{{this.$store.state.count}}</span>
         </div>
         <div class="notifyArea_timer" :title='day'>
             {{time}}

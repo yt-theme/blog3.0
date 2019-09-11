@@ -56,7 +56,7 @@ module.exports = class {
             console.log("para =>", page, size, h1_search, label_search)
             if (analyz_stat === 1) {
                 // 查询数据库
-                self.mongodb_model_article.findAsPage(
+                const promise_page = self.mongodb_model_article.findAsPage(
                     // 查询条件
                     { 
                         'author_id': user_info['_id'],
@@ -73,8 +73,22 @@ module.exports = class {
                     // 查询字段
                     '_id h1 label author_id create_date'
                 )
-                .then((v) => { res.json({ 'stat': 1, 'msg':  'ok', 'data': v }) })
-                .catch((err) => { res.json({ 'stat': 0, 'msg':  err }) })
+                
+                // 查询总数
+                const promise_count = self.mongodb_model_article.findIdCount(
+                    { 
+                        'author_id': user_info['_id'],
+                    },
+                )
+                // 并发执行
+                Promise.all([promise_page, promise_count])
+                .then((v) => { 
+                    res.json({ 'stat': 1, 'msg':  'ok', 'data': v[0], count: v[1] }) 
+                })
+                .catch((err) => {
+                    res.json({ 'stat': 0, 'msg':  err })
+                })
+
             } else { 
                 res.json({ 'stat': 0, 'msg':  '用户验证失败' })
             }
