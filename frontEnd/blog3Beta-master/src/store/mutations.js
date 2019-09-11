@@ -62,7 +62,7 @@ export const requestDesktopIconList = (state, dat) => {
     copy_dat['label_search'] ? (copy_dat['label_search'] = copy_dat['label_search']) : (copy_dat['label_search'] = 'All')
     copy_dat['h1_search']    ? (copy_dat['h1_search'] = copy_dat['h1_search'])       : (copy_dat['h1_search'] = '')
     copy_dat['page'] = state.page
-    copy_dat['size'] = state.size
+    copy_dat['size'] = state.onePageCount
     // 请求
     axios.post(reqUrl + '/api/article/queryPageById', qs.stringify(copy_dat)).then((res) => {
         if (res.data.stat === 1) {
@@ -353,3 +353,5 @@ export const currentClicked_iconPosition = (state, obj) => {
         'y':  obj.y
     }
 }
+// 每页显示图标数量
+export const set_onePageCount = (state, dat) => { state.onePageCount = dat }

@@ -37,7 +37,9 @@ const state = {
     // 当前页码
     page: 1,
     // 每页显示
-    size: 10,
+    // size: 10,
+    // 每页显示图标数量
+    onePageCount: 10,
     // 桌面图标 list
     desktopIconList: [],
     // 桌面图标被点击位置

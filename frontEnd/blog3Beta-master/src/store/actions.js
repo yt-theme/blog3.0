@@ -97,3 +97,7 @@ export const setCurUploadFileMultiple_list = ({commit}, dat) => {
 export const currentClicked_iconPosition = ({commit}, obj) => {
     commit('currentClicked_iconPosition', obj)
 }
+// 每页显示图标数量
+export const set_onePageCount = ({commit}, dat) => {
+    commit('set_onePageCount', dat)
+}
