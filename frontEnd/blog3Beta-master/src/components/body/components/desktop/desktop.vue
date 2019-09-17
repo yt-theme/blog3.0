@@ -21,8 +21,8 @@ export default {
     },
     data () {
         return {
-            desktopIconWidth: 135 + 20,
-            desktopIconHeight: 140 + 20
+            desktopIconWidth: 135 + 10,
+            desktopIconHeight: 140 + 10
         }
     },
     mounted () {

@@ -144,19 +144,23 @@ class Model {
             }).skip(skip).limit(limit)
         })
     }
-    findIdCount (query) {
+    async findIdCount (query) {
         const model = this.model
-        return new Promise((resolve, reject) => {
-            return model.find(query, (err, result) => {
-                if (err) {
-                    reject(err)
-                    return false
-                } else {
-                    resolve(result.length)
-                    // console.log('查找 =>', result)
-                }
-            }).count()
-        })
+        // return new Promise((resolve, reject) => {
+        //     resolve(
+            
+            const count = await model.find(query, (err, result) => {
+                    if (err) {
+                        // reject(err)
+                        return false
+                    } else {
+                        // resolve(result.length)
+                        // console.log('查找 =>', result)
+                    }
+                }).estimatedDocumentCount()
+            return count
+        //     )
+        // })
     }
 }
 

@@ -2,22 +2,22 @@
     <div id="desktopPager_container">
         <ul>
             <li class="toHome" @click="toHome">
-                <div></div>
+                <div v-if="page !== 1"></div>
                 <span class="inner_tip"></span>
             </li>
             <li class="toPrev" @click="toPrev">
-                <div></div>
+                <div v-if="page !== 1"></div>
                 <span class="inner_tip"></span>
             </li>
             <li class="inputPager">
                 <input @keyup="checkSetNum()" @keyup.enter="toPage()" v-model="page"/>
             </li>
             <li class="toNext" @click="toNext()">
-                <div></div>
+                <div v-if="($store.state.onePageCount * page) <= $store.state.count"></div>
                 <span class="inner_tip"></span>
             </li>
             <li class="toEnd" @click="toEnd">
-                <div></div>
+                <div v-if="($store.state.onePageCount * page) <= $store.state.count"></div>
                 <span class="inner_tip"></span>
             </li>
         </ul>
@@ -57,12 +57,16 @@ export default {
             this.$store.dispatch('setCur_queryPageData', this.page)            
         },
         toNext () {
-            this.page = Number(this.page) + 1
-            this.toPage()
+            if ((this.$store.state.onePageCount * this.page) < this.$store.state.count) {
+                this.page = Number(this.page) + 1
+                this.toPage()
+            }
         },
         toEnd () {
-            this.page = Math.ceil(this.$store.state.count / this.$store.state.onePageCount)
-            this.toPage()
+            if ((this.$store.state.onePageCount * this.page) < this.$store.state.count) {
+                this.page = Math.ceil(this.$store.state.count / this.$store.state.onePageCount)
+                this.toPage()
+            }
         }
     }
 }
