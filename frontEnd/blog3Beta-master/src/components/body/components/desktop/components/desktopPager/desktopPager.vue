@@ -37,7 +37,8 @@ export default {
     methods: {
         // 只输入数字
         checkSetNum () {
-            this.page = this.page.replace(/[^\d]/g, '');
+            this.page = this.page.replace(/[^\d]/g, '')
+            this.toPage()
         },
         toHome () {
             // 页码1请求数据
@@ -54,7 +55,9 @@ export default {
         },
         // 跳转页面
         toPage () {
-            this.$store.dispatch('setCur_queryPageData', this.page)            
+            if (this.page) {
+                this.$store.dispatch('setCur_queryPageData', this.page)
+            }
         },
         toNext () {
             if ((this.$store.state.onePageCount * this.page) < this.$store.state.count) {
