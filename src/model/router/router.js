@@ -21,7 +21,7 @@ module.exports = function (obj) {
 
     app.use('/', router)
 
-    // 路由
+    // ############################## 路由 ##############################
     // 登录 检查 注册 => 第二个参数为mongodb模型 第三个参数为中间件
     new (require('./routes/login'))(router, mongodb_model_user).login()           // /api/login
     new (require('./routes/login'))(router, mongodb_model_user, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).checkLogin()      // /api/checklogin
@@ -55,4 +55,12 @@ module.exports = function (obj) {
 
     // 建议网址 api/public/proposeWebsite
     new (require('./routes/proposeWebsite'))(router, mongodb_model_proposeWebsite).query() // api/public/proposeWebsite
+
+    // ############################# 在线工具 ###############################
+    // base64
+    // 文本转base64 api/base64/textToBase64
+    new (require('./routes/base64'))(router, mongodb_model_files, mongodb_model_article, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).textToBase64() // api/base64/textToBase64
+    // base64转文本 api/base64/base64ToText
+    new (require('./routes/base64'))(router, mongodb_model_files, mongodb_model_article, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).base64ToText() // api/base64/base64ToText
+
 }
