@@ -1,3 +1,5 @@
+// 加密用
+const bcrypt = require('bcrypt')
 // 单独运行后 默认数据加入数据库
 const { Mongodb_model_proposeWebsite, Mongodb_model_user } = require('../mongodb')
 // -----------------------------------------------
@@ -22,8 +24,8 @@ Mongodb_model_proposeWebsite().insertMany([
 // 默认用户
 Mongodb_model_user().insertOne({
     'username': 'a',
-    'password': 'a',
-    'edit_password': 'a'
+    'password': bcrypt.hashSync('a', 10),
+    'edit_password': bcrypt.hashSync('a', 10)
 }).then((v) => {
     console.log('user added =>', v)
 }).catch((err) => {

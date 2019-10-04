@@ -1,5 +1,6 @@
 // base64
 
+// base64转换方法
 const Base64 = require('../../functions/base64Transform/base64Transform.js')
 
 module.exports = class {
@@ -28,6 +29,18 @@ module.exports = class {
         self.router.post('/api/base64/base64ToText', function (req, res) {
             // 转换
             const ret_data = new Base64({'data': String(req.body.data)}).base64ToText()
+            // 返回
+            res.json({ 'stat': 1, 'msg':  '', 'data': ret_data })
+        })
+    }
+
+    // 二进制流或文件路径参数转base64
+    binaryToBase64() {
+        let self = this
+        self.router.post('/api/base64/binaryToBase64', function (req, res) {
+            // 转换
+            let ret_data = ''
+            
             // 返回
             res.json({ 'stat': 1, 'msg':  '', 'data': ret_data })
         })

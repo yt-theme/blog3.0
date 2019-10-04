@@ -16,7 +16,7 @@ module.exports = class {
         return Buffer.from(this.data, 'base64').toString()
     }
 
-    // 二进制文件流转base64 返回base64
+    // 二进制文件流转base64 返回base64 或 按绝对路径读取文件转换base64 返回base64
     binaryToBase64 () {
         const self = this
         // 存储结果base64字符串
@@ -37,7 +37,7 @@ module.exports = class {
                 })
             })
         } 
-        // 否则把data按照buffer转换成性base64
+        // 否则把data按照buffer转换成base64
         else if (self.data) {
             return Buffer.from(this.data).toString('base64')
         }

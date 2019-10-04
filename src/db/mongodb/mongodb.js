@@ -58,5 +58,14 @@ module.exports = {
             "collection_name":  "ProposeWebsite",
             "collection":       "proposeWebsite",
         })
+    },
+    // 实时笔记
+    Mongodb_model_realNote: () => {
+        return new Model({
+            "mongoose":         mongoose,
+            "schema":           require('./schema/realNote')(mongoose),
+            "collection_name":  "RealNote",
+            "collection":       "realNote",
+        })
     }
 }

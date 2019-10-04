@@ -1,7 +1,10 @@
 import axios from 'axios'
 import qs from 'qs'
 // const reqUrl = 'http://192.168.0.126' + ':14498'
-const reqUrl = 'http://192.168.0.126' + ':14499'
+// import { SERVER_IP, SERVER_PORT} from '../../../../config'
+// const ip = SERVER_IP
+// const port = SERVER_PORT
+const reqUrl =  ''
 
 // axios配置
 axios.interceptors.request.use(config => {

@@ -8,6 +8,7 @@ module.exports = function (obj) {
     const mongodb_model_article        = obj.mongodb_model_article
     const mongodb_model_files          = obj.mongodb_model_files
     const mongodb_model_proposeWebsite = obj.mongodb_model_proposeWebsite
+    const mongodb_model_realNote       = obj.mongodb_model_realNote
 
     app.all('*', (req, res, next) => {
         res.header('Access-Control-Allow-Origin', '*')
@@ -62,5 +63,11 @@ module.exports = function (obj) {
     new (require('./routes/base64'))(router, mongodb_model_files, mongodb_model_article, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).textToBase64() // api/base64/textToBase64
     // base64转文本 api/base64/base64ToText
     new (require('./routes/base64'))(router, mongodb_model_files, mongodb_model_article, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).base64ToText() // api/base64/base64ToText
+    // 实时笔记
+    // 创建笔记 api/realNote/create
+    new (require('./routes/realNote'))(router, mongodb_model_user, mongodb_model_realNote, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).create() // api/realNote/create
+    // 编辑笔记 api/realNote/edit
+    new (require('./routes/realNote'))(router, mongodb_model_user, mongodb_model_realNote, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).edit() // api/realNote/edit
+
 
 }
