@@ -1,10 +1,10 @@
 import axios from 'axios'
 import qs from 'qs'
-// const reqUrl = 'http://192.168.0.126' + ':14498'
+const reqUrl = 'http://192.168.0.126' + ':14499'
 // import { SERVER_IP, SERVER_PORT} from '../../../../config'
 // const ip = SERVER_IP
 // const port = SERVER_PORT
-const reqUrl =  ''
+// const reqUrl =  ''
 
 // axios配置
 axios.interceptors.request.use(config => {
@@ -255,6 +255,49 @@ export const requestSidebarUploadBox_dataList = (state, dat) => {
         }
     })
 }
+// realNote 分类列表
+export const query_realNote_classTypeList = (state, dat) => { 
+    axios.post(reqUrl + '/api/realNote/queryClassList', qs.stringify(dat)).then((res) => {
+        if (res.data.stat === 1) {
+            state.realNote_classTypeList = res.data.data
+        }
+    })
+}
+// realNote 按id请求内容
+export const query_realNote_classContentById = (state, dat) => {
+    axios.post(reqUrl + '/api/realNote/queryContentById', qs.stringify(dat)).then((res) => {
+        if (res.data.stat === 1) {
+            
+            // 如果数组列表为空则直接追加数据
+            if (state.realNote_classContentList.length < 1) {
+                state.realNote_classContentList = [res.data.data]
+            } 
+            // 否则追加或更新数据
+            else {
+                // 需要更新数据的索引
+                let tmp_index = -1
+                // 按 _id 更新相应数据
+                for (let i=0; i<state.realNote_classContentList.length; i++) {
+                    // 记录索引
+                    if (String(res.data.data._id) === state.realNote_classContentList[i]._id) {
+                        tmp_index = i
+                        break
+                    }
+                }
+                // 追加数据
+                if (tmp_index === -1) {
+                    state.realNote_classContentList.push(res.data.data)
+                }
+                // 更新数据
+                else {
+                    state.realNote_classContentList[tmp_index] = res.data.data
+                }
+            }
+
+        }
+    })
+}
+
 
 // -------------------------------------------------
 // 设置新增 / 编辑 / 历史弹窗标题
@@ -359,3 +402,5 @@ export const currentClicked_iconPosition = (state, obj) => {
 }
 // 每页显示图标数量
 export const set_onePageCount = (state, dat) => { state.onePageCount = dat }
+// realNote按钮点击后显示窗口
+export const set_realNoteShow_state = (state, dat) => { state.realNoteShow_state = dat }

@@ -138,14 +138,14 @@ module.exports = class {
 
             // 用户验证结果
             const analyz_stat = req.analyz_stat
-            const user_info   = req.analyz_profile
+            // const user_info   = req.analyz_profile
             // const user_id     = user_info._id
             // 请求字段
             const class_id      = String(req.body.class_id) || '' // 笔记分类id为_id
 
             if (analyz_stat === 1) {
                 // 操作数据库
-                self.mongodb_model_realNote.find(
+                self.mongodb_model_realNote.findOne(
                     // 查询条件
                     { 
                         '_id': class_id,

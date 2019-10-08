@@ -9,6 +9,8 @@
             :h1="i.h1"
             :id="i.id"></component>
         <ViewPop v-if="$store.state.viewPopShow_state" :text="$store.state.monitor_content" title="server monitor"></ViewPop>
+        <!-- 实时笔记 -->
+        <RealNote v-show="this.$store.state.realNoteShow_state"></RealNote>
     </div>
 </template>
 
@@ -18,13 +20,15 @@ import Sidebar from './components/sidebar/sidebar'
 import window from './components/window/window'
 import notifyPop from '../public/notifyPop/notifyPop'
 import ViewPop from '../public/viewPop/viewPop'
+import RealNote from '../public/realNote/realNote'
 export default {
     components: {
         Desktop,
         Sidebar,
         window,
         notifyPop,
-        ViewPop
+        ViewPop,
+        RealNote
     },
     computed: {
         window_item () {

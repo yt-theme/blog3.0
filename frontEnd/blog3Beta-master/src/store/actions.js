@@ -34,6 +34,11 @@ export const deleteArticle = ({commit}, dat) => { commit('deleteArticle', {'dat'
 export const requestSidebarUploadBox_dataList = ({commit}, dat) => { commit('requestSidebarUploadBox_dataList', dat) }
 // 改变当前页码请求分页
 export const setCur_queryPageData = ({commit}, dat) => { commit('setCur_queryPageData', { 'dat': dat, 'commit': commit}) }
+// realNote 分类列表
+export const query_realNote_classTypeList = ({commit}, dat) => { commit('query_realNote_classTypeList', dat) }
+// realNote 按id请求内容
+export const query_realNote_classContentById = ({commit}, dat) => { commit('query_realNote_classContentById', dat) }
+
 // --------------------------------------------------------------------
 
 // 设置新增 / 编辑 / 历史弹窗标题
@@ -100,4 +105,8 @@ export const currentClicked_iconPosition = ({commit}, obj) => {
 // 每页显示图标数量
 export const set_onePageCount = ({commit}, dat) => {
     commit('set_onePageCount', dat)
+}
+// realNote按钮点击后显示窗口
+export const set_realNoteShow_state = ({commit}, dat) => {
+    commit('set_realNoteShow_state', dat)
 }

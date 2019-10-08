@@ -7,6 +7,7 @@
           <Search></Search>
       </div>
       <div class="header_right">
+          <RealNoteBtn></RealNoteBtn>
           <SysMonitorBtn></SysMonitorBtn>
           <ActionButtonArea></ActionButtonArea>
           <NotifyArea></NotifyArea>
@@ -21,6 +22,7 @@ import NotifyArea from './components/notifyArea/notifyArea'
 import ActionButtonArea from './components/actionButtonArea/actionButtonArea'
 import SysMonitorBtn from './components/sysMonitorBtn/sysMonitorBtn'
 import Search from './components/search/search'
+import RealNoteBtn from './components/realNoteBtn/realNoteBtn'
 export default {
     components: {
         Logo,
@@ -28,7 +30,8 @@ export default {
         NotifyArea,
         ActionButtonArea,
         SysMonitorBtn,
-        Search
+        Search,
+        RealNoteBtn
     }
 }
 </script>

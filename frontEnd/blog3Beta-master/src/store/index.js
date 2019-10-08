@@ -32,6 +32,10 @@ const state = {
     // 弹框通知
     notifyPopShow: false,
     notifyPopData: '',
+    // realNote 分类列表
+    realNote_classTypeList: [],
+    // realNote 内容列表
+    realNote_classContentList: [],
 
     // 数据 ----------------------------------
     // 当前页码
@@ -65,7 +69,9 @@ const state = {
     // 側欄文件列表
     sidebarUploadBox_dataList: [],
     // 文件框当前删除id
-    currentUploadFileDelete__id: ''
+    currentUploadFileDelete__id: '',
+    // realNote窗口显示
+    realNoteShow_state: false,
 }
 
 const store = new Vuex.Store({
