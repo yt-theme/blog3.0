@@ -8,8 +8,8 @@ module.exports = (mongoose) => {
         // _id
         // 分类名
         label:         { type: String },
-        // 是否公开
-        is_pub:        { type: Boolean },
+        // 是否公开 0否 1是
+        is_pub:        { type: Number },
         // 作者
         author_id:     { type: String },
         // 创建日期
