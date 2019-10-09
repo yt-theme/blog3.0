@@ -13,6 +13,16 @@
                     <input v-model="createPopVal" ref="realNoteCreateInput" @blur="createPopBlur" @keydown.enter="createPop_saveClassType"/>
                 </div>
             </span>
+            <span class="realNote_deletePop_c" v-if="activeLeftLi">
+                <img @click="deleteClassType" title="delete" class="realNote_operateBarIcon" :src="deleteIcon"/>
+                <div v-if="sureDeletePop" class="realNote_deletePop">
+                    <p>Are you sure DELETE this ?</p>
+                    <div>
+                        <span @click="sureDelete">DELETE it</span>
+                        <span @click="noDelete">keep it alive</span>
+                    </div>
+                </div>
+            </span>
 
             <!-- 占位 -->
             <div class="realNote_pos">
@@ -34,9 +44,10 @@
                     <span>{{ite.label}}</span>
                 </li>
             </ul>
+            <!-- 内容列表 -->
             <ul class="realNote_list_r">
-                <li v-show="ite._id === activeLeftLi" v-for="ite in classContentList">
-                    <textarea>{{ite.content}}</textarea>
+                <li v-show="ite._id === activeLeftLi" v-for="ite, ind in classContentList">
+                    <textarea v-model="contentList[ind].content" @keyup="contentChange(ind)"></textarea>
                 </li>
             </ul>
         </div>
@@ -47,6 +58,7 @@
 import RefreshIcon from '../../../assets/refresh.svg'
 import SaveIcon from '../../../assets/save.svg'
 import CreateIcon from '../../../assets/create.svg'
+import DeleteIcon from '../../../assets/delete.svg'
 export default {
     props: {
 
@@ -60,9 +72,17 @@ export default {
             createPopShow: false,
             // 新增类别绑定值
             createPopVal: '',
+            // 确定删除弹框
+            sureDeletePop: false,
+            // 笔记内容
+            curRealNoteContent: '',
+            // 笔记内容列表
+            contentList: [],
+            // icon
             refreshIcon: RefreshIcon,
             saveIcon: SaveIcon,
-            createIcon: CreateIcon
+            createIcon: CreateIcon,
+            deleteIcon: DeleteIcon
         }
     },
     computed: {
@@ -70,7 +90,9 @@ export default {
             return this.$store.state.realNote_classTypeList
         },
         classContentList () {
-            return this.$store.state.realNote_classContentList
+            const tmp = this.$store.state.realNote_classContentList
+            this.contentList = tmp
+            return tmp
         }
     },
     methods: {
@@ -120,6 +142,7 @@ export default {
                 'content_type': '', 
                 'create_date':  '',
                 'edit_date':    '',
+                // 回调函数
                 'callback': () => {
                     // 关闭输入框
                     self.$nextTick(() => {
@@ -143,6 +166,33 @@ export default {
         // 自动保存
         autoSave () {
 
+        },
+        // 删除类别
+        deleteClassType () {
+            // 如果选择了一项笔记
+            if (this.activeLeftLi) {
+                // 确定删除弹窗 显示
+                this.sureDeletePop = true
+            }
+        },
+        // 选择删除
+        sureDelete () {
+            const self = this
+            self.$store.dispatch("realNote_deleteClassById", {
+                'class_id': self.activeLeftLi,
+                // 回调函数
+                'callback': () => {
+                    // 确定删除弹窗 关闭
+                    self.sureDeletePop = false
+                    // 刷新
+                    self.refresh()
+                }
+            })
+        },
+        // 选择不删除
+        noDelete () {
+            // 确定删除弹窗 显示
+            this.sureDeletePop = false
         }
     },
     mounted () {
@@ -187,13 +237,48 @@ export default {
     height: 17px;
     margin: 0 7px;
 }
-.realNote_createPop_c {
+.realNote_createPop_c, .realNote_deletePop_c {
     position: relative;
 }
 .realNote_createPop {
     position: absolute;
     top: 33px;
     left: 5px;
+}
+.realNote_deletePop {
+    position: absolute;
+    top: 30px;
+    width: 331px;
+    background-color: #113236;
+    border-radius: 4px;
+    box-shadow: 0 0 6px #489799;
+    padding: 1em 11px;
+}
+.realNote_deletePop p {
+    text-align: center;
+    padding-bottom: 1.9em;
+}
+.realNote_deletePop div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.realNote_deletePop div span {
+    background-color: #bb7570;
+    border-radius: 4px;
+    color: #fdfdfd;
+    padding: 3px 11px;
+    cursor: pointer;
+}
+.realNote_deletePop div span:last-child {
+    background-color: #489799;
+
+}
+.realNote_deletePop input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 .realNote_createPop input {
     height: 33px;
@@ -232,7 +317,7 @@ export default {
     padding: 9px;
     cursor: pointer;
 }
-.realNote_list_l li:hover, .realNote_operateBar> span:hover {
+.realNote_list_l li:hover {
     color: #489799;
 }
 .realNote_list_l_item_active {

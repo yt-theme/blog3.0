@@ -310,15 +310,27 @@ export const realNote_createClassType = (state, dat) => {
         'create_date':  dat.create_date ? dat.create_date : '',
         'edit_date':    dat.edit_date ? dat.edit_date : '',
     }
+    // 回调
     const callback = dat.callback
+    
     axios.post(reqUrl + '/api/realNote/create', qs.stringify(dats)).then((res) => {
         if (res.data.stat === 1) {
             callback()
         }
     })
 }
+// realNote 删除类型
+export const realNote_deleteClassById = (state, dat) => {
+    const dats = { 'class_id': dat.class_id ? dat.class_id : '' }
+    // 回调
+    const callback = dat.callback
 
-
+    axios.post(reqUrl + '/api/realNote/deleteById', qs.stringify(dats)).then((res) => {
+        if (res.data.stat === 1) {
+            callback()
+        }
+    })
+}
 
 // -------------------------------------------------
 // 设置新增 / 编辑 / 历史弹窗标题

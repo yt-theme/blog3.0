@@ -158,4 +158,26 @@ module.exports = class {
             } else { res.json({ 'stat': 0, 'msg':  '用户验证失败' }) }
         })
     }
+    // 删除笔记
+    deleteById() {
+        let self = this
+        self.router.post('/api/realNote/deleteById', self.middleWare, function (req, res) {
+
+            // 用户验证结果
+            const analyz_stat = req.analyz_stat
+            // const user_info   = req.analyz_profile
+            // const user_id     = user_info._id
+            // 请求字段
+            const class_id      = String(req.body.class_id) || '' // 笔记分类id为_id
+
+            if (analyz_stat === 1) {
+                // 操作数据库
+                self.mongodb_model_realNote.deleteOne({ 
+                    '_id': class_id,
+                })
+                .then((v) => { res.json({ 'stat': 1, 'msg':  'ok', 'data': v }) })
+                .catch((err) => { res.json({ 'stat': 0, 'msg':  err }) })
+            } else { res.json({ 'stat': 0, 'msg':  '用户验证失败' }) }
+        })
+    }
 }

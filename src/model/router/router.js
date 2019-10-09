@@ -73,4 +73,6 @@ module.exports = function (obj) {
     new (require('./routes/realNote'))(router, mongodb_model_user, mongodb_model_realNote, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).queryClassList() // api/realNote/queryClassList
     // 查询笔记内容按class_id api/realNote/queryContentById
     new (require('./routes/realNote'))(router, mongodb_model_user, mongodb_model_realNote, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).queryContentById() // api/realNote/queryContentById
+    // 删除笔记按class_id api/realNote/deleteById
+    new (require('./routes/realNote'))(router, mongodb_model_user, mongodb_model_realNote, async (req, res, next) => { await require('../middleware/authTokenAnalyz')(req, res, next, mongodb_model_user, TOKEN_SECRET) }).deleteById() // api/realNote/deleteById
 }
