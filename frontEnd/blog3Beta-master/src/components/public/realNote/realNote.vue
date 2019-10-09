@@ -203,7 +203,7 @@ export default {
         // 自动保存
         autoSave () {
             const self = this
-            let second = 5
+            let second = 4
             clearInterval(self.timer)
             self.timer = setInterval(() => {
                 if (second > 0 ) {
@@ -259,12 +259,12 @@ export default {
 <style scoped>
 .realNote_container {
     position: absolute;
-    top: 33px;
+    top: 43px;
     left: 10.5vw;
     display: flex;
     flex-direction: column;
     width: 79vw;
-    height: 65vh;
+    height: calc(100vh - 66px);
     min-height: 500px;
     border-radius: 4px;
     box-shadow: 0 0 6px #489799;
