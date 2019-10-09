@@ -387,7 +387,7 @@ export default {
 }
 .realNote_list_r {
     width: calc(100% - 200px - 18px);
-    height: calc(100%);
+    height: calc(100% - 9px);
     border-radius: 4px;
     padding: 9px;
 }
@@ -408,6 +408,7 @@ export default {
     background-color: #113236;
     color: #B0B6B6;
     border: 0;
+    line-height: 1.8125;
     resize: none;
     outline: none;
 }
