@@ -12,7 +12,9 @@
             </span>
 
             <!-- 占位 -->
-            <div class="realNote_pos"></div>
+            <div class="realNote_pos">
+                {{title}}
+            </div>
 
             <span>
                 <img @click="save" title="save" class="realNote_operateBarIcon" :src="saveIcon"/>
@@ -22,7 +24,7 @@
         <div class="realNote_main">
             <!-- 分类列表 -->
             <ul class="realNote_list_l">
-                <li v-for="ite in $store.state.realNote_classTypeList"
+                <li v-for="ite in classTypeList"
                     :class="[ite._id === activeLeftLi ? 'realNote_list_l_item_active' : 'realNote_list_l_item']"
                     @click="clickAndQueryContent(ite._id)">
                     <!-- label -->
@@ -30,7 +32,7 @@
                 </li>
             </ul>
             <ul class="realNote_list_r">
-                <li v-show="ite._id === activeLeftLi" v-for="ite in $store.state.realNote_classContentList">
+                <li v-show="ite._id === activeLeftLi" v-for="ite in classContentList">
                     <textarea>{{ite.content}}</textarea>
                 </li>
             </ul>
@@ -49,29 +51,47 @@ export default {
     data () {
         return {
             activeLeftLi: '',
+            // 标题
+            title: '',
             refreshIcon: RefreshIcon,
             saveIcon: SaveIcon,
             createIcon: CreateIcon
         }
     },
     computed: {
-
+        classTypeList () {
+            return this.$store.state.realNote_classTypeList
+        },
+        classContentList () {
+            return this.$store.state.realNote_classContentList
+        }
     },
     methods: {
         // 请求内容
         clickAndQueryContent (_id) {
             // 将当前item作为激活样式
             this.activeLeftLi = _id
+            // 设置标题
+            const list = this.$store.state.realNote_classTypeList
+            for (let i=0; i<list.length; i++) {
+                if (list[i]._id === _id) {
+                    this.title = `Editing →   ${list[i].label}`
+                    break
+                }
+            }
             // 请求内容
             this.$store.dispatch("query_realNote_classContentById", { class_id: _id })
         },
         // 刷新
         refresh () {
-            // 刷新类别列表
-
+            // 请求数据 笔记分类列表
+            this.$store.dispatch("query_realNote_classTypeList", true)
             // 刷新当前已选笔记
+            if (this.activeLeftLi) {
+                this.clickAndQueryContent(this.activeLeftLi)
+            }
         },
-        // 创建
+        // 创建类别
         create () {
 
         },
@@ -170,6 +190,7 @@ export default {
 }
 .realNote_pos {
     width: 100%;
+    text-align: center;
 }
 .realNote_list_r li {
     width: 100%;

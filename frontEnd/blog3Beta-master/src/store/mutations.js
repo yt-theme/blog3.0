@@ -290,6 +290,10 @@ export const query_realNote_classContentById = (state, dat) => {
                 }
                 // 更新数据
                 else {
+                    // 更新视图
+                    state.realNote_classContentList.push({})
+                    state.realNote_classContentList.pop()
+                    // 更新数据
                     state.realNote_classContentList[tmp_index] = res.data.data
                 }
             }
