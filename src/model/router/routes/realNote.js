@@ -19,7 +19,7 @@ module.exports = class {
             const label         = String(req.body.label)        || ''     // 分类名
             const is_pub        = Number(req.body.is_pub)       || 0      // 是否公开
             const content_type  = String(req.body.content_type) || 'text' // 内容类型
-            const content       = String(req.body.content)      || ''     // 内容
+            // const content       = String(req.body.content)      || ''     // 内容
             const create_date   = String(req.body.create_date)  || ''     // 创建时间
             const edit_date     = String(req.body.edit_date)    || ''     // 修改时间
 
@@ -42,7 +42,7 @@ module.exports = class {
                             // 内容类型 text || markdown
                             content_type:  content_type,
                             // 内容
-                            content:       content
+                            // content:       content
                         }
                     )
                     .then((v) => { res.json({ 'stat': 1, 'msg':  'ok', 'data': v }) })

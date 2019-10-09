@@ -7,8 +7,11 @@
                 <img @click="refresh" title="refresh" class="realNote_operateBarIcon" :src="refreshIcon"/>
             </span>
             
-            <span>
+            <span class="realNote_createPop_c">
                 <img @click="create" title="create" class="realNote_operateBarIcon" :src="createIcon"/>
+                <div v-if="createPopShow" class="realNote_createPop">
+                    <input v-model="createPopVal" ref="realNoteCreateInput" @blur="createPopBlur" @keydown.enter="createPop_saveClassType"/>
+                </div>
             </span>
 
             <!-- 占位 -->
@@ -53,6 +56,10 @@ export default {
             activeLeftLi: '',
             // 标题
             title: '',
+            // create pop show
+            createPopShow: false,
+            // 新增类别绑定值
+            createPopVal: '',
             refreshIcon: RefreshIcon,
             saveIcon: SaveIcon,
             createIcon: CreateIcon
@@ -93,10 +100,48 @@ export default {
         },
         // 创建类别
         create () {
+            if (this.createPopShow) {
+                this.createPopShow = false
+            } else {
+                this.createPopShow = true
+                // 自动获取焦点
+                this.$nextTick(() => {
+                    this.$refs.realNoteCreateInput.focus()
+                })
+            }
+        },
+        // 保存类别
+        createPop_saveClassType () {
+            const self = this
+            // 保存操作
+            self.$store.dispatch("realNote_createClassType", { 
+                'label':        self.createPopVal, 
+                'is_pub':       '', 
+                'content_type': '', 
+                'create_date':  '',
+                'edit_date':    '',
+                'callback': () => {
+                    // 关闭输入框
+                    self.$nextTick(() => {
+                        self.createPopShow = false
+                    })
+                    // 更新数据
+                    self.refresh()
+                }
+            })
 
+            
+        },
+        // 新增input失去焦点事件
+        createPopBlur () {
+            this.createPopShow = false
         },
         // 保存
         save () {
+
+        },
+        // 自动保存
+        autoSave () {
 
         }
     },
@@ -142,6 +187,23 @@ export default {
     height: 17px;
     margin: 0 7px;
 }
+.realNote_createPop_c {
+    position: relative;
+}
+.realNote_createPop {
+    position: absolute;
+    top: 33px;
+    left: 5px;
+}
+.realNote_createPop input {
+    height: 33px;
+    box-shadow: 0 0 6px #489799;
+    border: 1px solid #489799;
+    border-radius: 4px;
+    background-color: #ddd;
+    padding: 0 11px;
+    outline: none;
+}
 .realNote_operateBarIcon_txt {
     height: 21px;
     color: #dfdfdf;
@@ -159,6 +221,7 @@ export default {
     display: flex;
     flex-direction: column;
     border-right: 1px dashed #489799;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 .realNote_list_l li {

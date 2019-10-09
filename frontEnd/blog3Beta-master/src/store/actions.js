@@ -38,6 +38,8 @@ export const setCur_queryPageData = ({commit}, dat) => { commit('setCur_queryPag
 export const query_realNote_classTypeList = ({commit}, dat) => { commit('query_realNote_classTypeList', dat) }
 // realNote 按id请求内容
 export const query_realNote_classContentById = ({commit}, dat) => { commit('query_realNote_classContentById', dat) }
+// realNote 保存类型
+export const realNote_createClassType = ({commit}, dat) => { commit('realNote_createClassType', dat) }
 
 // --------------------------------------------------------------------
 

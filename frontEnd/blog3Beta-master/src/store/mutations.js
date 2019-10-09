@@ -301,6 +301,23 @@ export const query_realNote_classContentById = (state, dat) => {
         }
     })
 }
+// realNote 保存类型
+export const realNote_createClassType = (state, dat) => {
+    const dats = { 
+        'label':        dat.label,
+        'is_pub':       dat.is_pub ? dat.is_pub : '',
+        'content_type': dat.content_type ? dat.content_type : '',
+        'create_date':  dat.create_date ? dat.create_date : '',
+        'edit_date':    dat.edit_date ? dat.edit_date : '',
+    }
+    const callback = dat.callback
+    axios.post(reqUrl + '/api/realNote/create', qs.stringify(dats)).then((res) => {
+        if (res.data.stat === 1) {
+            callback()
+        }
+    })
+}
+
 
 
 // -------------------------------------------------
