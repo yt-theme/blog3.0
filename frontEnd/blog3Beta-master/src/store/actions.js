@@ -42,6 +42,8 @@ export const query_realNote_classContentById = ({commit}, dat) => { commit('quer
 export const realNote_createClassType = ({commit}, dat) => { commit('realNote_createClassType', dat) }
 // realNote 删除类型
 export const realNote_deleteClassById = ({commit}, dat) => { commit('realNote_deleteClassById', dat) }
+// realNote 保存修改
+export const realNote_saveChange = ({commit}, dat) => { commit('realNote_saveChange', dat) }
 
 // --------------------------------------------------------------------
 

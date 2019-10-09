@@ -68,7 +68,7 @@ module.exports = class {
             const is_pub        = Number(req.body.is_pub)       || 0      // 是否公开
             const content_type  = String(req.body.content_type) || 'text' // 内容类型
             const content       = String(req.body.content)      || ''     // 内容
-            const create_date   = String(req.body.create_date)  || ''     // 创建时间
+            // const create_date   = String(req.body.create_date)  || ''     // 创建时间
             const edit_date     = String(req.body.edit_date)    || ''     // 修改时间
 
             if (analyz_stat === 1) {
@@ -88,7 +88,7 @@ module.exports = class {
                                 // 作者
                                 // author_id:     '',
                                 // 创建日期
-                                create_date:   create_date,
+                                // create_date:   create_date,
                                 // 修改日期
                                 edit_date:     edit_date,
                                 // 内容类型 text || markdown

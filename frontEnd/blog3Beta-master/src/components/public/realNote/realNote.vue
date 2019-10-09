@@ -30,6 +30,9 @@
             </div>
 
             <span>
+                <nobr>{{operateText}}</nobr>
+            </span>
+            <span v-if="activeLeftLi">
                 <img @click="save" title="save" class="realNote_operateBarIcon" :src="saveIcon"/>
             </span>
         </div>
@@ -47,7 +50,9 @@
             <!-- 内容列表 -->
             <ul class="realNote_list_r">
                 <li v-show="ite._id === activeLeftLi" v-for="ite, ind in classContentList">
-                    <textarea v-model="contentList[ind].content" @keyup="contentChange(ind)"></textarea>
+                    <textarea v-model="contentList[ind].content" 
+                              @keydown="cancelAutoSave()"
+                              @keyup="contentChangeAndSave(ind)"></textarea>
                 </li>
             </ul>
         </div>
@@ -78,6 +83,12 @@ export default {
             curRealNoteContent: '',
             // 笔记内容列表
             contentList: [],
+            // 编辑时索引
+            edit_index: -1,
+            // 操作提示
+            operateText: '',
+            // 计时器
+            timer: null,
             // icon
             refreshIcon: RefreshIcon,
             saveIcon: SaveIcon,
@@ -105,6 +116,7 @@ export default {
             for (let i=0; i<list.length; i++) {
                 if (list[i]._id === _id) {
                     this.title = `Editing →   ${list[i].label}`
+                    this.edit_index = i
                     break
                 }
             }
@@ -140,8 +152,8 @@ export default {
                 'label':        self.createPopVal, 
                 'is_pub':       '', 
                 'content_type': '', 
-                'create_date':  '',
-                'edit_date':    '',
+                'create_date':  new Date().getTime(),
+                'edit_date':    new Date().getTime(),
                 // 回调函数
                 'callback': () => {
                     // 关闭输入框
@@ -159,13 +171,54 @@ export default {
         createPopBlur () {
             this.createPopShow = false
         },
-        // 保存
+        // 笔记内容改变时进行保存倒计时
+        contentChangeAndSave (index) {
+            // 当前已选编辑索引
+            if (this.activeLeftLi) {
+                this.operateText = 'Auto save'
+                clearInterval(self.timer)
+                this.autoSave()
+            }
+        },
+        // 点击保存
         save () {
-
+            const self = this
+            if (self.activeLeftLi) {
+                clearInterval(self.timer)
+                self.operateText = 'saving'
+                self.$store.dispatch('realNote_saveChange', {
+                    'class_id':     self.activeLeftLi,   
+                    'label':        self.contentList[self.edit_index].label,
+                    'is_pub':       self.contentList[self.edit_index].is_pub,   
+                    'content':      self.contentList[self.edit_index].content,
+                    'content_type': self.contentList[self.edit_index].content_type,
+                    'edit_date':    new Date().getTime(),
+                    // 回调函数
+                    'callback': () => {
+                        self.operateText = 'saved'
+                    }
+                })
+            }
         },
         // 自动保存
         autoSave () {
-
+            const self = this
+            let second = 5
+            clearInterval(self.timer)
+            self.timer = setInterval(() => {
+                if (second > 0 ) {
+                    self.operateText = second
+                    second = second - 1
+                } else {
+                    clearInterval(self.timer)
+                    self.$nextTick(() => { self.save() })
+                }
+            }, 1000)
+        },
+        // 自动保存中断
+        cancelAutoSave () {
+            this.operateText = 'Auto save'
+            clearInterval(this.timer)
         },
         // 删除类别
         deleteClassType () {
@@ -186,6 +239,8 @@ export default {
                     self.sureDeletePop = false
                     // 刷新
                     self.refresh()
+                    // 索引重置
+                    self.edit_index = -1
                 }
             })
         },

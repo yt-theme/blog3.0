@@ -331,6 +331,25 @@ export const realNote_deleteClassById = (state, dat) => {
         }
     })
 }
+// realNote 保存修改
+export const realNote_saveChange = (state, dat) => {
+    const dats = { 
+        'class_id':     dat.class_id ? dat.class_id : '',
+        'label':        dat.label,
+        'is_pub':       dat.is_pub ? dat.is_pub : '',
+        'content':      dat.content ? dat.content : '',
+        'content_type': dat.content_type ? dat.content_type : '',
+        'edit_date':    dat.edit_date ? dat.edit_date : '',
+    }
+    // 回调
+    const callback = dat.callback
+
+    axios.post(reqUrl + '/api/realNote/edit', qs.stringify(dats)).then((res) => {
+        if (res.data.stat === 1) {
+            callback()
+        }
+    })
+}
 
 // -------------------------------------------------
 // 设置新增 / 编辑 / 历史弹窗标题
