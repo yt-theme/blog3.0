@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 
 // model 包含路由
 const server_model = require('./src/model/router/router')
-// const socket_model = require('./src/model/model').Socket_router
+const socket_model = require('./src/model/socket/socket')
 
 // mongodb 模型
 // 用户
@@ -36,6 +36,9 @@ class Server {
         this.http_server   = require('http').createServer(this.app)
         this.socket_server = io(this.http_server)
 
+        // socket 房间名单
+        this.roomInfo = {}
+
         // 初始化
         this._init()
     }
@@ -51,8 +54,11 @@ class Server {
         this.app.use('/' + UPLOAD_DIR_NAME, this.express.static(UPLOAD_DIR))
     }
     _init () {
-        const app    = this.app
-        const router = this.router
+        const app           = this.app
+        const router        = this.router
+        const socket_server = this.socket_server
+        // 工作组
+        const groupInfo      = this.groupInfo
         // model
         // http server
         server_model({ app, router,
@@ -64,7 +70,7 @@ class Server {
             mongodb_model_realNote,       // realNote 表
         })
         // sockt server
-        // socket_model(socket_server)
+        socket_model(groupInfo, socket_server)
 
     }
     start () {

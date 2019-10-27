@@ -1,6 +1,8 @@
 import axios from 'axios'
 import qs from 'qs'
-const reqUrl = 'http://localhost' + ':14499'
+import config from '../config'
+
+const reqUrl = config.Api_baseUrl + ':' + config.Api_port
 // import { SERVER_IP, SERVER_PORT} from '../../../../config'
 // const ip = SERVER_IP
 // const port = SERVER_PORT
@@ -20,11 +22,11 @@ axios.interceptors.request.use(config => {
 // 登录
 export const login = (state, obj) => {
     axios.post(reqUrl + '/api/login', qs.stringify(obj['dat'])).then((res) => {
-        console.log('login =>', obj['commit'])
         if (res.data.stat === 1)  {
             window.localStorage.setItem('token', res.data.token)
+            window.localStorage.setItem('username', obj['dat'].username)
             // 再检查登录状态
-            obj['commit']('checkLoginState', true)
+            obj['commit']('checkLoginState', { 'dat': true, 'callback': null})
             // 请求桌面图标
             obj['commit']('requestDesktopIconList')
         }
@@ -33,7 +35,9 @@ export const login = (state, obj) => {
     })
 }
 // 检查登录
-export const checkLoginState = (state, dat) => {
+export const checkLoginState = (state, obj) => {
+    let dat      = obj.dat
+    let callback = obj.callback
     // 如果直接设置登录状态为 true 则进行检查
     if (dat) {
 
@@ -41,12 +45,15 @@ export const checkLoginState = (state, dat) => {
             console.log('checkLogin =>', res.data)
             if (res.data.stat === 1) {
                 state.loginState = true
+                if (callback) callback(true)
             } else {
                 state.loginState = false
+                if (callback) callback(false)
             }
         }).catch((err) => {
             console.log('checkLoginState err =>', err)
             state.loginState = false
+            if (callback) callback(false)
         })
 
     // 如果直接设置登录状态为 false 则直接为 false
@@ -54,6 +61,7 @@ export const checkLoginState = (state, dat) => {
         state.loginState = false
         // 清空 token
         window.localStorage.setItem('token', '')
+        if (callback) callback(false)
     }
 }
 // 请求桌面图标
@@ -264,13 +272,16 @@ export const query_realNote_classTypeList = (state, dat) => {
     })
 }
 // realNote 按id请求内容
-export const query_realNote_classContentById = (state, dat) => {
+export const query_realNote_classContentById = (state, obj) => {
+    const dat      = obj.dat
+    const callback = obj.callback
     axios.post(reqUrl + '/api/realNote/queryContentById', qs.stringify(dat)).then((res) => {
         if (res.data.stat === 1) {
             
             // 如果数组列表为空则直接追加数据
             if (state.realNote_classContentList.length < 1) {
                 state.realNote_classContentList = [res.data.data]
+                callback()
             } 
             // 否则追加或更新数据
             else {
@@ -286,7 +297,8 @@ export const query_realNote_classContentById = (state, dat) => {
                 }
                 // 追加数据
                 if (tmp_index === -1) {
-                    state.realNote_classContentList.push(res.data.data)
+                    state.realNote_classContentList.push(res.data.data ? res.data.data : '')
+                    callback()
                 }
                 // 更新数据
                 else {
@@ -294,7 +306,8 @@ export const query_realNote_classContentById = (state, dat) => {
                     state.realNote_classContentList.push({})
                     state.realNote_classContentList.pop()
                     // 更新数据
-                    state.realNote_classContentList[tmp_index] = res.data.data
+                    state.realNote_classContentList[tmp_index] = res.data.data ? res.data.data : ''
+                    callback()
                 }
             }
 

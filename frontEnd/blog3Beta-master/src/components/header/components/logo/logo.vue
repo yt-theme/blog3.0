@@ -18,7 +18,7 @@ export default {
         logout () {
             window.localStorage.setItem('token', '')
             window.localStorage.setItem('name', '')
-            this.$store.commit('checkLoginState', false)
+            this.$store.commit('checkLoginState', { 'dat': false, 'callback': null })
             location.reload(true)
         }
     }

@@ -6,7 +6,7 @@
             <span>
                 <img @click="refresh" title="refresh" class="realNote_operateBarIcon" :src="refreshIcon"/>
             </span>
-            
+
             <span class="realNote_createPop_c">
                 <img @click="create" title="create" class="realNote_operateBarIcon" :src="createIcon"/>
                 <div v-if="createPopShow" class="realNote_createPop">
@@ -85,6 +85,8 @@ export default {
             contentList: [],
             // 编辑时索引
             edit_index: -1,
+            // 编辑时内容索引
+            edit_contentIndex: -1,
             // 操作提示
             operateText: '',
             // 计时器
@@ -98,10 +100,12 @@ export default {
     },
     computed: {
         classTypeList () {
+            console.log(`this.$store.state.realNote_classTypeList =>`, this.$store.state.realNote_classTypeList)
             return this.$store.state.realNote_classTypeList
         },
         classContentList () {
-            const tmp = this.$store.state.realNote_classContentList
+            console.log(`this.$store.state.realNote_classContentList =>`, this.$store.state.realNote_classContentList)
+            const tmp = [...this.$store.state.realNote_classContentList]
             this.contentList = tmp
             return tmp
         }
@@ -109,13 +113,13 @@ export default {
     methods: {
         // 请求内容
         clickAndQueryContent (_id) {
-            
-            // 先保存当前笔记
-            this.save()
-            // 清空定时器
-            clearInterval(self.timer) 
-            
-            
+            const self = this
+
+            // 清空定时器当前笔记
+            clearInterval(this.timer)
+            // this.save()
+
+
             // 将当前item作为激活样式
             this.activeLeftLi = _id
             // 设置标题
@@ -127,8 +131,19 @@ export default {
                     break
                 }
             }
+            
             // 请求内容
-            this.$store.dispatch("query_realNote_classContentById", { class_id: _id })
+            this.$store.dispatch("query_realNote_classContentById", { dat: {'class_id': _id}, 'callback': () => {
+                // 内容索引
+                const list_con = self.$store.state.realNote_classContentList
+                for (let i=0; i<list_con.length; i++) {
+                    if (list_con[i]._id === _id) {
+                        self.title = `Editing →   ${list_con[i].label}`
+                        self.edit_contentIndex = i
+                        break
+                    }
+                }
+            } })
         },
         // 刷新
         refresh () {
@@ -169,9 +184,16 @@ export default {
                     })
                     // 更新数据
                     self.refresh()
+
+                    // socket 笔记保存事件发送给工作组
+                    self.$socket.emit('realNote_edited', {
+                        'groupId': window.localStorage.getItem('username')
+                    })
+
                 }
             })
 
+            
             
         },
         // 新增input失去焦点事件
@@ -195,16 +217,24 @@ export default {
                 self.operateText = 'saving'
                 self.$store.dispatch('realNote_saveChange', {
                     'class_id':     self.activeLeftLi,   
-                    'label':        self.contentList[self.edit_index].label,
-                    'is_pub':       self.contentList[self.edit_index].is_pub,   
-                    'content':      self.contentList[self.edit_index].content,
-                    'content_type': self.contentList[self.edit_index].content_type,
+                    'label':        self.classTypeList[self.edit_index].label,
+                    'is_pub':       self.contentList[self.edit_contentIndex].is_pub,   
+                    'content':      self.contentList[self.edit_contentIndex].content,
+                    'content_type': self.contentList[self.edit_contentIndex].content_type,
                     'edit_date':    new Date().getTime(),
                     // 回调函数
                     'callback': () => {
                         self.operateText = 'saved'
+
+                        // socket 笔记保存事件发送给工作组
+                        self.$socket.emit('realNote_edited', {
+                            'groupId': window.localStorage.getItem('username')
+                        })
+
                     }
                 })
+
+               
             }
         },
         // 自动保存
@@ -248,6 +278,11 @@ export default {
                     self.refresh()
                     // 索引重置
                     self.edit_index = -1
+
+                    // socket 笔记保存事件发送给工作组
+                    self.$socket.emit('realNote_edited', {
+                        'groupId': window.localStorage.getItem('username')
+                    })
                 }
             })
         },
@@ -259,6 +294,22 @@ export default {
     },
     mounted () {
 
+    },
+    sockets: {
+        // 编写笔记时接收其它人编辑笔记实时消息
+        realNote_othersEdit (data) {
+            const self = this
+            console.log('socket系统通知 =>', data)
+            switch (data) {
+                // 如果是刷新
+                case 'refresh':
+                    self.$store.dispatch('showNotifyPop', '已刷新笔记')
+                    setTimeout(() => { self.$store.dispatch('closeNotifyPop') }, 3000)
+                    self.refresh()
+                break
+            }
+            
+        }
     }
 }
 </script>
