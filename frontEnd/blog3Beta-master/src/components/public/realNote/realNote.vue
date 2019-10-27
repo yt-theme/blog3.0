@@ -109,6 +109,13 @@ export default {
     methods: {
         // 请求内容
         clickAndQueryContent (_id) {
+            
+            // 先保存当前笔记
+            this.save()
+            // 清空定时器
+            clearInterval(self.timer) 
+            
+            
             // 将当前item作为激活样式
             this.activeLeftLi = _id
             // 设置标题

@@ -5,7 +5,7 @@ module.exports = {
     // 通信协议
     PROTOCOL: 'http',
     // 服务器IP
-    SERVER_IP: '192.168.0.105',
+    SERVER_IP: 'localhost',
     // 服务器端口
     // SERVER_PORT: 14498,
     SERVER_PORT: 14499,
