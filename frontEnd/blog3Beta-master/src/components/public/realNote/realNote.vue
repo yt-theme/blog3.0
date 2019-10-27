@@ -303,7 +303,7 @@ export default {
             switch (data) {
                 // 如果是刷新
                 case 'refresh':
-                    self.$store.dispatch('showNotifyPop', '已刷新笔记')
+                    self.$store.dispatch('showNotifyPop', 'realNote refreshed')
                     setTimeout(() => { self.$store.dispatch('closeNotifyPop') }, 3000)
                     self.refresh()
                 break

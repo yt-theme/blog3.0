@@ -25,6 +25,6 @@ module.exports = class {
         await this.socket.join(this.groupId)
         this.groupMemberCount = this.socket_server.sockets.adapter.rooms[this.groupId].length
         // 对工作组中所有人发通知
-        this.socket_server.sockets.in(this.groupId).emit('notify', `新用户加入${this.groupId}组 成员有${this.groupMemberCount}人`)
+        this.socket_server.sockets.in(this.groupId).emit('notify', `new member into ${this.groupId}group, member has${this.groupMemberCount}`)
     }
 }
