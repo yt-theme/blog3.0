@@ -95,7 +95,9 @@ export default {
             refreshIcon: RefreshIcon,
             saveIcon: SaveIcon,
             createIcon: CreateIcon,
-            deleteIcon: DeleteIcon
+            deleteIcon: DeleteIcon,
+            // 可保存
+            canSave: true
         }
     },
     computed: {
@@ -205,15 +207,19 @@ export default {
             // 当前已选编辑索引
             if (this.activeLeftLi) {
                 this.operateText = 'Auto save'
-                clearInterval(self.timer)
-                this.autoSave()
+                // clearInterval(self.timer)
+                if (this.canSave) {
+                    // this.canSave = false
+                    this.autoSave();
+                    // setTimeout(() => { this.canSave = true }, 500)
+                }
             }
         },
         // 点击保存
         save () {
             const self = this
             if (self.activeLeftLi) {
-                clearInterval(self.timer)
+                // clearInterval(self.timer)
                 self.operateText = 'saving'
                 self.$store.dispatch('realNote_saveChange', {
                     'class_id':     self.activeLeftLi,   
@@ -240,22 +246,23 @@ export default {
         // 自动保存
         autoSave () {
             const self = this
-            let second = 4
-            clearInterval(self.timer)
-            self.timer = setInterval(() => {
-                if (second > 0 ) {
-                    self.operateText = second
-                    second = second - 1
-                } else {
-                    clearInterval(self.timer)
-                    self.$nextTick(() => { self.save() })
-                }
-            }, 1000)
+            // let second = 4
+            // clearInterval(self.timer)
+            // self.timer = setInterval(() => {
+            //     if (second > 0 ) {
+            //         self.operateText = second
+            //         second = second - 1
+            //     } else {
+            //         clearInterval(self.timer)
+            //         self.$nextTick(() => { self.save() })
+            //     }
+            // }, 1000)
+            self.$nextTick(() => { self.save() })
         },
         // 自动保存中断
         cancelAutoSave () {
-            this.operateText = 'Auto save'
-            clearInterval(this.timer)
+            // this.operateText = 'Auto save'
+            // clearInterval(this.timer)
         },
         // 删除类别
         deleteClassType () {
