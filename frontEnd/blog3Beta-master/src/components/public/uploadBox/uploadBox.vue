@@ -213,7 +213,7 @@ export default {
 <style>
 .article_upload_box {
     width: 100%;
-    max-width: 999px;
+    max-width: 499px;
     min-height: 190px;
     background-color: #113337;
     border-radius: 4px;

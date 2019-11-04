@@ -225,7 +225,7 @@ export default {
   /* left: 10px; */
   /* width: 12vw; */
   /* width: 30%; */
-  min-width: 600px;
+  min-width: 750px;
   height: 50vh;
   min-height: 600px;
   /* border: 3px solid #B0B6B6; */
