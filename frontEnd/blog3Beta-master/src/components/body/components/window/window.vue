@@ -321,8 +321,8 @@ export default {
 }
 .divBody textarea {
   display: inline-block;
-  min-width: 600px;
-  height: calc(100%);
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0);
   text-shadow: 0 0 14px #333;
   line-height: 1.8125;
