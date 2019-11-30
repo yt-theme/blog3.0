@@ -10,8 +10,9 @@ const multerStorage = multer.diskStorage({
     // 储存路径
     destination: UPLOAD_DIR + '/' + (new Date().getFullYear() + '-' + (new Date().getMonth()+1) + '-' + new Date().getDate()),
     // 文件名
-    filename (req, res, cb) {
-        cb(null, uuid.v1())
+    filename (req, file, cb) {
+        console.log('文件上传 multer =>', file)
+        cb(null, `${uuid.v1()}_${file.originalname}`)
     }
 })
 const multerUploadMiddleware = multer({ 'storage': multerStorage })
