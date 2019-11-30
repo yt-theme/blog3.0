@@ -20,3 +20,5 @@
 
 ### run as "node index.js" or "pm2 start index.js"
 ### 运行时使用 "node index.js" 或 "pm2 start index.js
+
+### 用户新建 看router.js里register接口 用postman调用接口新建用户
