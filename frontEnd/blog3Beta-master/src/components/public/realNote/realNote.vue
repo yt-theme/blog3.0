@@ -207,12 +207,12 @@ export default {
             // 当前已选编辑索引
             if (this.activeLeftLi) {
                 this.operateText = 'Auto save'
-                // clearInterval(self.timer)
-                if (this.canSave) {
+                clearInterval(self.timer)
+                // if (this.canSave) {
                     // this.canSave = false
                     this.autoSave();
                     // setTimeout(() => { this.canSave = true }, 500)
-                }
+                // }
             }
         },
         // 点击保存
@@ -246,23 +246,23 @@ export default {
         // 自动保存
         autoSave () {
             const self = this
-            // let second = 4
-            // clearInterval(self.timer)
-            // self.timer = setInterval(() => {
-            //     if (second > 0 ) {
-            //         self.operateText = second
-            //         second = second - 1
-            //     } else {
-            //         clearInterval(self.timer)
-            //         self.$nextTick(() => { self.save() })
-            //     }
-            // }, 1000)
-            self.$nextTick(() => { self.save() })
+            let second = 4
+            clearInterval(self.timer)
+            self.timer = setInterval(() => {
+                if (second > 0 ) {
+                    self.operateText = second
+                    second = second - 1
+                } else {
+                    clearInterval(self.timer)
+                    self.$nextTick(() => { self.save() })
+                }
+            }, 1000)
+            // self.$nextTick(() => { self.save() })
         },
         // 自动保存中断
         cancelAutoSave () {
-            // this.operateText = 'Auto save'
-            // clearInterval(this.timer)
+            this.operateText = 'Auto save'
+            clearInterval(this.timer)
         },
         // 删除类别
         deleteClassType () {
@@ -455,6 +455,7 @@ export default {
     height: calc(100% - 9px);
     border-radius: 4px;
     padding: 9px;
+    padding-bottom: 0;
 }
 .realNote_pos {
     width: 100%;
@@ -469,7 +470,7 @@ export default {
 .realNote_list_r li textarea {
     display: inline-block;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 9px);
     background-color: #113236;
     color: #B0B6B6;
     border: 0;
