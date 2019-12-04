@@ -6,16 +6,18 @@ let mongoose=require('mongoose');
 const { PROTOCOL, SERVER_IP, SERVER_PORT, UPLOAD_DIR_NAME, UPLOAD_DIR } = require('../../../../config')
 
 // form-data 上传文件
-const multerStorage = multer.diskStorage({
-    // 储存路径
-    destination: UPLOAD_DIR + '/' + (new Date().getFullYear() + '-' + (new Date().getMonth()+1) + '-' + new Date().getDate()),
-    // 文件名
-    filename (req, file, cb) {
-        console.log('文件上传 multer =>', file)
-        cb(null, `${uuid.v1()}_${file.originalname}`)
-    }
-})
-const multerUploadMiddleware = multer({ 'storage': multerStorage })
+function multerUploadMiddleware () {
+    const multerStorage = multer.diskStorage({
+        // 储存路径
+        destination: UPLOAD_DIR + '/' + (new Date().getFullYear() + '-' + (new Date().getMonth()+1) + '-' + new Date().getDate()),
+        // 文件名
+        filename (req, file, cb) {
+            console.log('文件上传 multer =>', file)
+            cb(null, `${uuid.v1()}_${file.originalname}`)
+        }
+    })
+    return multer({ 'storage': multerStorage })
+}
 
 module.exports = class {
     constructor (router, mongodb_model_files, mongodb_model_article, middleWare) {
@@ -27,7 +29,7 @@ module.exports = class {
     // 查詢所有臨時文件
     queryTmpAll () {
         let self = this
-        self.router.post('/api/file/queryTmpAll', self.middleWare, multerUploadMiddleware.any(), function (req, res) {
+        self.router.post('/api/file/queryTmpAll', self.middleWare, multerUploadMiddleware().any(), function (req, res) {
             const analyz_stat    = req.analyz_stat
             const analyz_msg     = req.analyz_msg
             if (analyz_stat === 1) {
@@ -45,7 +47,8 @@ module.exports = class {
     }
     upload () {
         let self = this
-        self.router.post('/api/file/upload', self.middleWare, multerUploadMiddleware.any(), function (req, res) {
+
+        self.router.post('/api/file/upload', self.middleWare, multerUploadMiddleware().any(), function (req, res) {
             const analyz_stat    = req.analyz_stat
             const analyz_msg     = req.analyz_msg
             const analyz_profile = req.analyz_profile
